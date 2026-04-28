@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miguel & Rocío</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose: #f2b8c6; --rose-deep: #c8607a; --rose-pale: #fdf0f3; --rose-mid: #e8899a;
+  --sky: #b8d8f2; --sky-deep: #5a9fd4; --sky-pale: #f0f6fd;
+  --white: #ffffff; --cream: #fdfaf8;
+  --text: #2a1f25; --text-mid: #7a6070; --text-light: #b0a0a8;
+  --border: rgba(200,96,122,0.15);
+  --radius: 16px; --radius-sm: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(253,250,248,0.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 56px; display: flex; align-items: center;
+  padding: 0 1rem; gap: 0; overflow-x: auto;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; color: var(--rose-deep);
+  white-space: nowrap; margin-right: 1rem; flex-shrink: 0;
+  text-decoration: none;
+}
+.nav-link {
+  font-size: 13px; color: var(--text-mid); text-decoration: none;
+  padding: 0 14px; height: 56px; display: flex; align-items: center;
+  white-space: nowrap; flex-shrink: 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-link:hover, .nav-link.active { color: var(--rose-deep); border-bottom-color: var(--rose-deep); }
+
+/* PAGES */
+.page { display: none; min-height: 100vh; padding-top: 56px; }
+.page.active { display: block; }
+
+/* HERO */
+#page-inicio {
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; min-height: 100vh;
+  padding: 56px 2rem 3rem;
+  background: radial-gradient(ellipse at 60% 0%, rgba(242,184,198,0.2) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 100%, rgba(184,216,242,0.15) 0%, transparent 50%);
+}
+#page-inicio.active { display: flex; }
+
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.18em; color: var(--text-light);
+  text-transform: uppercase; margin-bottom: 1.5rem;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(56px, 14vw, 88px); font-weight: 300; line-height: 0.95;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+.hero-title em { font-style: italic; color: var(--rose-deep); }
+.hero-amp { color: var(--rose-mid); }
+.hero-date {
+  font-size: 13px; color: var(--text-light); margin-top: 1.2rem; margin-bottom: 2.5rem;
+  animation: fadeUp 0.7s 0.2s ease both;
+  letter-spacing: 0.06em;
+}
+.countdown-wrap { animation: fadeUp 0.7s 0.3s ease both; }
+.countdown-label-top {
+  font-size: 11px; letter-spacing: 0.12em; color: var(--text-light);
+  text-transform: uppercase; margin-bottom: 1rem;
+}
+.countdown-grid { display: flex; align-items: flex-start; gap: 0.5rem; justify-content: center; }
+.cd-item { text-align: center; min-width: 64px; }
+.cd-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px; font-weight: 300; line-height: 1;
+  color: var(--rose-deep);
+}
+.cd-label { font-size: 10px; color: var(--text-light); letter-spacing: 0.08em; margin-top: 2px; }
+.cd-sep { font-family: 'Cormorant Garamond', serif; font-size: 44px; color: var(--rose); margin-top: 3px; }
+
+.hero-nav-hint { margin-top: 3rem; animation: fadeUp 0.7s 0.4s ease both; }
+.hero-nav-hint p { font-size: 12px; color: var(--text-light); letter-spacing: 0.08em; margin-bottom: 1rem; }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.hero-pill {
+  padding: 8px 18px; border-radius: 24px;
+  border: 1px solid var(--border); background: var(--white);
+  font-size: 12px; color: var(--text-mid); cursor: pointer;
+  text-decoration: none; transition: all 0.2s;
+}
+.hero-pill:hover { background: var(--rose-pale); border-color: var(--rose-mid); color: var(--rose-deep); }
+
+/* INNER PAGES */
+.page-inner {
+  max-width: 720px; margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+.page-header { margin-bottom: 2.5rem; }
+.page-eyebrow {
+  font-size: 11px; letter-spacing: 0.14em; color: var(--text-light);
+  text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px; font-weight: 300; line-height: 1.1; color: var(--text);
+}
+.page-title em { font-style: italic; color: var(--rose-deep); }
+
+/* TIMELINE */
+.tl { position: relative; padding-left: 28px; }
+.tl::before {
+  content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px;
+  width: 1px; background: linear-gradient(to bottom, var(--rose-mid), var(--sky-deep));
+  opacity: 0.4;
+}
+.tl-item { position: relative; margin-bottom: 2rem; }
+.tl-dot {
+  position: absolute; left: -24px; top: 5px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--rose-deep); border: 3px solid var(--cream);
+  box-shadow: 0 0 0 1px var(--rose-deep);
+}
+.tl-dot.blue { background: var(--sky-deep); box-shadow: 0 0 0 1px var(--sky-deep); }
+.tl-dot.big { width: 14px; height: 14px; left: -25px; top: 4px; }
+.tl-date { font-size: 11px; color: var(--text-light); letter-spacing: 0.05em; margin-bottom: 2px; }
+.tl-tag {
+  display: inline-block; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.06em; padding: 2px 9px; border-radius: 20px;
+  margin-bottom: 4px;
+}
+.tl-tag.rosa { background: var(--rose-pale); color: var(--rose-deep); }
+.tl-tag.azul { background: var(--sky-pale); color: var(--sky-deep); }
+.tl-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.tl-text { font-size: 14px; color: var(--text-mid); line-height: 1.65; }
+
+.carta-block {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem;
+  margin-top: 2.5rem;
+}
+.carta-block p { font-size: 14px; line-height: 1.85; color: var(--text-mid); margin-bottom: 1rem; }
+.carta-block .firma { color: var(--rose-deep); font-weight: 500; margin-top: 0.5rem; }
+
+/* BINGO */
+.bingo-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+}
+.bingo-cell {
+  aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+  position: relative; cursor: pointer;
+}
+.bingo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bingo-done-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  color: white; font-size: 8px; padding: 6px 4px 4px;
+  text-align: center; line-height: 1.2;
+}
+.bingo-pending-cell {
+  width: 100%; height: 100%;
+  background: var(--rose-pale);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; padding: 4px; text-align: center;
+  position: relative;
+}
+.bingo-pending-cell .bp-icon { font-size: 18px; }
+.bingo-pending-cell .bp-label {
+  font-size: 8px; color: var(--rose-deep);
+  font-weight: 500; line-height: 1.2;
+}
+.bingo-pending-cell input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  width: 100%; height: 100%;
+}
+.bingo-footer-text {
+  text-align: center; margin-top: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-style: italic; color: var(--text-mid);
+}
+.bingo-stats {
+  display: flex; gap: 12px; margin-bottom: 1.5rem;
+}
+.bingo-stat {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 16px; text-align: center; flex: 1;
+}
+.bingo-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--rose-deep); }
+.bingo-stat-label { font-size: 11px; color: var(--text-light); }
+
+/* MAP */
+#map { height: 420px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+.dest-list { margin-top: 1.5rem; }
+.dest-section-hdr {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+  color: var(--text-light); text-transform: uppercase;
+  margin: 1.25rem 0 0.5rem;
+}
+.dest-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  background: var(--white); border: 1px solid var(--border);
+  margin-bottom: 6px; cursor: pointer; transition: all 0.15s;
+}
+.dest-row:hover { border-color: var(--rose-mid); }
+.dest-flag { font-size: 20px; flex-shrink: 0; }
+.dest-info { flex: 1; }
+.dest-name { font-size: 14px; color: var(--text); }
+.dest-sub { font-size: 11px; color: var(--text-light); }
+.dest-badge {
+  font-size: 10px; font-weight: 500; padding: 3px 10px;
+  border-radius: 20px; flex-shrink: 0;
+}
+.dest-badge.done { background: var(--rose-pale); color: var(--rose-deep); }
+.dest-badge.planned { background: #f0fdf4; color: #16a34a; }
+.dest-badge.future { background: var(--sky-pale); color: var(--sky-deep); }
+.dest-cycle-hint { font-size: 10px; color: var(--text-light); margin-left: 4px; }
+.add-dest {
+  display: flex; gap: 8px; margin-top: 1rem;
+  padding: 1rem; background: var(--white);
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+.add-dest input {
+  flex: 1; padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 14px;
+  font-family: 'DM Sans', sans-serif; background: var(--cream);
+  color: var(--text); outline: none;
+}
+.add-dest input:focus { border-color: var(--rose-deep); }
+.btn-rose {
+  padding: 8px 16px; background: var(--rose-deep); color: white;
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s; white-space: nowrap;
+}
+.btn-rose:hover { background: #b8506a; }
+
+/* DEST PHOTOS MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(42,31,37,0.7); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center; padding: 1.5rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: var(--radius);
+  padding: 2rem; width: 100%; max-width: 520px;
+  max-height: 85vh; overflow-y: auto; position: relative;
+}
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: var(--text-light); line-height: 1;
+}
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 400; margin-bottom: 1.25rem;
+}
+.photos-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+  margin-bottom: 1rem;
+}
+.photo-thumb {
+  aspect-ratio: 1; border-radius: 8px; overflow: hidden;
+  position: relative; background: var(--rose-pale);
+  border: 1px dashed var(--rose-mid); cursor: pointer;
+}
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-thumb-placeholder {
+  width: 100%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+}
+.photo-thumb-placeholder span { font-size: 20px; }
+.photo-thumb-placeholder p { font-size: 10px; color: var(--text-light); }
+.photo-thumb input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.photo-delete {
+  position: absolute; top: 4px; right: 4px;
+  background: rgba(0,0,0,0.5); color: white;
+  border: none; border-radius: 50%; width: 20px; height: 20px;
+  cursor: pointer; font-size: 12px; display: flex;
+  align-items: center; justify-content: center; line-height: 1;
+}
+
+/* CARTAS FUTURO */
+.cartas-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.carta-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem 1.25rem;
+  cursor: pointer; transition: all 0.2s; text-align: center;
+  position: relative; overflow: hidden;
+}
+.carta-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: linear-gradient(90deg, var(--rose-mid), var(--sky-deep));
+}
+.carta-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(200,96,122,0.12); }
+.carta-card-icon { font-size: 30px; margin-bottom: 10px; }
+.carta-card-fecha { font-size: 11px; color: var(--rose-deep); font-weight: 500; letter-spacing: 0.06em; }
+.carta-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px; font-weight: 400; color: var(--text); margin: 4px 0 8px;
+}
+.carta-card-hint { font-size: 12px; color: var(--text-light); line-height: 1.4; }
+.carta-card-lock { font-size: 18px; margin-top: 10px; }
+
+/* JUEGOS */
+.juegos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 2rem; }
+.juego-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem 1.25rem;
+  cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.juego-card:hover { border-color: var(--rose-mid); transform: translateY(-2px); }
+.juego-card-icon { font-size: 36px; margin-bottom: 10px; }
+.juego-card-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.juego-card-desc { font-size: 12px; color: var(--text-light); line-height: 1.4; }
+
+/* QUIZ inside juegos */
+.quiz-area { display: none; }
+.quiz-area.open { display: block; }
+.quiz-progress { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 1.5rem; }
+.quiz-bar { height: 3px; background: linear-gradient(90deg, var(--rose-deep), var(--sky-deep)); border-radius: 2px; transition: width 0.4s; }
+.quiz-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+}
+.quiz-num { font-size: 11px; color: var(--text-light); margin-bottom: 6px; }
+.quiz-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400; margin-bottom: 1.25rem; line-height: 1.3;
+}
+.quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.quiz-opt {
+  padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: var(--cream);
+  font-size: 13px; color: var(--text); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; text-align: left; transition: all 0.15s;
+}
+.quiz-opt:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+.quiz-opt.correct { background: #f0fdf4; border-color: #16a34a; color: #15803d; }
+.quiz-opt.wrong { background: #fff1f2; border-color: #e11d48; color: #be123c; }
+.quiz-opt.reveal { background: var(--rose-pale); border-color: var(--rose-deep); color: var(--rose-deep); }
+.quiz-fb { margin-top: 10px; padding: 8px 12px; border-radius: 8px; font-size: 13px; display: none; }
+.quiz-fb.show { display: block; }
+.quiz-fb.ok { background: #f0fdf4; color: #15803d; }
+.quiz-fb.fail { background: #fff1f2; color: #be123c; }
+.quiz-reto {
+  background: var(--rose-pale); border-radius: var(--radius); padding: 1.5rem; text-align: center;
+}
+.quiz-reto-icon { font-size: 36px; margin-bottom: 8px; }
+.quiz-reto-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; color: var(--rose-deep); text-transform: uppercase; margin-bottom: 6px; }
+.quiz-reto-text { font-size: 15px; color: var(--text); line-height: 1.6; }
+.btn-next {
+  margin-top: 1rem; width: 100%; padding: 10px;
+  border: 1px solid var(--border); background: var(--cream);
+  border-radius: var(--radius-sm); font-size: 13px; cursor: pointer;
+  color: var(--text-mid); font-family: 'DM Sans', sans-serif;
+  display: none; transition: all 0.2s;
+}
+.btn-next.show { display: block; }
+.btn-next:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+.quiz-final { text-align: center; padding: 2rem 1rem; display: none; }
+.quiz-final h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+.quiz-score-badge {
+  display: inline-block; background: var(--rose-pale); color: var(--rose-deep);
+  font-size: 24px; font-weight: 500; padding: 10px 24px; border-radius: 12px; margin: 1rem 0;
+}
+.quiz-final p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.btn-outline {
+  margin-top: 1rem; padding: 10px 24px;
+  border: 1px solid var(--rose-deep); color: var(--rose-deep);
+  background: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 14px; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+}
+.btn-outline:hover { background: var(--rose-pale); }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--text-light); cursor: pointer;
+  margin-bottom: 1.5rem; transition: color 0.2s;
+  background: none; border: none; font-family: 'DM Sans', sans-serif;
+}
+.back-link:hover { color: var(--rose-deep); }
+
+/* PICTIONARY */
+.pict-area { display: none; }
+.pict-area.open { display: block; }
+.pict-scores { display: flex; gap: 1rem; margin-bottom: 1.25rem; }
+.pict-score-box {
+  flex: 1; background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px; text-align: center;
+}
+.pict-score-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--rose-deep); }
+.pict-score-lbl { font-size: 11px; color: var(--text-light); }
+.pict-word-box {
+  background: var(--rose-pale); border-radius: var(--radius);
+  padding: 1rem 1.25rem; margin-bottom: 1rem; display: none; text-align: center;
+}
+.pict-word-box .pw-label { font-size: 10px; letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 4px; }
+.pict-word-box .pw-word { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--rose-deep); }
+.pict-word-box .pw-hint { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.pict-canvas-wrap {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; background: white; margin-bottom: 10px;
+}
+#pictCanvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
+.pict-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+.pict-btn {
+  padding: 7px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--cream); font-size: 12px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; color: var(--text-mid); transition: all 0.15s;
+}
+.pict-btn:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+.color-swatch {
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: border-color 0.15s; flex-shrink: 0;
+}
+.color-swatch.active { border-color: var(--text); }
+.pict-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pict-banner {
+  background: var(--sky-pale); border: 1px solid var(--sky);
+  border-radius: var(--radius-sm); padding: 8px 14px;
+  font-size: 13px; color: var(--sky-deep); font-weight: 500;
+  margin-bottom: 1rem; display: none;
+}
+.pict-start { text-align: center; padding: 1rem 0 1.5rem; }
+.pict-start h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; margin-bottom: 6px; }
+.pict-start p { font-size: 14px; color: var(--text-mid); line-height: 1.6; margin-bottom: 1.25rem; }
+.turn-btns { display: flex; gap: 8px; justify-content: center; margin-bottom: 1.25rem; }
+
+/* CARTA MODAL */
+.carta-modal {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(42,31,37,0.65); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center; padding: 1.5rem;
+}
+.carta-modal.open { display: flex; }
+.carta-modal-box {
+  background: var(--white); border-radius: var(--radius);
+  padding: 2rem; max-width: 480px; width: 100%;
+  max-height: 82vh; overflow-y: auto; position: relative;
+}
+.carta-modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: var(--text-light);
+}
+.carta-modal-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; margin-bottom: 0.5rem; }
+.carta-modal-box .cm-fecha { font-size: 12px; color: var(--rose-deep); letter-spacing: 0.06em; margin-bottom: 1.25rem; }
+.carta-modal-box p { font-size: 14px; line-height: 1.85; color: var(--text-mid); white-space: pre-line; }
+.carta-modal-box .cm-firma { color: var(--rose-deep); font-weight: 500; margin-top: 1.5rem; }
+.locked-body { text-align: center; padding: 1.5rem 0; }
+.locked-body .lock { font-size: 44px; margin-bottom: 1rem; }
+.locked-body p { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+footer {
+  text-align: center; padding: 2.5rem 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; font-style: italic; color: var(--text-light);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#" onclick="goPage('inicio')">M & R</a>
+  <a class="nav-link" href="#" onclick="goPage('inicio')">Inicio</a>
+  <a class="nav-link" href="#" onclick="goPage('historia')">Historia</a>
+  <a class="nav-link" href="#" onclick="goPage('bingo')">Bingo</a>
+  <a class="nav-link" href="#" onclick="goPage('destinos')">Destinos</a>
+  <a class="nav-link" href="#" onclick="goPage('cartas')">Cartas</a>
+  <a class="nav-link" href="#" onclick="goPage('juegos')">Juegos</a>
+</nav>
+
+<!-- ========== INICIO ========== -->
+<div id="page-inicio" class="page">
+  <p class="hero-eyebrow">18 de noviembre de 2024</p>
+  <h1 class="hero-title"><span style="color:var(--text);font-style:normal;">Miguel</span> <span class="hero-amp">&</span> <em>Rocío</em></h1>
+  <p class="hero-date">Seis meses juntos · Valencia</p>
+  <div class="countdown-wrap">
+    <p class="countdown-label-top">Faltan para nuestro aniversario</p>
+    <div class="countdown-grid">
+      <div class="cd-item"><div class="cd-num" id="cd-d">--</div><div class="cd-label">días</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item"><div class="cd-num" id="cd-h">--</div><div class="cd-label">horas</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item"><div class="cd-num" id="cd-m">--</div><div class="cd-label">min</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item"><div class="cd-num" id="cd-s">--</div><div class="cd-label">seg</div></div>
+    </div>
+  </div>
+  <div class="hero-nav-hint">
+    <p>Explora nuestra historia</p>
+    <div class="hero-pills">
+      <a class="hero-pill" href="#" onclick="goPage('historia')">📖 Historia</a>
+      <a class="hero-pill" href="#" onclick="goPage('bingo')">🎯 Bingo 2026</a>
+      <a class="hero-pill" href="#" onclick="goPage('destinos')">🗺️ Destinos</a>
+      <a class="hero-pill" href="#" onclick="goPage('cartas')">💌 Cartas</a>
+      <a class="hero-pill" href="#" onclick="goPage('juegos')">🎮 Juegos</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========== HISTORIA ========== -->
+<div id="page-historia" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <p class="page-eyebrow">Capítulo uno</p>
+      <h2 class="page-title">Cómo costó <em>lo suyo</em></h2>
+    </div>
+
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Agosto 2024</div>
+        <span class="tl-tag rosa">El principio</span>
+        <div class="tl-title">El primer mensaje</div>
+        <div class="tl-text">Miguel te escribe por Instagram. Empieza todo... aunque tú no lo sabías todavía.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date">Primer rechazo</div>
+        <span class="tl-tag azul">Obstáculo 1</span>
+        <div class="tl-title">El cruasán con servilleta</div>
+        <div class="tl-text">Miguel no se rinde. Te pide el número de la única forma posible: una servilleta con su número dentro de un cruasán. Original 10/10.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date">Segundo rechazo</div>
+        <span class="tl-tag azul">Obstáculo 2</span>
+        <div class="tl-title">La tableta de chocolate</div>
+        <div class="tl-text">Tampoco. Pero llegó una tableta de chocolate con una notita. Difícil resistirse a eso.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Otoño 2024</div>
+        <span class="tl-tag rosa">El plan</span>
+        <div class="tl-title">El Siglo 21 con Sofía</div>
+        <div class="tl-text">Quedadas en Campolivar con Sofía de por medio. Poco a poco, con cuidado. Pero ya se veía venir.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Noviembre 2024</div>
+        <span class="tl-tag rosa">La jugada maestra</span>
+        <div class="tl-title">La multa personalizada</div>
+        <div class="tl-text">Para pedirte salir: una multa personalizada. Sancionada por no ser su novia todavía.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date">Primera cita a solas</div>
+        <span class="tl-tag azul">Momento épico</span>
+        <div class="tl-title">Las dos cobras legendarias 🐍🐍</div>
+        <div class="tl-text">El Siglo 21 y luego McDonalds. Primer intento de beso: cobra. Segundo intento, otro día: cobra. "Ya vale, Rocío, que sé que quieres."</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot big"></div>
+        <div class="tl-date">17 noviembre 2024</div>
+        <span class="tl-tag rosa">Hito</span>
+        <div class="tl-title">Primera foto juntos</div>
+        <div class="tl-text">Ya oficial en las fotos, aunque no todavía en el nombre.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot big"></div>
+        <div class="tl-date">18 noviembre 2024 ♥</div>
+        <span class="tl-tag rosa">El momento</span>
+        <div class="tl-title">El primer beso</div>
+        <div class="tl-text">Desde aquí empieza a contar. Todo.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">9 diciembre 2024</div>
+        <div class="tl-title">Te presenté a mi mamá</div>
+        <div class="tl-text">Importante de verdad.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot big"></div>
+        <div class="tl-date">27 diciembre 2024</div>
+        <span class="tl-tag rosa">Oficial</span>
+        <div class="tl-title">Mi novia</div>
+        <div class="tl-text">Cena para dos en casa, menú preparado, regalos de Navidad y la pregunta. Dijiste que sí.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date">16 enero 2025</div>
+        <span class="tl-tag azul">Primera escapada</span>
+        <div class="tl-title">Altea y el apartamento equivocado</div>
+        <div class="tl-text">Primera escapada juntos. Al llegar: 30 minutos poniendo el código en la puerta de otra persona. Un clásico ya.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">16 febrero 2025</div>
+        <div class="tl-title">Mi cumpleaños</div>
+        <div class="tl-text">Restaurante de carne, camiseta de Zadig y el Museo Fernando Alonso pendiente para el verano. Sí que me conoces.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot big"></div>
+        <div class="tl-date">2–6 abril 2025</div>
+        <span class="tl-tag rosa">Gran viaje</span>
+        <div class="tl-title">París + Disneyland 🗼</div>
+        <div class="tl-text">Mi regalo de Navidad para ti. Primer gran viaje juntos.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date">Mayo 2025</div>
+        <span class="tl-tag azul">Clásico nuestro</span>
+        <div class="tl-title">Las llaves del coche</div>
+        <div class="tl-text">30–60 minutos buscándolas. Spoiler: aparecieron.</div>
+      </div>
+    </div>
+
+    <div class="carta-block">
+      <p>Rocío,</p>
+      <p>Hace seis meses te di el primer beso. Antes de eso, sobreviviste a un rechazo ignorado, un cruasán con servilleta, un segundo rechazo y una tableta de chocolate. No sé si fue el chocolate o si siempre lo tuviste claro, pero me alegro de que estés aquí.</p>
+      <p>Estos meses han sido de los mejores de mi vida. No solo por los viajes o las cenas de guapos, sino por el día a día: reírnos de tonterías, perder las llaves juntos, sacar los niños pequeños que somos los dos. Contigo es fácil ser yo mismo.</p>
+      <p>Gracias por todo. Por las cobras también, que al final hicieron la historia mejor.</p>
+      <p class="firma">Con todo, Miguel ♥</p>
+    </div>
+  </div>
+  <footer>Miguel & Rocío · 18 de noviembre de 2024 ♥</footer>
+</div>
+
+<!-- ========== BINGO ========== -->
+<div id="page-bingo" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <p class="page-eyebrow">2026</p>
+      <h2 class="page-title">Bingo de <em>planes</em></h2>
+    </div>
+    <div class="bingo-stats">
+      <div class="bingo-stat">
+        <div class="bingo-stat-num" id="bingo-done-count">0</div>
+        <div class="bingo-stat-label">completados</div>
+      </div>
+      <div class="bingo-stat">
+        <div class="bingo-stat-num" id="bingo-pending-count">0</div>
+        <div class="bingo-stat-label">pendientes</div>
+      </div>
+    </div>
+    <div class="bingo-grid" id="bingoGrid"></div>
+    <p class="bingo-footer-text">"365 días y mil planes para hacer contigo."</p>
+  </div>
+  <footer>Miguel & Rocío · 18 de noviembre de 2024 ♥</footer>
+</div>
+
+<!-- ========== DESTINOS ========== -->
+<div id="page-destinos" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <p class="page-eyebrow">El mundo es nuestro</p>
+      <h2 class="page-title">Nuestros <em>destinos</em></h2>
+    </div>
+    <div id="map"></div>
+    <div class="dest-list" id="destList"></div>
+    <div class="add-dest">
+      <input type="text" id="newDestInput" placeholder="Nuevo destino... ej: Maldivas 🏝️" />
+      <button class="btn-rose" onclick="addDest()">+ Añadir</button>
+    </div>
+  </div>
+  <footer>Miguel & Rocío · 18 de noviembre de 2024 ♥</footer>
+</div>
+
+<!-- ========== CARTAS ========== -->
+<div id="page-cartas" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <p class="page-eyebrow">El tiempo</p>
+      <h2 class="page-title">Cartas para <em>el futuro</em></h2>
+    </div>
+    <p style="font-size:14px;color:var(--text-mid);margin-bottom:1.5rem;line-height:1.6;">Algunas cosas se dicen mejor cuando llegue el momento.</p>
+    <div class="cartas-grid" id="cartasGrid"></div>
+  </div>
+  <footer>Miguel & Rocío · 18 de noviembre de 2024 ♥</footer>
+</div>
+
+<!-- ========== JUEGOS ========== -->
+<div id="page-juegos" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <p class="page-eyebrow">A jugar</p>
+      <h2 class="page-title">Nuestros <em>juegos</em></h2>
+    </div>
+
+    <!-- selector -->
+    <div class="juegos-grid" id="juegos-selector">
+      <div class="juego-card" onclick="openJuego('quiz')">
+        <div class="juego-card-icon">🧠</div>
+        <div class="juego-card-title">¿Cuánto me conoces?</div>
+        <div class="juego-card-desc">Quiz de preguntas sobre Miguel, vuestra historia y algún reto sorpresa</div>
+      </div>
+      <div class="juego-card" onclick="openJuego('pictionary')">
+        <div class="juego-card-icon">🎨</div>
+        <div class="juego-card-title">Pictionary</div>
+        <div class="juego-card-desc">Uno dibuja, el otro adivina. Por turnos pasando el móvil. Con palabras de vuestra historia</div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-area" id="quiz-area">
+      <button class="back-link" onclick="closeJuego('quiz')">← Volver a juegos</button>
+      <div id="quiz-start-screen" style="text-align:center;padding:1rem 0 2rem;">
+        <div style="font-size:44px;margin-bottom:1rem;">🧠</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:8px;">¿Cuánto sabe Rocío de Miguel?</h3>
+        <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:1.5rem;">Quiz de preguntas sobre Miguel, nuestra historia y algún reto. ¿Lista?</p>
+        <button class="btn-rose" onclick="startQuiz()">Empezar el quiz</button>
+      </div>
+      <div id="quiz-game-area" style="display:none;">
+        <div class="quiz-progress"><div class="quiz-bar" id="qBar"></div></div>
+        <div id="qCard"></div>
+        <div class="quiz-fb" id="qFb"></div>
+        <button class="btn-next" id="qNext" onclick="nextQ()">Siguiente →</button>
+      </div>
+      <div class="quiz-final" id="quiz-final">
+        <div style="font-size:44px;margin-bottom:1rem;">🎉</div>
+        <h3>Fin del quiz</h3>
+        <div class="quiz-score-badge" id="qScoreBadge"></div>
+        <p id="qFinalMsg"></p>
+        <button class="btn-outline" onclick="restartQuiz()">Jugar otra vez</button>
+      </div>
+    </div>
+
+    <!-- PICTIONARY -->
+    <div class="pict-area" id="pict-area">
+      <button class="back-link" onclick="closeJuego('pictionary')">← Volver a juegos</button>
+      <div class="pict-scores">
+        <div class="pict-score-box"><div class="pict-score-num" id="psMiguel">0</div><div class="pict-score-lbl">Miguel</div></div>
+        <div class="pict-score-box"><div class="pict-score-num" id="psRocio">0</div><div class="pict-score-lbl">Rocío</div></div>
+      </div>
+      <div class="pict-start" id="pict-start-screen">
+        <h3>Pictionary</h3>
+        <p>Por turnos: uno dibuja y el otro adivina. El que dibuja ve la palabra, el que adivina no mira. ¡Pasad el móvil!</p>
+        <div class="turn-btns">
+          <button class="pict-btn active" id="tbMiguel" onclick="setDrawer('Miguel')">Empieza Miguel</button>
+          <button class="pict-btn" id="tbRocio" onclick="setDrawer('Rocío')">Empieza Rocío</button>
+        </div>
+        <button class="btn-rose" onclick="startPict()">Empezar</button>
+      </div>
+      <div id="pict-game-area" style="display:none;">
+        <div class="pict-banner" id="pict-banner"></div>
+        <div class="pict-word-box" id="pict-word-box">
+          <div class="pw-label">DIBUJA ESTO:</div>
+          <div class="pw-word" id="pw-word"></div>
+          <div class="pw-hint" id="pw-hint"></div>
+        </div>
+        <div class="pict-canvas-wrap">
+          <canvas id="pictCanvas" height="280"></canvas>
+        </div>
+        <div class="pict-tools">
+          <div class="color-swatch active" style="background:#2a1f25;" onclick="setColor('#2a1f25',this)"></div>
+          <div class="color-swatch" style="background:#c8607a;" onclick="setColor('#c8607a',this)"></div>
+          <div class="color-swatch" style="background:#5a9fd4;" onclick="setColor('#5a9fd4',this)"></div>
+          <div class="color-swatch" style="background:#ef9f27;" onclick="setColor('#ef9f27',this)"></div>
+          <div class="color-swatch" style="background:#16a34a;" onclick="setColor('#16a34a',this)"></div>
+          <button class="pict-btn" onclick="setPSize(3)">Fino</button>
+          <button class="pict-btn" onclick="setPSize(9)">Grueso</button>
+          <button class="pict-btn" onclick="clearPict()">Borrar todo</button>
+        </div>
+        <div class="pict-actions">
+          <button class="pict-btn" onclick="showPWord()">👁 Ver palabra</button>
+          <button class="btn-rose" onclick="pScored()">✓ Adivinado</button>
+          <button class="pict-btn" style="grid-column:1/-1;" onclick="pSkip()">Saltar palabra →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>Miguel & Rocío · 18 de noviembre de 2024 ♥</footer>
+</div>
+
+<!-- DEST PHOTOS MODAL -->
+<div class="modal-overlay" id="destModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeDestModal()">✕</button>
+    <h3 class="modal-title" id="destModalTitle"></h3>
+    <div class="photos-grid" id="destPhotosGrid"></div>
+    <p style="font-size:12px;color:var(--text-light);text-align:center;">Toca + para añadir fotos del viaje</p>
+  </div>
+</div>
+
+<!-- CARTA MODAL -->
+<div class="carta-modal" id="cartaModal">
+  <div class="carta-modal-box">
+    <button class="carta-modal-close" onclick="closeCartaModal()">✕</button>
+    <div id="cartaModalContent"></div>
+  </div>
+</div>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// =========== NAVIGATION ===========
+const pages = ['inicio','historia','bingo','destinos','cartas','juegos'];
+function goPage(id) {
+  pages.forEach(p => {
+    const el = document.getElementById('page-'+p);
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => {
+    if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'"+id+"'")) l.classList.add('active');
+  });
+  window.scrollTo(0,0);
+  if (id === 'destinos') initMap();
+  if (id === 'bingo') buildBingo();
+}
+goPage('inicio');
+
+// =========== COUNTDOWN ===========
+// countdown handled by runClock above
+// countdown handled by runClock above
+
+// =========== BINGO ===========
+const bingoItems = [
+  {label:'Peli & Manta', pending:true},
+  {label:'Juntos', pending:false},
+  {label:'Cata de quesos', pending:true},
+  {label:'Rutita', pending:true},
+  {label:'Juntos', pending:false},
+  {label:'Juntos', pending:false},
+  {label:'Cocinando', pending:false},
+  {label:'Día de museo', pending:true},
+  {label:'Bolera', pending:true},
+  {label:'Beso', pending:false},
+  {label:'Autocine', pending:true},
+  {label:'Con Sofía', pending:false},
+  {label:'Juntos', pending:false},
+  {label:'Espejo', pending:false},
+  {label:'Calitas & Paddle', pending:true},
+  {label:'Partido VCF', pending:true},
+  {label:'Playlist 2026', pending:true},
+  {label:'Miguel', pending:false},
+  {label:'Resolver crimen', pending:true},
+  {label:'Juntos', pending:false},
+  {label:'Noche', pending:false},
+  {label:'Churros', pending:false},
+  {label:'París', pending:false},
+  {label:'Juntos', pending:false},
+  {label:'Tarde de pintar', pending:true},
+];
+
+function getBingoSaved() { try { return JSON.parse(localStorage.getItem('bingo2')||'{}'); } catch(e) { return {}; } }
+
+function buildBingo() {
+  const grid = document.getElementById('bingoGrid');
+  grid.innerHTML = '';
+  const saved = getBingoSaved();
+  let doneCount = 0, pendCount = 0;
+  bingoItems.forEach((item, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'bingo-cell';
+    const userImg = saved[i];
+    if (userImg) {
+      cell.innerHTML = `<img src="${userImg}"><div class="bingo-done-label">${item.label}</div>`;
+      doneCount++;
+    } else if (!item.pending) {
+      // placeholder for done items without real photo yet
+      cell.style.background = '#e8d0d8';
+      cell.style.display = 'flex'; cell.style.alignItems = 'center'; cell.style.justifyContent = 'center'; cell.style.flexDirection = 'column'; cell.style.gap = '4px';
+      cell.innerHTML = `<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:4px;">
+        <span style="font-size:16px;">📷</span>
+        <p style="font-size:8px;color:#7a5060;font-weight:500;text-align:center;line-height:1.2;">${item.label}</p>
+        <input type="file" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;" onchange="uploadBingo(event,${i})">
+      </div>`;
+      doneCount++;
+    } else {
+      cell.innerHTML = `<div class="bingo-pending-cell">
+        <span class="bp-icon">+</span>
+        <p class="bp-label">${item.label}</p>
+        <input type="file" accept="image/*" onchange="uploadBingo(event,${i})">
+      </div>`;
+      pendCount++;
+    }
+    grid.appendChild(cell);
+  });
+  document.getElementById('bingo-done-count').textContent = doneCount;
+  document.getElementById('bingo-pending-count').textContent = pendCount;
+}
+
+function uploadBingo(e, idx) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const saved = getBingoSaved();
+    saved[idx] = ev.target.result;
+    localStorage.setItem('bingo2', JSON.stringify(saved));
+    buildBingo();
+  };
+  reader.readAsDataURL(file);
+}
+
+// =========== DESTINATIONS + MAP ===========
+const defaultDests = [
+  {name:'Valencia', flag:'🏠', status:'done', sub:'Casa', lat:39.47, lng:-0.37},
+  {name:'Altea', flag:'🌊', status:'done', sub:'Enero 2025', lat:38.60, lng:-0.05},
+  {name:'París + Disneyland', flag:'🗼', status:'done', sub:'Abril 2025', lat:48.85, lng:2.35},
+  {name:'Oviedo · Museo Fernando Alonso', flag:'🏎️', status:'planned', sub:'Verano 2025', lat:43.36, lng:-5.84},
+  {name:'Roma', flag:'🍕', status:'planned', sub:'Otoño 2025', lat:41.90, lng:12.49},
+  {name:'Núremberg', flag:'🎄', status:'planned', sub:'Diciembre 2025', lat:49.45, lng:11.08},
+  {name:'Japón', flag:'🗾', status:'future', sub:'', lat:35.68, lng:139.69},
+  {name:'Boston', flag:'🦞', status:'future', sub:'', lat:42.36, lng:-71.05},
+  {name:'San Diego', flag:'🌴', status:'future', sub:'', lat:32.71, lng:-117.16},
+  {name:'Auroras Boreales', flag:'🌌', status:'future', sub:'Islandia', lat:64.13, lng:-21.93},
+  {name:'Suiza', flag:'🏔️', status:'future', sub:'', lat:46.80, lng:8.22},
+  {name:'Orlando', flag:'🎢', status:'future', sub:'Disney & Universal', lat:28.53, lng:-81.37},
+];
+
+function getDests() {
+  try { return JSON.parse(localStorage.getItem('dests2')||'null') || defaultDests; } catch(e) { return defaultDests; }
+}
+function saveDests(d) { localStorage.setItem('dests2', JSON.stringify(d)); }
+
+let mapInstance = null;
+let mapMarkers = [];
+
+function initMap() {
+  if (mapInstance) { refreshMarkers(); return; }
+  mapInstance = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([30, 10], 2);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '© Esri',
+    maxZoom: 10
+  }).addTo(mapInstance);
+  refreshMarkers();
+  buildDestList();
+}
+
+function makeIcon(status) {
+  const colors = { done: '#c8607a', planned: '#16a34a', future: '#5a9fd4' };
+  const color = colors[status] || '#888';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">
+    <path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.27 21.73 0 14 0z" fill="${color}"/>
+    <circle cx="14" cy="14" r="6" fill="white" opacity="0.9"/>
+  </svg>`;
+  return L.divIcon({
+    html: svg, className: '', iconSize: [28,36], iconAnchor: [14,36], popupAnchor: [0,-36]
+  });
+}
+
+function refreshMarkers() {
+  mapMarkers.forEach(m => m.remove());
+  mapMarkers = [];
+  const dests = getDests();
+  dests.forEach((d, i) => {
+    if (!d.lat || !d.lng) return;
+    const marker = L.marker([d.lat, d.lng], { icon: makeIcon(d.status) }).addTo(mapInstance);
+    const statusLabel = {done:'Visitado ✓', planned:'Planificado 📅', future:'Pendiente ✈️'}[d.status];
+    marker.bindPopup(`<b>${d.flag} ${d.name}</b><br><span style="font-size:12px;color:#888;">${statusLabel}${d.sub?'<br>'+d.sub:''}</span>`);
+    if (d.status === 'done') {
+      marker.on('click', () => openDestModal(i));
+    }
+    mapMarkers.push(marker);
+  });
+}
+
+function buildDestList() {
+  const dests = getDests();
+  const list = document.getElementById('destList');
+  const groups = { done: dests.filter(d=>d.status==='done'), planned: dests.filter(d=>d.status==='planned'), future: dests.filter(d=>d.status==='future') };
+  const labels = { done:'✈️ Hemos ido', planned:'📅 Planificados', future:'🌍 Queremos ir' };
+  let html = '';
+  Object.entries(groups).forEach(([status, items]) => {
+    if (!items.length) return;
+    html += `<div class="dest-section-hdr">${labels[status]}</div>`;
+    items.forEach(d => {
+      const idx = dests.indexOf(d);
+      const badges = {done:'done',planned:'planned',future:'future'};
+      const bLabels = {done:'Visitado',planned:'Planificado',future:'Pendiente'};
+      html += `<div class="dest-row" onclick="cycleDest(${idx})">
+        <span class="dest-flag">${d.flag||'📍'}</span>
+        <div class="dest-info">
+          <div class="dest-name">${d.name}</div>
+          ${d.sub?`<div class="dest-sub">${d.sub}</div>`:''}
+        </div>
+        <span class="dest-badge ${badges[d.status]}">${bLabels[d.status]}</span>
+        ${d.status==='done'?`<span style="font-size:11px;color:var(--text-light);" title="Ver fotos">📸</span>`:''}
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+
+function cycleDest(idx) {
+  const dests = getDests();
+  const cycle = {done:'planned', planned:'future', future:'done'};
+  dests[idx].status = cycle[dests[idx].status];
+  saveDests(dests); buildDestList(); refreshMarkers();
+}
+
+function addDest() {
+  const input = document.getElementById('newDestInput');
+  const val = input.value.trim(); if (!val) return;
+  const dests = getDests();
+  dests.push({name: val, flag:'📍', status:'future', sub:'', lat: null, lng: null});
+  saveDests(dests); buildDestList();
+  input.value = '';
+}
+document.getElementById('newDestInput').addEventListener('keydown', e => { if(e.key==='Enter') addDest(); });
+
+// Dest photos modal
+let currentDestIdx = null;
+function openDestModal(idx) {
+  const dests = getDests();
+  const d = dests[idx];
+  currentDestIdx = idx;
+  document.getElementById('destModalTitle').textContent = d.flag + ' ' + d.name;
+  renderDestPhotos(idx);
+  document.getElementById('destModal').classList.add('open');
+}
+function closeDestModal() { document.getElementById('destModal').classList.remove('open'); }
+document.getElementById('destModal').addEventListener('click', e => { if(e.target===document.getElementById('destModal')) closeDestModal(); });
+
+function getDestPhotos(idx) {
+  try { return JSON.parse(localStorage.getItem('destphotos_'+idx)||'[]'); } catch(e) { return []; }
+}
+function saveDestPhotos(idx, photos) { localStorage.setItem('destphotos_'+idx, JSON.stringify(photos)); }
+
+function renderDestPhotos(idx) {
+  const photos = getDestPhotos(idx);
+  const grid = document.getElementById('destPhotosGrid');
+  let html = '';
+  photos.forEach((p, i) => {
+    html += `<div class="photo-thumb">
+      <img src="${p}">
+      <button class="photo-delete" onclick="deleteDestPhoto(${idx},${i})">✕</button>
+    </div>`;
+  });
+  // add slot
+  html += `<div class="photo-thumb">
+    <div class="photo-thumb-placeholder">
+      <span>+</span><p>Añadir foto</p>
+    </div>
+    <input type="file" accept="image/*" onchange="uploadDestPhoto(event,${idx})">
+  </div>`;
+  grid.innerHTML = html;
+}
+
+function uploadDestPhoto(e, idx) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const photos = getDestPhotos(idx);
+    photos.push(ev.target.result);
+    saveDestPhotos(idx, photos);
+    renderDestPhotos(idx);
+  };
+  reader.readAsDataURL(file);
+}
+
+function deleteDestPhoto(idx, photoIdx) {
+  const photos = getDestPhotos(idx);
+  photos.splice(photoIdx, 1);
+  saveDestPhotos(idx, photos);
+  renderDestPhotos(idx);
+}
+
+// =========== CARTAS ===========
+const cartasData = [
+  { icon:'💌', fecha:'18 noviembre 2026', titulo:'Un año juntos', hint:'Para abrir cuando cumplamos nuestro primer año', locked:false, content:'Aquí puedes escribir tu carta para el primer aniversario.\n\nCuenta cómo ha sido este año, qué ha cambiado, qué sigue igual.', firma:'Miguel ♥' },
+  { icon:'📬', fecha:'El día que nos casemos', titulo:'Antes de la boda', hint:'Algo que quiero que sepas antes de darte el sí', locked:true, lockDate:'cuando llegue ese día' },
+  { icon:'🌍', fecha:'18 noviembre 2030', titulo:'Cinco años', hint:'Dónde estaremos, qué habremos vivido', locked:true, lockDate:'18 noviembre 2030' },
+  { icon:'✨', fecha:'Cuando lo necesites', titulo:'Para un mal día', hint:'Ábrela cuando todo se ponga cuesta arriba', locked:false, content:'Aquí puedes escribir un mensaje especial para que Rocío lo lea cuando tenga un mal día.\n\nAlgo que la anime, que le recuerde lo que tenéis juntos.', firma:'Miguel ♥' },
+];
+
+function buildCartas() {
+  const grid = document.getElementById('cartasGrid');
+  grid.innerHTML = '';
+  cartasData.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'carta-card';
+    div.onclick = () => openCartaModal(i);
+    div.innerHTML = `
+      <div class="carta-card-icon">${c.icon}</div>
+      <div class="carta-card-fecha">${c.fecha}</div>
+      <div class="carta-card-title">${c.titulo}</div>
+      <div class="carta-card-hint">${c.hint}</div>
+      <div class="carta-card-lock">${c.locked?'🔒':'💌'}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+buildCartas();
+
+function openCartaModal(i) {
+  const c = cartasData[i];
+  const content = document.getElementById('cartaModalContent');
+  if (c.locked) {
+    content.innerHTML = `<div class="locked-body">
+      <div class="lock">🔒</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px;">${c.titulo}</h3>
+      <p>Esta carta está guardada para <strong>${c.lockDate}</strong>.<br><br>Cuando llegue ese momento, aquí estará esperándote.</p>
+    </div>`;
+  } else {
+    content.innerHTML = `
+      <h3>${c.titulo}</h3>
+      <p class="cm-fecha">${c.fecha}</p>
+      <p>${c.content||'Carta pendiente...'}</p>
+      ${c.firma?`<p class="cm-firma">${c.firma}</p>`:''}
+    `;
+  }
+  document.getElementById('cartaModal').classList.add('open');
+}
+function closeCartaModal() { document.getElementById('cartaModal').classList.remove('open'); }
+document.getElementById('cartaModal').addEventListener('click', e => { if(e.target===document.getElementById('cartaModal')) closeCartaModal(); });
+
+// =========== JUEGOS ===========
+function openJuego(id) {
+  document.getElementById('juegos-selector').style.display = 'none';
+  if (id==='quiz') document.getElementById('quiz-area').classList.add('open');
+  if (id==='pictionary') document.getElementById('pict-area').classList.add('open');
+}
+function closeJuego(id) {
+  document.getElementById('juegos-selector').style.display = '';
+  document.getElementById('quiz-area').classList.remove('open');
+  document.getElementById('pict-area').classList.remove('open');
+}
+
+// --- QUIZ ---
+const quizQs = [
+  {type:'quiz', q:'¿Cómo consiguió Miguel tu número de teléfono?', opts:['Por Instagram directamente','Con una servilleta dentro de un cruasán','A través de Sofía','Llamando al trabajo'], ans:1, ok:'¡Exacto! Cruasán con servilleta. Nivel de creatividad máximo.', fail:'¡El cruasán! Con la servilleta con su número dentro.'},
+  {type:'quiz', q:'¿Cuántas veces le rechazaste antes del primer beso?', opts:['Ninguna','Una vez','Dos veces','Tres veces'], ans:2, ok:'Sí, dos veces. Y aquí seguimos. El chocolate ayudó.', fail:'¡Dos veces! Pero ninguna fue definitiva, gracias al chocolate.'},
+  {type:'quiz', q:'¿Cuál es la comida favorita de Miguel?', opts:['Pizza','Sushi','Pasta','Paella'], ans:2, ok:'¡Correcto! La pasta, siempre la pasta.', fail:'La pasta. Hay que comer más pasta juntos.'},
+  {type:'quiz', q:'¿A qué le tiene miedo Miguel?', opts:['A las arañas','A los payasos','A la oscuridad','A las alturas'], ans:1, ok:'¡Exacto! Los payasos. Terroríficos.', fail:'Los payasos. No hay más que hablar.'},
+  {type:'reto', q:'Dile a Miguel una cosa que él no sabe que tú sabes de él.', icon:'👀', tag:'RETO'},
+  {type:'quiz', q:'¿Cuánto tiempo estuvieron intentando abrir el apartamento equivocado en Altea?', opts:['5 minutos','15 minutos','30 minutos','1 hora'], ans:2, ok:'¡30 minutos! Un clásico ya de vuestra historia.', fail:'30 minutos poniendo el código en la puerta que no era.'},
+  {type:'verdad', q:'¿Cuál fue el momento exacto en que supiste que te gustaba de verdad?', icon:'💗', tag:'VERDAD'},
+  {type:'quiz', q:'¿Cuál es el gran sueño de Miguel relacionado con el motor?', opts:['Ver un Gran Premio','Conocer a un piloto','Tener algo relacionado con la F1','Correr una carrera de karts'], ans:2, ok:'¡Sí! La F1, su sueño de siempre. Y tú ya lo sabes.', fail:'Tener algo relacionado con la F1. Su sueño de siempre.'},
+  {type:'quiz', q:'¿Cómo le pidió Miguel a Rocío que fuera su novia?', opts:['Por WhatsApp','Con una multa','Con una cena en casa el 27 de diciembre','En Disneyland París'], ans:2, ok:'¡Exacto! Cena en casa, menú, regalos de Navidad y la pregunta.', fail:'Una cena en casa el 27 de diciembre. Con menú, regalos y la pregunta.'},
+  {type:'reto', q:'Cuéntale a Miguel el momento más gracioso que recuerdas de estos 6 meses.', icon:'😂', tag:'RETO FINAL'},
+];
+let qIdx=0, qScore=0, qAnswered=false;
+
+function startQuiz() {
+  document.getElementById('quiz-start-screen').style.display='none';
+  document.getElementById('quiz-game-area').style.display='block';
+  qIdx=0; qScore=0; renderQ();
+}
+function renderQ() {
+  const q = quizQs[qIdx];
+  document.getElementById('qBar').style.width = Math.round(qIdx/quizQs.length*100)+'%';
+  qAnswered=false;
+  document.getElementById('qFb').className='quiz-fb';
+  document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').className='btn-next';
+  let html = `<div class="quiz-num">Pregunta ${qIdx+1} de ${quizQs.length}</div>`;
+  if (q.type==='quiz') {
+    html += `<div class="quiz-q">${q.q}</div><div class="quiz-opts">`;
+    q.opts.forEach((o,i) => html+=`<button class="quiz-opt" onclick="ansQ(${i})">${o}</button>`);
+    html += '</div>';
+  } else {
+    html += `<div class="quiz-reto"><div class="quiz-reto-icon">${q.icon}</div><div class="quiz-reto-tag">${q.tag}</div><div class="quiz-reto-text">${q.q}</div></div>`;
+    setTimeout(()=>{ document.getElementById('qNext').className='btn-next show'; },800);
+  }
+  document.getElementById('qCard').innerHTML=html;
+}
+function ansQ(idx) {
+  if(qAnswered) return; qAnswered=true;
+  const q=quizQs[qIdx];
+  const btns=document.querySelectorAll('.quiz-opt');
+  const fb=document.getElementById('qFb');
+  if(idx===q.ans){ btns[idx].classList.add('correct'); fb.textContent=q.ok; fb.className='quiz-fb show ok'; qScore++; }
+  else { btns[idx].classList.add('wrong'); btns[q.ans].classList.add('reveal'); fb.textContent=q.fail; fb.className='quiz-fb show fail'; }
+  document.getElementById('qNext').className='btn-next show';
+}
+function nextQ() {
+  qIdx++;
+  if(qIdx>=quizQs.length) {
+    document.getElementById('quiz-game-area').style.display='none';
+    const fin=document.getElementById('quiz-final'); fin.style.display='block';
+    const total=quizQs.filter(q=>q.type==='quiz').length;
+    document.getElementById('qScoreBadge').textContent=qScore+' / '+total;
+    document.getElementById('qFinalMsg').textContent=qScore===total?'¡Perfecta puntuación! Me conoces mejor que yo mismo.':qScore>=total-2?'Casi todo bien. Impresionante.':'Todavía hay cosas que descubrir. Tenemos tiempo.';
+  } else renderQ();
+}
+function restartQuiz() {
+  document.getElementById('quiz-final').style.display='none';
+  document.getElementById('quiz-start-screen').style.display='block';
+  document.getElementById('quiz-game-area').style.display='none';
+}
+
+// --- PICTIONARY ---
+const pictWords = [
+  {word:'Cruasán', hint:'🥐 El inicio de todo'},
+  {word:'Tableta de chocolate', hint:'🍫 El regalo clave'},
+  {word:'Multa personalizada', hint:'📄 La pedida de salir más original'},
+  {word:'Cobra', hint:'🐍 x2 legendarias'},
+  {word:'Apartamento equivocado', hint:'🔑 Altea, 30 minutos'},
+  {word:'Disneyland', hint:'🎢 París, abril 2025'},
+  {word:'Torre Eiffel', hint:'🗼 Abril 2025'},
+  {word:'Payaso', hint:'🎪 El mayor miedo de Miguel'},
+  {word:'Pasta', hint:'🍝 Su comida favorita'},
+  {word:'Fórmula 1', hint:'🏎️ El gran sueño'},
+  {word:'Bolera', hint:'🎳 Plan del bingo pendiente'},
+  {word:'Autocine', hint:'🚗🎬 Plan del bingo pendiente'},
+  {word:'Llaves del coche', hint:'🔑 30–60 minutos buscándolas'},
+  {word:'Sofía', hint:'👭 La amiga en común'},
+  {word:'McDonalds', hint:'🍔 Primera cita a solas'},
+  {word:'Instagram', hint:'📱 Donde empezó todo'},
+  {word:'Restaurante Siglo 21', hint:'🍽️ Campolivar'},
+  {word:'Primer beso', hint:'💋 18 de noviembre'},
+  {word:'Japón', hint:'🗾 Destino soñado'},
+  {word:'Auroras boreales', hint:'🌌 En algún lugar del norte'},
+  {word:'Palomitas', hint:'🍿 Peli y manta'},
+  {word:'Violín', hint:'... eso no, cata de quesos 🧀'},
+  {word:'Raqueta de paddle', hint:'🏓 Calitas & paddle'},
+  {word:'Escudo del Valencia CF', hint:'⚽ Partido VCF'},
+  {word:'Museo Fernando Alonso', hint:'🏎️ Oviedo, este verano'},
+];
+let pDrawer='Miguel', pScores={Miguel:0,Rocío:0}, pUsed=[], pCurrentWord=null;
+let pPainting=false, pColor='#2a1f25', pSize=3, pLX, pLY;
+
+function setDrawer(name) {
+  pDrawer=name;
+  document.getElementById('tbMiguel').className='pict-btn'+(name==='Miguel'?' active':'');
+  document.getElementById('tbRocio').className='pict-btn'+(name==='Rocío'?' active':'');
+}
+function startPict() {
+  document.getElementById('pict-start-screen').style.display='none';
+  document.getElementById('pict-game-area').style.display='block';
+  pUsed=[]; initPCanvas(); nextPWord();
+}
+function getPWord() {
+  if(pUsed.length>=pictWords.length) pUsed=[];
+  const avail=pictWords.map((_,i)=>i).filter(i=>!pUsed.includes(i));
+  const idx=avail[Math.floor(Math.random()*avail.length)];
+  pUsed.push(idx); return pictWords[idx];
+}
+function nextPWord() {
+  pCurrentWord=getPWord();
+  document.getElementById('pict-banner').style.display='block';
+  document.getElementById('pict-banner').textContent=`Turno de ${pDrawer} — dibuja la palabra`;
+  document.getElementById('pict-word-box').style.display='none';
+  document.getElementById('pw-word').textContent=pCurrentWord.word;
+  document.getElementById('pw-hint').textContent=pCurrentWord.hint;
+  clearPict();
+}
+function showPWord() { document.getElementById('pict-word-box').style.display='block'; }
+function pSkip() { nextPWord(); }
+function pScored() {
+  pScores[pDrawer]++;
+  document.getElementById('psMiguel').textContent=pScores['Miguel'];
+  document.getElementById('psRocio').textContent=pScores['Rocío'];
+  pDrawer=pDrawer==='Miguel'?'Rocío':'Miguel';
+  nextPWord();
+}
+function initPCanvas() {
+  const canvas=document.getElementById('pictCanvas');
+  canvas.width=canvas.parentElement.clientWidth||600; canvas.height=280;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  function gp(e) {
+    const r=canvas.getBoundingClientRect();
+    const sx=canvas.width/r.width, sy=canvas.height/r.height;
+    if(e.touches) return {x:(e.touches[0].clientX-r.left)*sx, y:(e.touches[0].clientY-r.top)*sy};
+    return {x:(e.clientX-r.left)*sx, y:(e.clientY-r.top)*sy};
+  }
+  function sd(e){e.preventDefault();pPainting=true;const p=gp(e);pLX=p.x;pLY=p.y;}
+  function dr(e){e.preventDefault();if(!pPainting)return;const p=gp(e);const c=canvas.getContext('2d');c.beginPath();c.moveTo(pLX,pLY);c.lineTo(p.x,p.y);c.strokeStyle=pColor;c.lineWidth=pSize;c.lineCap='round';c.stroke();pLX=p.x;pLY=p.y;}
+  function su(e){e.preventDefault();pPainting=false;}
+  canvas.addEventListener('mousedown',sd); canvas.addEventListener('mousemove',dr); canvas.addEventListener('mouseup',su);
+  canvas.addEventListener('touchstart',sd,{passive:false}); canvas.addEventListener('touchmove',dr,{passive:false}); canvas.addEventListener('touchend',su,{passive:false});
+}
+function clearPict(){const c=document.getElementById('pictCanvas');const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);}
+function setColor(col,el){pColor=col;document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');}
+function setPSize(s){pSize=s;}
+
+// =========== COUNTDOWN (al final para que el DOM esté listo) ===========
+function runClock() {
+  const target = new Date(2026, 4, 18, 0, 0, 0); // mes 4 = mayo (0-indexed)
+  const diff = target - new Date();
+  const d = document.getElementById('cd-d');
+  const h = document.getElementById('cd-h');
+  const m = document.getElementById('cd-m');
+  const s = document.getElementById('cd-s');
+  if (!d) return;
+  if (diff <= 0) {
+    d.textContent='0'; h.textContent='00'; m.textContent='00'; s.textContent='00'; return;
+  }
+  d.textContent = Math.floor(diff / 86400000);
+  h.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+  m.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+  s.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+}
+window.addEventListener('DOMContentLoaded', function() {
+  runClock();
+  setInterval(runClock, 1000);
+});
+</script>
+</body>
+</html>
