@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>París · Abril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--noir:#0a0a0a;--creme:#f5f0e8;--gold:#c9a84c;--gl:#e8d5a3;--rouge:#c0392b;--m3:#6ECA97;--m4:#A0006E;--m7:#F1887C;--m8:#CE9B00;--m9:#B6BD00;--m12:#007852;--m14:#62259D;--rera:#E3051B;--rerb:#4B92DB;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--noir);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;}
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;
+    background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(44,95,138,.1) 0%,transparent 50%),var(--noir);}
+  .hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(201,168,76,.03) 80px,rgba(201,168,76,.03) 81px),repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(201,168,76,.03) 80px,rgba(201,168,76,.03) 81px);}
+  .hero-eyebrow{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;animation:fadeUp 1s ease forwards;opacity:0;animation-delay:.2s;}
+  .hero-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,12vw,9rem);font-weight:900;line-height:.9;color:var(--creme);margin-bottom:1rem;animation:fadeUp 1s ease forwards;opacity:0;animation-delay:.4s;}
+  .hero-title span{color:var(--gold);font-style:italic;}
+  .hero-sub{font-size:.85rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:3rem;animation:fadeUp 1s ease forwards;opacity:0;animation-delay:.6s;}
+  .hero-dates{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 1s ease forwards;opacity:0;animation-delay:.8s;}
+  .date-chip{border:1px solid rgba(201,168,76,.3);padding:.6rem 1.4rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gl);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .day-nav{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;padding:.8rem 1rem;position:sticky;top:0;z-index:100;background:rgba(10,10,10,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,.1);}
+  .day-btn{padding:.45rem 1rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1px solid rgba(245,240,232,.12);color:rgba(245,240,232,.35);cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;}
+  .day-btn:hover,.day-btn.active{border-color:var(--gold);color:var(--gold);}
+  .day-section{max-width:960px;margin:0 auto;padding:5rem 2rem;border-bottom:1px solid rgba(245,240,232,.06);}
+  .day-header{display:flex;align-items:flex-start;gap:2rem;margin-bottom:3rem;}
+  .day-number{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;line-height:1;color:rgba(201,168,76,.12);min-width:80px;}
+  .day-info h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--creme);margin-bottom:.3rem;}
+  .day-info .day-date{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);}
+  .day-emoji{font-size:2rem;margin-left:auto;}
+  .map-container{width:100%;margin:2rem 0 3rem;background:#0d1117;border:1px solid rgba(201,168,76,.15);border-radius:4px;overflow:hidden;}
+  .map-title{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding:1rem 1.5rem .5rem;}
+  .map-legend{display:flex;flex-wrap:wrap;gap:1rem;padding:.8rem 1.5rem 1rem;border-top:1px solid rgba(255,255,255,.05);}
+  .map-legend-item{display:flex;align-items:center;gap:.4rem;font-size:.68rem;color:rgba(245,240,232,.5);}
+  .map-legend-line{width:28px;height:3px;border-radius:2px;}
+  .map-legend-dash{width:28px;height:0;border-top:2px dashed;}
+  .etapas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1rem;margin:2rem 0;}
+  .etapa-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:1.2rem;}
+  .etapa-num{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(245,240,232,.3);margin-bottom:.3rem;}
+  .etapa-title{font-size:.78rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.8rem;padding:.2rem .6rem;display:inline-block;}
+  .etapa-title.blue{background:#1a90d4;color:#fff;} .etapa-title.yellow{background:#f5c200;color:#000;} .etapa-title.green{background:#1a8f4a;color:#fff;} .etapa-title.purple{background:#7c3aed;color:#fff;}
+  .etapa-items{list-style:none;font-size:.78rem;color:rgba(245,240,232,.6);line-height:1.8;}
+  .etapa-items li::before{content:'· ';color:var(--gold);}
+  .timeline{position:relative;padding-left:2rem;}
+  .timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--gold),transparent);}
+  .timeline-item{position:relative;margin-bottom:2.5rem;}
+  .timeline-item::before{content:'';position:absolute;left:-2rem;top:8px;width:7px;height:7px;border-radius:50%;background:var(--gold);transform:translateX(-3px);}
+  .item-time{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem;}
+  .item-title{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--creme);margin-bottom:.4rem;}
+  .item-desc{font-size:.83rem;color:rgba(245,240,232,.5);margin-bottom:.6rem;line-height:1.7;}
+  .transport-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+  .t-badge{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .7rem;border-radius:2px;font-size:.7rem;font-weight:500;letter-spacing:.05em;white-space:nowrap;}
+  .t-badge .lc{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;}
+  .metro{background:rgba(255,255,255,.07);color:var(--creme);border:1px solid rgba(255,255,255,.1);}
+  .rer{background:rgba(227,5,27,.15);color:#ff8a8a;border:1px solid rgba(227,5,27,.3);}
+  .rerb{background:rgba(75,146,219,.15);color:#a8d0f5;border:1px solid rgba(75,146,219,.3);}
+  .walk{background:rgba(201,168,76,.1);color:var(--gl);border:1px solid rgba(201,168,76,.2);}
+  .taxi{background:rgba(255,205,0,.1);color:#ffe57a;border:1px solid rgba(255,205,0,.2);}
+  .orlyval{background:rgba(150,50,200,.15);color:#d4a0f5;border:1px solid rgba(150,50,200,.3);}
+  .rer-e{background:rgba(110,202,151,.15);color:#9eead0;border:1px solid rgba(110,202,151,.3);}
+  .m3 .lc{background:#6ECA97;color:#000;} .m4 .lc{background:#A0006E;color:#fff;}
+  .m7 .lc{background:#F1887C;color:#000;} .m8 .lc{background:#CE9B00;color:#fff;}
+  .m9 .lc{background:#B6BD00;color:#000;} .m12 .lc{background:#007852;color:#fff;}
+  .m14 .lc{background:#62259D;color:#fff;}
+  .monuments-box{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.15);padding:1.2rem 1.4rem;margin-top:.8rem;}
+  .monuments-box h4{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;}
+  .monument-list{display:flex;flex-wrap:wrap;gap:.4rem;}
+  .monument-chip{padding:.25rem .7rem;border:1px solid rgba(245,240,232,.09);font-size:.72rem;color:rgba(245,240,232,.55);}
+  .monument-chip.v{border-color:rgba(201,168,76,.4);color:var(--gl);}
+  .tip-box{background:rgba(201,168,76,.06);border-left:2px solid var(--gold);padding:.9rem 1.1rem;margin-top:.8rem;font-size:.8rem;color:rgba(245,240,232,.55);line-height:1.7;}
+  .tip-box strong{color:var(--gl);}
+  .alert-box{background:rgba(192,57,43,.08);border-left:2px solid var(--rouge);padding:.9rem 1.1rem;margin-top:.8rem;font-size:.8rem;color:rgba(245,240,232,.55);line-height:1.7;}
+  .alert-box strong{color:#e88;}
+  .info-box{background:rgba(75,146,219,.05);border-left:2px solid var(--rerb);padding:.9rem 1.1rem;margin-top:.8rem;font-size:.8rem;color:rgba(245,240,232,.55);line-height:1.7;}
+  .info-box strong{color:#a8d0f5;}
+  .legend{max-width:960px;margin:0 auto;padding:3rem 2rem;}
+  .legend h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--creme);margin-bottom:1.5rem;}
+  .legend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;}
+  .legend-item{display:flex;align-items:center;gap:.8rem;padding:.7rem 1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);font-size:.78rem;color:rgba(245,240,232,.55);}
+  .legend-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;flex-shrink:0;}
+  footer{text-align:center;padding:4rem 2rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.12);border-top:1px solid rgba(245,240,232,.05);}
+  svg text{user-select:none;}
+  @media(max-width:600px){.hero-dates{flex-direction:column;align-items:center}.day-header{flex-direction:column;gap:.5rem}.day-number{font-size:3rem}}
+
+  /* MOBILE FIXES */
+  @media(max-width:600px){
+    .hero-title{font-size:clamp(3rem,18vw,5rem);}
+    .day-section{padding:3rem 1rem;}
+    .day-header{gap:1rem;}
+    .day-number{font-size:3rem;min-width:50px;}
+    .day-info h2{font-size:1.3rem;}
+    .etapas-grid{grid-template-columns:1fr;}
+    .map-container iframe{height:280px!important;}
+    .timeline{padding-left:1.5rem;}
+    .day-nav{gap:.25rem;padding:.6rem .5rem;}
+    .day-btn{padding:.35rem .7rem;font-size:.62rem;}
+    .hero{padding:1.5rem;}
+    .hero-dates{gap:.5rem;}
+    .date-chip{padding:.4rem 1rem;font-size:.68rem;}
+  }
+
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,0.15);">
+  <a href="../index.html" style="font-size:12px;color:rgba(201,168,76,0.8);text-decoration:none;letter-spacing:0.1em;">← Volver</a>
+  <span style="font-size:11px;letter-spacing:0.2em;color:rgba(245,240,232,0.3);text-transform:uppercase;">París · Abril 2026</span>
+</div>
+<div style="height:42px;"></div>
+
+
+<section class="hero">
+  <p class="hero-eyebrow">Guía de viaje personal · Ruta optimizada</p>
+  <h1 class="hero-title">Pa<span>rís</span></h1>
+  <p class="hero-sub">Hotel Ascot Opéra · 2 rue Monsigny, 75002</p>
+  <div class="hero-dates">
+    <div class="date-chip">✈ Llegada · Jue 2 Abril · 20:10h Orly</div>
+    <div class="date-chip">✈ Vuelta · Lun 6 Abril · 10:50h Orly</div>
+  </div>
+</section>
+
+<nav class="day-nav">
+  <button class="day-btn" onclick="s('dia0')">Jue 2 · Llegada</button>
+  <button class="day-btn" onclick="s('dia1')">Vie 3 · Disney</button>
+  <button class="day-btn" onclick="s('dia2')">Sáb 4 · Oeste→Eiffel</button>
+  <button class="day-btn" onclick="s('dia3')">Dom 5 · Centro→Sur→Norte→Este</button>
+  <button class="day-btn" onclick="s('dia4')">Lun 6 · Vuelta</button>
+  <button class="day-btn" onclick="s('legend')">Transportes</button>
+</nav>
+
+<!-- ══════════════════════════════════
+     DÍA 0 · LLEGADA
+══════════════════════════════════ -->
+<section class="day-section" id="dia0">
+  <div class="day-header">
+    <div class="day-number">01</div>
+    <div class="day-info"><div class="day-date">Jueves 2 de Abril</div><h2>Llegada a París</h2></div>
+    <div class="day-emoji">🛬</div>
+  </div>
+  <div class="map-container">
+    <p class="map-title">🗺 Ruta Orly → Hotel Ascot Opéra</p>
+    <svg viewBox="0 0 740 205" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect width="740" height="205" fill="#0d1117"/>
+      <line x1="0" y1="95" x2="740" y2="95" stroke="#1a2030" stroke-width="6"/>
+      <!-- ORLY -->
+      <circle cx="72" cy="95" r="24" fill="#120820" stroke="#9632C8" stroke-width="2"/>
+      <text x="72" y="91" text-anchor="middle" fill="#d4a0f5" font-size="8" font-family="sans-serif" font-weight="bold">ORLY</text>
+      <text x="72" y="103" text-anchor="middle" fill="#d4a0f5" font-size="12">✈</text>
+      <text x="72" y="128" text-anchor="middle" fill="rgba(212,160,245,.5)" font-size="8" font-family="sans-serif">20:10h</text>
+      <!-- Orlyval -->
+      <line x1="96" y1="95" x2="192" y2="95" stroke="#9632C8" stroke-width="3" stroke-dasharray="6,3"/>
+      <text x="144" y="83" text-anchor="middle" fill="#9632C8" font-size="9" font-family="sans-serif" font-weight="bold">Orlyval ~8min</text>
+      <!-- ANTONY -->
+      <circle cx="208" cy="95" r="16" fill="#0d1825" stroke="#4B92DB" stroke-width="2"/>
+      <text x="208" y="91" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif" font-weight="bold">RER B</text>
+      <text x="208" y="101" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">Antony</text>
+      <!-- RER B -->
+      <line x1="224" y1="95" x2="374" y2="95" stroke="#4B92DB" stroke-width="3.5" stroke-dasharray="8,3"/>
+      <text x="299" y="83" text-anchor="middle" fill="#4B92DB" font-size="9" font-family="sans-serif" font-weight="bold">RER B · ~30min · dirección Norte</text>
+      <!-- CHATELET -->
+      <circle cx="390" cy="95" r="18" fill="#0d1825" stroke="#4B92DB" stroke-width="2"/>
+      <text x="390" y="91" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">Châtelet</text>
+      <text x="390" y="101" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">transbordo</text>
+      <!-- M4 -->
+      <line x1="408" y1="95" x2="528" y2="95" stroke="#A0006E" stroke-width="3.5" stroke-dasharray="6,3"/>
+      <text x="468" y="83" text-anchor="middle" fill="#A0006E" font-size="9" font-family="sans-serif" font-weight="bold">M4 · 2 paradas ~4min</text>
+      <!-- REAUMUR -->
+      <circle cx="544" cy="95" r="17" fill="#0d1825" stroke="#A0006E" stroke-width="2"/>
+      <text x="544" y="91" text-anchor="middle" fill="#e0a0d0" font-size="6.5" font-family="sans-serif">Réaumur</text>
+      <text x="544" y="101" text-anchor="middle" fill="#e0a0d0" font-size="6.5" font-family="sans-serif">Sébastopol</text>
+      <!-- Walk -->
+      <line x1="561" y1="95" x2="630" y2="95" stroke="#c9a84c" stroke-width="2.5" stroke-dasharray="4,4"/>
+      <text x="595" y="83" text-anchor="middle" fill="#c9a84c" font-size="8.5" font-family="sans-serif">🚶 5min</text>
+      <!-- HOTEL -->
+      <rect x="635" y="75" width="80" height="40" rx="3" fill="#1a2010" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="675" y="91" text-anchor="middle" fill="#e8d5a3" font-size="8" font-family="sans-serif" font-weight="bold">HOTEL</text>
+      <text x="675" y="103" text-anchor="middle" fill="#e8d5a3" font-size="7" font-family="sans-serif">Ascot Opéra</text>
+      <text x="675" y="128" text-anchor="middle" fill="rgba(232,213,163,.5)" font-size="8" font-family="sans-serif">🏨 ~21:30h</text>
+      <!-- TOTAL -->
+      <rect x="230" y="152" width="280" height="40" rx="3" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.18)" stroke-width="1"/>
+      <text x="370" y="167" text-anchor="middle" fill="rgba(232,213,163,.5)" font-size="8" font-family="sans-serif">TIEMPO TOTAL</text>
+      <text x="370" y="182" text-anchor="middle" fill="#c9a84c" font-size="12" font-family="sans-serif" font-weight="bold">~50 min · ~18€/persona</text>
+      <text x="370" y="197" text-anchor="middle" fill="rgba(255,229,122,.4)" font-size="8" font-family="sans-serif">Alternativa: 🚕 Taxi directo ~40min · 35-45€ (mejor con maletas)</text>
+    </svg>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#9632C8"></div>Orlyval</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#4B92DB"></div>RER B</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#A0006E"></div>Metro M4</div>
+      <div class="map-legend-item"><div class="map-legend-dash" style="border-color:#c9a84c"></div>A pie</div>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="item-time">20:10h</div><div class="item-title">Aterrizaje — Orly</div>
+      <div class="item-desc">Con maletas grandes, el taxi es más cómodo (35-45€). Sin maletas pesadas, el transporte público es muy directo.</div>
+      <div class="transport-row">
+        <span class="t-badge orlyval">🚆 Orlyval → Antony (~8min)</span>
+        <span class="t-badge rerb">🚆 RER B → Châtelet (~30min)</span>
+        <span class="t-badge metro m4"><span class="lc">4</span>M4 → Réaumur (2 paradas)</span>
+        <span class="t-badge walk">🚶 5min hasta el hotel</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">~21:30h</div><div class="item-title">Check-in · Hotel Ascot Opéra</div>
+      <div class="item-desc">Cena tranquila por el barrio. La Galerie Vivienne está a 2 minutos — preciosa de noche.</div>
+      <div class="monuments-box">
+        <h4>👁 De pasada esta noche</h4>
+        <div class="monument-list">
+          <span class="monument-chip">🏛 Galerie Vivienne</span>
+          <span class="monument-chip">🏛 Palais Royal</span>
+          <span class="monument-chip">🏛 Ópera Garnier (fachada)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     DÍA 1 · DISNEY
+══════════════════════════════════ -->
+<section class="day-section" id="dia1">
+  <div class="day-header">
+    <div class="day-number">02</div>
+    <div class="day-info"><div class="day-date">Viernes 3 de Abril</div><h2>Disneyland París</h2></div>
+    <div class="day-emoji">🎢</div>
+  </div>
+  <div class="map-container">
+    <p class="map-title">🗺 Ruta Hotel → Auber (10min a pie) → RER A → Disneyland</p>
+    <svg viewBox="0 0 740 185" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect width="740" height="185" fill="#0d1117"/>
+      <line x1="0" y1="90" x2="740" y2="90" stroke="#1a2030" stroke-width="6"/>
+      <!-- HOTEL -->
+      <rect x="15" y="72" width="62" height="36" rx="3" fill="#1a2010" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="46" y="86" text-anchor="middle" fill="#e8d5a3" font-size="8" font-family="sans-serif" font-weight="bold">HOTEL</text>
+      <text x="46" y="97" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="sans-serif">08:00h</text>
+      <!-- Walk to Auber -->
+      <line x1="77" y1="90" x2="160" y2="90" stroke="#c9a84c" stroke-width="2.5" stroke-dasharray="5,4"/>
+      <text x="118" y="77" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="sans-serif" font-weight="bold">🚶 10 min</text>
+      <!-- AUBER -->
+      <circle cx="178" cy="90" r="20" fill="#1a0010" stroke="#E3051B" stroke-width="2.5"/>
+      <text x="178" y="86" text-anchor="middle" fill="#ff8a8a" font-size="7.5" font-family="sans-serif" font-weight="bold">AUBER</text>
+      <text x="178" y="96" text-anchor="middle" fill="#ff8a8a" font-size="7" font-family="sans-serif">RER A</text>
+      <text x="178" y="119" text-anchor="middle" fill="rgba(255,138,138,.5)" font-size="8" font-family="sans-serif">08:20h</text>
+      <!-- RER A -->
+      <line x1="198" y1="90" x2="530" y2="90" stroke="#E3051B" stroke-width="4.5" stroke-dasharray="10,3"/>
+      <text x="364" y="76" text-anchor="middle" fill="#E3051B" font-size="11" font-family="sans-serif" font-weight="bold">RER A · dirección Marne-la-Vallée · ~40 min</text>
+      <text x="364" y="107" text-anchor="middle" fill="rgba(227,5,27,.5)" font-size="8" font-family="sans-serif">Sin transbordos · directo desde Auber</text>
+      <!-- MARNE -->
+      <circle cx="550" cy="90" r="22" fill="#1a0010" stroke="#E3051B" stroke-width="2"/>
+      <text x="550" y="85" text-anchor="middle" fill="#ff8a8a" font-size="6.5" font-family="sans-serif">Marne-la-</text>
+      <text x="550" y="94" text-anchor="middle" fill="#ff8a8a" font-size="6.5" font-family="sans-serif">Vallée</text>
+      <text x="550" y="103" text-anchor="middle" fill="#ff8a8a" font-size="6.5" font-family="sans-serif">Chessy</text>
+      <text x="550" y="121" text-anchor="middle" fill="rgba(255,138,138,.5)" font-size="8" font-family="sans-serif">09:10h</text>
+      <!-- Walk -->
+      <line x1="572" y1="90" x2="622" y2="90" stroke="#c9a84c" stroke-width="2" stroke-dasharray="4,3"/>
+      <!-- DISNEY -->
+      <circle cx="650" cy="90" r="28" fill="#1a1020" stroke="#FFCD00" stroke-width="2"/>
+      <text x="650" y="84" text-anchor="middle" fill="#FFCD00" font-size="18">🏰</text>
+      <text x="650" y="97" text-anchor="middle" fill="#FFCD00" font-size="7.5" font-family="sans-serif" font-weight="bold">DISNEY</text>
+      <text x="650" y="125" text-anchor="middle" fill="rgba(255,205,0,.5)" font-size="8" font-family="sans-serif">09:30–22:00h</text>
+      <!-- INFO BOX -->
+      <rect x="90" y="140" width="560" height="34" rx="3" fill="rgba(227,5,27,.05)" stroke="rgba(227,5,27,.15)" stroke-width="1"/>
+      <text x="370" y="153" text-anchor="middle" fill="rgba(255,138,138,.6)" font-size="8" font-family="sans-serif">VENTAJA AUBER vs CHÂTELET: Auber está en la misma línea RER A · Sin transbordo de metro · 10min andando desde el hotel</text>
+      <text x="370" y="167" text-anchor="middle" fill="#ff8a8a" font-size="11" font-family="sans-serif" font-weight="bold">~50 min hotel→Disney · ~10€/persona (zona 1-5)</text>
+    </svg>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#E3051B"></div>RER A (directo desde Auber)</div>
+      <div class="map-legend-item"><div class="map-legend-dash" style="border-color:#c9a84c"></div>A pie (10min)</div>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="item-time">08:00h</div><div class="item-title">Salida desde el hotel a pie hasta Auber</div>
+      <div class="item-desc">10 minutos andando por la Rue Auber. La estación Auber está directamente en el RER A — sin transbordo de metro, mucho más cómodo que ir a Châtelet.</div>
+      <div class="transport-row">
+        <span class="t-badge walk">🚶 10 min hasta Auber (por Rue Auber)</span>
+        <span class="t-badge rer">🚆 RER A directo → Marne-la-Vallée (~40min)</span>
+      </div>
+      <div class="tip-box"><strong>Sin transbordo:</strong> Auber está en la línea RER A. Comprad ticket zona 1-5 en las máquinas (~10€/persona). Tickets Disney comprados online con antelación.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">09:30h — 22:00h</div><div class="item-title">🏰 Disneyland París — Día completo</div>
+      <div class="item-desc">Viernes entre semana = menos gente. Priorizad el Disneyland Park (el del castillo). Quedaos para el espectáculo nocturno y fuegos artificiales si tenéis energía.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">~22:30h</div><div class="item-title">Vuelta — misma ruta inversa</div>
+      <div class="transport-row">
+        <span class="t-badge rer">🚆 RER A → Auber (~40min)</span>
+        <span class="t-badge walk">🚶 10min al hotel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     DÍA 2 · SÁBADO
+══════════════════════════════════ -->
+<section class="day-section" id="dia2">
+  <div class="day-header">
+    <div class="day-number">03</div>
+    <div class="day-info"><div class="day-date">Sábado 4 de Abril</div><h2>Ópera · Arco · Inválidos · Eiffel · Sena</h2></div>
+    <div class="day-emoji">🗼</div>
+  </div>
+
+  <div class="etapas-grid">
+    <div class="etapa-card">
+      <div class="etapa-num">Etapa 1 · Junto al hotel</div>
+      <div class="etapa-title purple">Ópera + Lafayette</div>
+      <ul class="etapa-items">
+        <li>Galeries Lafayette 🛍</li>
+        <li>Mirador terraza (gratis)</li>
+        <li>Ópera Garnier (fachada)</li>
+        <li>Plaza Vendôme</li>
+      </ul>
+    </div>
+    <div class="etapa-card">
+      <div class="etapa-num">Etapa 2 · VIII Distrito</div>
+      <div class="etapa-title blue">Arco del Triunfo</div>
+      <ul class="etapa-items">
+        <li>Arco del Triunfo</li>
+        <li>Campos Elíseos (a pie)</li>
+        <li>Plaza de la Concordia</li>
+        <li>Pont Alexandre III 🌉</li>
+      </ul>
+    </div>
+    <div class="etapa-card">
+      <div class="etapa-num">Etapa 3 · VII Distrito</div>
+      <div class="etapa-title green">Inválidos → Eiffel</div>
+      <ul class="etapa-items">
+        <li>Hôtel des Inválidos ⚜</li>
+        <li>Cúpula dorada Napoleón</li>
+        <li>Torre Eiffel ⭐ reserva</li>
+        <li>Champ de Mars</li>
+      </ul>
+    </div>
+    <div class="etapa-card">
+      <div class="etapa-num">Etapa 4 · Noche</div>
+      <div class="etapa-title blue">Crucero Sena 🚢</div>
+      <ul class="etapa-items">
+        <li>Bateaux-Mouches 21:00h</li>
+        <li>Torre Eiffel centelleando</li>
+        <li>Louvre y Notre-Dame desde el agua</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="map-container">
+    <p class="map-title">🗺 Ruta del Sábado — Hotel → Ópera → Arco → Inválidos → Eiffel → Sena</p>
+    <svg viewBox="0 0 860 480" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect width="860" height="480" fill="#0d1117"/>
+      <!-- Sena -->
+      <path d="M20,310 Q180,290 380,300 Q560,310 800,292" stroke="#1e3a5f" stroke-width="18" fill="none" opacity="0.5"/>
+      <path d="M20,310 Q180,290 380,300 Q560,310 800,292" stroke="#4B92DB" stroke-width="1.5" fill="none" opacity="0.3" stroke-dasharray="12,6"/>
+      <text x="100" y="296" fill="rgba(75,146,219,.4)" font-size="9" font-family="sans-serif" font-style="italic">Río Sena</text>
+      <!-- Zonas -->
+      <rect x="520" y="40" width="175" height="135" rx="5" fill="rgba(124,58,237,.04)" stroke="rgba(124,58,237,.12)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="528" y="56" fill="rgba(167,139,250,.4)" font-size="8" font-family="sans-serif">II · ÓPERA (junto al hotel)</text>
+      <rect x="28" y="55" width="165" height="190" rx="5" fill="rgba(26,144,212,.03)" stroke="rgba(26,144,212,.1)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="36" y="71" fill="rgba(26,144,212,.35)" font-size="8" font-family="sans-serif">VIII · ARCO</text>
+      <rect x="28" y="310" width="290" height="155" rx="5" fill="rgba(26,143,74,.03)" stroke="rgba(26,143,74,.1)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="36" y="326" fill="rgba(26,143,74,.35)" font-size="8" font-family="sans-serif">VII · INVÁLIDOS / EIFFEL</text>
+
+      <!-- HOTEL -->
+      <rect x="598" y="58" width="68" height="36" rx="3" fill="#1a2010" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="632" y="72" text-anchor="middle" fill="#e8d5a3" font-size="8" font-family="sans-serif" font-weight="bold">HOTEL</text>
+      <text x="632" y="84" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="sans-serif">09:00h</text>
+
+      <!-- Walk a Galeries Lafayette -->
+      <line x1="598" y1="76" x2="565" y2="105" stroke="#c9a84c" stroke-width="2.5" stroke-dasharray="4,3"/>
+      <text x="597" y="96" text-anchor="middle" fill="#c9a84c" font-size="8" font-family="sans-serif">🚶 8min</text>
+
+      <!-- GALERIES LAFAYETTE -->
+      <rect x="530" y="100" width="100" height="48" rx="4" fill="#1a0a2e" stroke="#7c3aed" stroke-width="2"/>
+      <text x="580" y="116" text-anchor="middle" fill="white" font-size="13">🏬</text>
+      <text x="580" y="129" text-anchor="middle" fill="#c4b5fd" font-size="7.5" font-family="sans-serif" font-weight="bold">GAL. LAFAYETTE</text>
+      <text x="580" y="139" text-anchor="middle" fill="rgba(196,181,253,.5)" font-size="7" font-family="sans-serif">+ Mirador gratis 📸</text>
+      <text x="580" y="157" text-anchor="middle" fill="rgba(196,181,253,.4)" font-size="7.5" font-family="sans-serif">09:15h</text>
+
+      <!-- Opera Garnier -->
+      <circle cx="625" cy="130" r="14" fill="#111" stroke="#7c3aed" stroke-width="1.5"/>
+      <text x="625" y="127" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="sans-serif">Ópera</text>
+      <text x="625" y="136" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="sans-serif">Garnier</text>
+      <line x1="630" y1="148" x2="625" y2="145" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+
+      <!-- Plaza Vendome -->
+      <circle cx="530" cy="158" r="12" fill="#111" stroke="#7c3aed" stroke-width="1.2"/>
+      <text x="530" y="155" text-anchor="middle" fill="#c4b5fd" font-size="6.5" font-family="sans-serif">Plaza</text>
+      <text x="530" y="164" text-anchor="middle" fill="#c4b5fd" font-size="6.5" font-family="sans-serif">Vendôme</text>
+      <line x1="530" y1="148" x2="530" y2="147" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+
+      <!-- M3 o walk a Etoile -->
+      <line x1="530" y1="148" x2="290" y2="145" stroke="#6ECA97" stroke-width="2.5" stroke-dasharray="6,3"/>
+      <text x="410" y="133" text-anchor="middle" fill="#6ECA97" font-size="9" font-family="sans-serif" font-weight="bold">M3 → Charles de Gaulle Étoile</text>
+
+      <!-- ARCO -->
+      <circle cx="115" cy="148" r="26" fill="#0d1825" stroke="#1a90d4" stroke-width="2.5"/>
+      <text x="115" y="142" text-anchor="middle" fill="white" font-size="16">🏛</text>
+      <text x="115" y="155" text-anchor="middle" fill="#7dd3fc" font-size="7.5" font-weight="bold" font-family="sans-serif">ARCO</text>
+      <text x="115" y="164" text-anchor="middle" fill="#7dd3fc" font-size="7" font-family="sans-serif">TRIUNFO</text>
+      <text x="115" y="180" text-anchor="middle" fill="rgba(125,211,252,.5)" font-size="7.5" font-family="sans-serif">11:00h</text>
+
+      <!-- Campos Eliseos -->
+      <line x1="141" y1="153" x2="278" y2="178" stroke="#1a90d4" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+      <text x="210" y="157" text-anchor="middle" fill="rgba(125,211,252,.5)" font-size="7.5" font-family="sans-serif">Campos Elíseos 🚶 20min</text>
+
+      <!-- Concordia -->
+      <circle cx="295" cy="182" r="14" fill="#0d1825" stroke="#1a90d4" stroke-width="1.5"/>
+      <text x="295" y="179" text-anchor="middle" fill="#7dd3fc" font-size="7" font-family="sans-serif">Plaza</text>
+      <text x="295" y="188" text-anchor="middle" fill="#7dd3fc" font-size="7" font-family="sans-serif">Concordia</text>
+
+      <!-- Walk Concordia → Pont Alex -->
+      <line x1="295" y1="196" x2="230" y2="268" stroke="#c9a84c" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="248" y="238" text-anchor="middle" fill="rgba(201,168,76,.7)" font-size="7.5" font-family="sans-serif">🚶 12min</text>
+
+      <!-- PONT ALEXANDRE III -->
+      <rect x="168" y="265" width="124" height="30" rx="3" fill="#0d1825" stroke="#1a8f4a" stroke-width="1.8"/>
+      <text x="230" y="277" text-anchor="middle" fill="#7ecba1" font-size="7.5" font-weight="bold" font-family="sans-serif">🌉 Pont Alexandre III</text>
+      <text x="230" y="288" text-anchor="middle" fill="rgba(126,203,161,.4)" font-size="7" font-family="sans-serif">el más bonito de París</text>
+
+      <!-- Pont Alex → Invalides -->
+      <line x1="230" y1="295" x2="230" y2="338" stroke="#1a8f4a" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="208" y="320" text-anchor="middle" fill="rgba(126,203,161,.6)" font-size="7.5" font-family="sans-serif">🚶 5min</text>
+
+      <!-- INVALIDES -->
+      <circle cx="230" cy="368" r="27" fill="#0d1f10" stroke="#1a8f4a" stroke-width="2.5"/>
+      <text x="230" y="361" text-anchor="middle" fill="white" font-size="16">⚜</text>
+      <text x="230" y="374" text-anchor="middle" fill="#7ecba1" font-size="7.5" font-weight="bold" font-family="sans-serif">INVÁLIDOS</text>
+      <text x="230" y="383" text-anchor="middle" fill="rgba(126,203,161,.5)" font-size="7" font-family="sans-serif">cúpula dorada</text>
+      <text x="230" y="404" text-anchor="middle" fill="rgba(126,203,161,.5)" font-size="7.5" font-family="sans-serif">13:30h</text>
+
+      <!-- Invalides → Eiffel walk -->
+      <line x1="204" y1="375" x2="130" y2="400" stroke="#c9a84c" stroke-width="2" stroke-dasharray="5,3"/>
+      <text x="162" y="385" text-anchor="middle" fill="rgba(201,168,76,.7)" font-size="7.5" font-family="sans-serif">🚶 20min</text>
+
+      <!-- TORRE EIFFEL -->
+      <circle cx="100" cy="425" r="30" fill="#1a1500" stroke="#c9a84c" stroke-width="2.5"/>
+      <text x="100" y="417" text-anchor="middle" fill="white" font-size="20">🗼</text>
+      <text x="100" y="432" text-anchor="middle" fill="#e8d5a3" font-size="7.5" font-weight="bold" font-family="sans-serif">TORRE EIFFEL</text>
+      <text x="100" y="441" text-anchor="middle" fill="rgba(232,213,163,.4)" font-size="7" font-family="sans-serif">⭐ reserva · 19:30h</text>
+      <text x="100" y="463" text-anchor="middle" fill="rgba(232,213,163,.35)" font-size="7.5" font-family="sans-serif">luces cada hora 22h</text>
+
+      <!-- Walk Eiffel → Bateaux -->
+      <line x1="130" y1="422" x2="208" y2="410" stroke="#4B92DB" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="172" y="407" text-anchor="middle" fill="rgba(75,146,219,.7)" font-size="7" font-family="sans-serif">🚶 15min</text>
+
+      <!-- CRUCERO -->
+      <rect x="213" y="398" width="120" height="38" rx="4" fill="#0d1825" stroke="#4B92DB" stroke-width="2"/>
+      <text x="273" y="412" text-anchor="middle" fill="white" font-size="12">🚢</text>
+      <text x="273" y="425" text-anchor="middle" fill="#a8d0f5" font-size="8" font-weight="bold" font-family="sans-serif">CRUCERO SENA</text>
+      <text x="273" y="444" text-anchor="middle" fill="rgba(168,208,245,.5)" font-size="7.5" font-family="sans-serif">21:00h · 1h10min</text>
+
+      <!-- Crucero rio path -->
+      <path d="M273,305 Q400,298 520,303 Q640,308 760,295" stroke="#4B92DB" stroke-width="2" fill="none" stroke-dasharray="8,4" opacity="0.35"/>
+      <text x="580" y="286" text-anchor="middle" fill="rgba(75,146,219,.4)" font-size="8" font-family="sans-serif">← ruta del crucero (monumentos iluminados)</text>
+
+      <!-- Vuelta al hotel desde crucero -->
+      <line x1="333" y1="415" x2="580" y2="415" stroke="#A0006E" stroke-width="2.5" stroke-dasharray="6,3"/>
+      <line x1="580" y1="415" x2="632" y2="136" stroke="#A0006E" stroke-width="2.5" stroke-dasharray="6,3"/>
+      <text x="530" y="406" text-anchor="middle" fill="#e0a0d0" font-size="8.5" font-family="sans-serif" font-weight="bold">M4 vuelta al hotel ~25min</text>
+
+      <!-- Orden -->
+      <rect x="670" y="160" width="178" height="295" rx="4" fill="rgba(0,0,0,.6)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <text x="686" y="178" fill="rgba(201,168,76,.8)" font-size="9" font-family="sans-serif" font-weight="bold">ORDEN DEL DÍA</text>
+      <text x="686" y="196" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">① 09:00 Hotel (a pie)</text>
+      <text x="686" y="212" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">② 09:15 Gal.Lafayette + Mirador</text>
+      <text x="686" y="228" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">③ 10:00 Ópera Garnier + Vendôme</text>
+      <text x="686" y="244" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">④ 10:30 M3 → Étoile</text>
+      <text x="686" y="260" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑤ 11:00 Arco del Triunfo</text>
+      <text x="686" y="276" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑥ 12:00 Campos Elíseos (a pie)</text>
+      <text x="686" y="292" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑦ 12:30 Plaza Concordia</text>
+      <text x="686" y="308" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑧ 13:00 Pont Alexandre III 🌉</text>
+      <text x="686" y="324" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑨ 13:30 Inválidos ⚜</text>
+      <text x="686" y="340" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑩ 15:00 Comida zona Inválidos</text>
+      <text x="686" y="356" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑪ 19:30 Torre Eiffel ⭐</text>
+      <text x="686" y="372" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑫ 21:00 Crucero Sena 🚢</text>
+      <text x="686" y="388" fill="rgba(245,240,232,.6)" font-size="8.5" font-family="sans-serif">⑬ 22:30 M4 vuelta hotel</text>
+      <line x1="686" y1="397" x2="836" y2="397" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <text x="686" y="412" fill="rgba(201,168,76,.4)" font-size="7.5" font-family="sans-serif">Todo en arco oeste→sur</text>
+      <text x="686" y="425" fill="rgba(201,168,76,.4)" font-size="7.5" font-family="sans-serif">siguiendo el Sena</text>
+      <text x="686" y="445" fill="rgba(160,0,110,.6)" font-size="7.5" font-family="sans-serif">Morado = M4 vuelta</text>
+    </svg>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#7c3aed"></div>Zona Ópera/Lafayette</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#6ECA97"></div>M3</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#1a8f4a"></div>Inválidos / Pont Alex.</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#4B92DB"></div>Crucero</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#A0006E"></div>M4 vuelta</div>
+      <div class="map-legend-item"><div class="map-legend-dash" style="border-color:#c9a84c"></div>A pie</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="item-time">09:00h</div><div class="item-title">🏬 Galeries Lafayette + Mirador</div>
+      <div class="item-desc">A 8 minutos andando del hotel. Subid a la terraza del mirador — es completamente gratis y tiene una de las mejores vistas de París con la Ópera en primer plano. Luego podéis pasear por dentro brevemente. La Ópera Garnier está justo enfrente y la Plaza Vendôme a 5 minutos.</div>
+      <div class="transport-row">
+        <span class="t-badge walk">🚶 8 min desde el hotel (Bd Haussmann)</span>
+      </div>
+      <div class="monuments-box">
+        <h4>👁 De pasada en esta zona</h4>
+        <div class="monument-list">
+          <span class="monument-chip">🏛 Ópera Garnier (fachada)</span>
+          <span class="monument-chip">🏛 Plaza Vendôme</span>
+          <span class="monument-chip">🏛 Rue de la Paix</span>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">10:30h</div><div class="item-title">🏛 Arco del Triunfo</div>
+      <div class="item-desc">M3 desde Opéra hasta Charles de Gaulle Étoile. Rodeadlo y bajad a pie los Campos Elíseos hasta la Plaza de la Concordia (~20 min de paseo).</div>
+      <div class="transport-row">
+        <span class="t-badge metro m3"><span class="lc">3</span>M3 Opéra → Charles de Gaulle Étoile</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">13:00h</div><div class="item-title">🌉 Pont Alexandre III + ⚜ Inválidos</div>
+      <div class="item-desc">Desde la Concordia bajáis 12 min andando hasta el Pont Alexandre III — el más ornamentado de París. Cruzáis y llegáis directo a los Inválidos. La cúpula dorada de Napoleón es impresionante. Patio exterior gratis. Buen momento para comer en esta zona.</div>
+      <div class="transport-row">
+        <span class="t-badge walk">🚶 12 min desde Concordia hasta el puente</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">19:30h</div><div class="item-title">🗼 Torre Eiffel al atardecer</div>
+      <div class="item-desc">20 minutos andando desde Inválidos (o taxi). Reserva imprescindible. Quedaos para el espectáculo de luces de cada hora tras las 21h.</div>
+      <div class="transport-row">
+        <span class="t-badge walk">🚶 20 min desde Inválidos</span>
+        <span class="t-badge taxi">🚕 Taxi 5 min si estáis cansados</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">21:00h</div><div class="item-title">🚢 Crucero nocturno Bateaux-Mouches</div>
+      <div class="item-desc">15 min andando hasta Pont de l'Alma. ~17€/persona, 1h10 min. Coged el de las 21h para pasar por la Torre cuando centellée a las 22h.</div>
+      <div class="monuments-box">
+        <h4>👁 Veréis desde el barco de noche</h4>
+        <div class="monument-list">
+          <span class="monument-chip v">🗼 Torre Eiffel centelleando</span>
+          <span class="monument-chip v">⛪ Notre-Dame iluminada</span>
+          <span class="monument-chip">⚜ Inválidos (cúpula)</span>
+          <span class="monument-chip">🌉 Pont Alexandre III</span>
+          <span class="monument-chip">🔺 Louvre</span>
+          <span class="monument-chip">🏛 Pont Neuf</span>
+          <span class="monument-chip">🏛 Conciergerie</span>
+          <span class="monument-chip">🏛 Hôtel de Ville</span>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">22:30h</div><div class="item-title">🏠 Vuelta al hotel en metro</div>
+      <div class="item-desc">Desde Pont de l'Alma / Alma-Marceau hasta el hotel.</div>
+      <div class="transport-row">
+        <span class="t-badge metro m9"><span class="lc">9</span>M9 Alma-Marceau → Chaussée d'Antin (5 paradas)</span>
+        <span class="t-badge walk">🚶 5 min al hotel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     DÍA 3 · DOMINGO
+══════════════════════════════════ -->
+<section class="day-section" id="dia3">
+  <div class="day-header">
+    <div class="day-number">04</div>
+    <div class="day-info"><div class="day-date">Domingo 5 de Abril</div><h2>Louvre · Sainte-Chapelle · Luxemburgo · Panteón → Montmartre → Marais</h2></div>
+    <div class="day-emoji">🎨</div>
+  </div>
+
+  <div class="etapas-grid">
+    <div class="etapa-card">
+      <div class="etapa-num">Mañana · Centro</div>
+      <div class="etapa-title yellow">Louvre + Île de la Cité</div>
+      <ul class="etapa-items">
+        <li>Galerie Vivienne ☕</li>
+        <li>Louvre exterior + pirámide 🔺</li>
+        <li>Palais Royal + columnas Buren</li>
+        <li>Sainte-Chapelle ⭐ reserva</li>
+        <li>Notre-Dame + Île Saint-Louis</li>
+      </ul>
+    </div>
+    <div class="etapa-card">
+      <div class="etapa-num">Mediodía · Sur</div>
+      <div class="etapa-title green">Luxemburgo + Panteón</div>
+      <ul class="etapa-items">
+        <li>Jardín de Luxemburgo 🌿</li>
+        <li>Panteón de París</li>
+        <li>Fuente Saint-Michel</li>
+        <li>Barrio Latino</li>
+      </ul>
+    </div>
+    <div class="etapa-card">
+      <div class="etapa-num">Tarde · Norte</div>
+      <div class="etapa-title blue">Montmartre</div>
+      <ul class="etapa-items">
+        <li>Escalera John Wick 4 🎬</li>
+        <li>Sacré-Cœur</li>
+        <li>Place du Tertre</li>
+        <li>Muro de los Te Amo</li>
+        <li>Moulin Rouge (bajando)</li>
+      </ul>
+    </div>
+    <div class="etapa-card">
+      <div class="etapa-num">Tarde-noche · Este</div>
+      <div class="etapa-title yellow">Le Marais</div>
+      <ul class="etapa-items">
+        <li>Place des Vosges</li>
+        <li>Rue Crémieux 🌈</li>
+        <li>Tiendas Rue du Temple</li>
+        <li>Cena · vuelta hotel</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="map-container">
+    <p class="map-title">🗺 Ruta del Domingo — Centro → Sur → Norte → Este → Hotel</p>
+    <svg viewBox="0 0 860 560" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect width="860" height="560" fill="#0d1117"/>
+      <!-- Sena -->
+      <path d="M20,295 Q220,278 420,288 Q580,298 760,280" stroke="#1e3a5f" stroke-width="16" fill="none" opacity="0.4"/>
+      <path d="M20,295 Q220,278 420,288 Q580,298 760,280" stroke="#4B92DB" stroke-width="1.2" fill="none" opacity="0.25" stroke-dasharray="10,6"/>
+      <text x="70" y="282" fill="rgba(75,146,219,.35)" font-size="8" font-family="sans-serif" font-style="italic">Sena</text>
+      <!-- Zonas -->
+      <rect x="30" y="40" width="210" height="175" rx="5" fill="rgba(245,194,0,.03)" stroke="rgba(245,194,0,.1)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="38" y="56" fill="rgba(245,194,0,.35)" font-size="8" font-family="sans-serif">I · LOUVRE / ÎLE DE LA CITÉ</text>
+      <rect x="30" y="340" width="215" height="170" rx="5" fill="rgba(26,143,74,.03)" stroke="rgba(26,143,74,.1)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="38" y="356" fill="rgba(26,143,74,.35)" font-size="8" font-family="sans-serif">V-VI · LUXEMBURGO / PANTEÓN</text>
+      <rect x="430" y="25" width="215" height="185" rx="5" fill="rgba(26,144,212,.04)" stroke="rgba(26,144,212,.1)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="438" y="41" fill="rgba(26,144,212,.35)" font-size="8" font-family="sans-serif">XVIII · MONTMARTRE</text>
+      <rect x="620" y="145" width="210" height="175" rx="5" fill="rgba(245,194,0,.03)" stroke="rgba(245,194,0,.1)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="628" y="161" font-size="8" fill="rgba(245,194,0,.35)" font-family="sans-serif">IV · LE MARAIS</text>
+
+      <!-- HOTEL (arriba dcha) -->
+      <rect x="738" y="50" width="60" height="34" rx="3" fill="#1a2010" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="768" y="64" text-anchor="middle" fill="#e8d5a3" font-size="7.5" font-family="sans-serif" font-weight="bold">HOTEL</text>
+      <text x="768" y="75" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="sans-serif">09:00h</text>
+
+      <!-- Walk Galerie Vivienne -->
+      <line x1="738" y1="67" x2="700" y2="67" stroke="#c9a84c" stroke-width="2" stroke-dasharray="3,3"/>
+      <text x="719" y="58" text-anchor="middle" fill="#c9a84c" font-size="7.5" font-family="sans-serif">🚶 2min</text>
+      <rect x="618" y="53" width="80" height="28" rx="3" fill="#111" stroke="#c9a84c" stroke-width="1.2"/>
+      <text x="658" y="65" text-anchor="middle" fill="#e8d5a3" font-size="7.5" font-family="sans-serif" font-weight="bold">Gal.Vivienne ☕</text>
+      <text x="658" y="75" text-anchor="middle" fill="rgba(232,213,163,.5)" font-size="6.5" font-family="sans-serif">09:00h</text>
+
+      <!-- Hotel → M14 → Louvre -->
+      <line x1="768" y1="84" x2="768" y2="118" stroke="#62259D" stroke-width="3" stroke-dasharray="5,2"/>
+      <text x="790" y="105" fill="#62259D" font-size="8.5" font-family="sans-serif" font-weight="bold">M14</text>
+      <line x1="768" y1="118" x2="185" y2="125" stroke="#62259D" stroke-width="3" stroke-dasharray="5,2"/>
+      <text x="476" y="113" text-anchor="middle" fill="#62259D" font-size="9" font-family="sans-serif" font-weight="bold">M14 → Pyramides / Châtelet (~6min)</text>
+
+      <!-- LOUVRE -->
+      <circle cx="150" cy="128" r="24" fill="#1a1800" stroke="#f5c200" stroke-width="2.5"/>
+      <text x="150" y="122" text-anchor="middle" fill="white" font-size="14">🔺</text>
+      <text x="150" y="135" text-anchor="middle" fill="#f5c200" font-size="8" font-weight="bold" font-family="sans-serif">LOUVRE</text>
+      <text x="150" y="144" text-anchor="middle" fill="rgba(245,194,0,.5)" font-size="7" font-family="sans-serif">exterior</text>
+      <text x="150" y="160" text-anchor="middle" fill="rgba(245,194,0,.5)" font-size="7.5" font-family="sans-serif">10:00h</text>
+
+      <!-- Palais Royal -->
+      <circle cx="200" cy="110" r="11" fill="#111" stroke="#f5c200" stroke-width="1.2"/>
+      <text x="200" y="114" text-anchor="middle" fill="#fde68a" font-size="6.5" font-family="sans-serif">Palais R.</text>
+
+      <!-- Walk Louvre → Ste Chapelle -->
+      <line x1="140" y1="150" x2="150" y2="215" stroke="#c9a84c" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="126" y="188" text-anchor="middle" fill="rgba(201,168,76,.7)" font-size="7.5" font-family="sans-serif">🚶 10min</text>
+
+      <!-- STE CHAPELLE -->
+      <circle cx="155" cy="234" r="22" fill="#0d1825" stroke="#f5c200" stroke-width="2.5"/>
+      <text x="155" y="228" text-anchor="middle" fill="white" font-size="13">⛪</text>
+      <text x="155" y="241" text-anchor="middle" fill="#fde68a" font-size="7" font-weight="bold" font-family="sans-serif">STE-CHAPELLE</text>
+      <text x="155" y="250" text-anchor="middle" fill="rgba(253,230,138,.4)" font-size="7" font-family="sans-serif">⭐ reserva · 11:00h</text>
+
+      <!-- Notre Dame -->
+      <circle cx="215" cy="255" r="15" fill="#0d1825" stroke="#f5c200" stroke-width="1.5"/>
+      <text x="215" y="252" text-anchor="middle" fill="#fde68a" font-size="7" font-family="sans-serif">Notre</text>
+      <text x="215" y="261" text-anchor="middle" fill="#fde68a" font-size="7" font-family="sans-serif">Dame</text>
+      <line x1="176" y1="242" x2="201" y2="250" stroke="#f5c200" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+
+      <!-- Île Saint-Louis -->
+      <circle cx="258" cy="268" r="11" fill="#0d1825" stroke="#f5c200" stroke-width="1.2"/>
+      <text x="258" y="265" text-anchor="middle" fill="#fde68a" font-size="6.5" font-family="sans-serif">Île</text>
+      <text x="258" y="274" text-anchor="middle" fill="#fde68a" font-size="6.5" font-family="sans-serif">St-Louis</text>
+      <line x1="228" y1="260" x2="248" y2="263" stroke="#f5c200" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+
+      <!-- Notre Dame → Luxemburgo (M4) -->
+      <line x1="155" y1="256" x2="100" y2="350" stroke="#A0006E" stroke-width="3" stroke-dasharray="6,3"/>
+      <text x="115" y="310" text-anchor="middle" fill="#A0006E" font-size="8.5" font-family="sans-serif" font-weight="bold">M4 → Odéon</text>
+
+      <!-- JARDIN LUXEMBOURG -->
+      <circle cx="95" cy="395" r="27" fill="#0d1f10" stroke="#1a8f4a" stroke-width="2.5"/>
+      <text x="95" y="389" text-anchor="middle" fill="white" font-size="14">🌿</text>
+      <text x="95" y="402" text-anchor="middle" fill="#7ecba1" font-size="7.5" font-weight="bold" font-family="sans-serif">JARDÍN</text>
+      <text x="95" y="411" text-anchor="middle" fill="#7ecba1" font-size="7" font-family="sans-serif">LUXEMBURGO</text>
+      <text x="95" y="428" text-anchor="middle" fill="rgba(126,203,161,.5)" font-size="7.5" font-family="sans-serif">13:00h</text>
+
+      <!-- Panteon -->
+      <circle cx="185" cy="408" r="22" fill="#0d1f10" stroke="#1a8f4a" stroke-width="2"/>
+      <text x="185" y="402" text-anchor="middle" fill="white" font-size="13">🏛</text>
+      <text x="185" y="415" text-anchor="middle" fill="#7ecba1" font-size="7.5" font-weight="bold" font-family="sans-serif">PANTEÓN</text>
+      <text x="185" y="424" text-anchor="middle" fill="rgba(126,203,161,.4)" font-size="7" font-family="sans-serif">por fuera</text>
+      <line x1="122" y1="402" x2="163" y2="406" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="142" y="395" text-anchor="middle" fill="rgba(201,168,76,.6)" font-size="7" font-family="sans-serif">🚶 8min</text>
+
+      <!-- Fuente Saint Michel -->
+      <circle cx="200" cy="360" r="11" fill="#111" stroke="#1a8f4a" stroke-width="1.2"/>
+      <text x="200" y="357" text-anchor="middle" fill="#7ecba1" font-size="6.5" font-family="sans-serif">Fuente</text>
+      <text x="200" y="366" text-anchor="middle" fill="#7ecba1" font-size="6.5" font-family="sans-serif">St-Michel</text>
+
+      <!-- M12 Panteón → Montmartre -->
+      <line x1="205" y1="396" x2="440" y2="170" stroke="#007852" stroke-width="3" stroke-dasharray="6,3"/>
+      <text x="352" y="260" text-anchor="middle" fill="#007852" font-size="9" font-family="sans-serif" font-weight="bold">M12 → Abbesses (~15min)</text>
+
+      <!-- ABBESSES -->
+      <circle cx="455" cy="155" r="15" fill="#0d1825" stroke="#007852" stroke-width="2"/>
+      <text x="455" y="152" text-anchor="middle" fill="#7ecba1" font-size="6.5" font-family="sans-serif">Abbe-</text>
+      <text x="455" y="161" text-anchor="middle" fill="#7ecba1" font-size="6.5" font-family="sans-serif">sses</text>
+
+      <!-- Walk JW -->
+      <line x1="470" y1="150" x2="510" y2="108" stroke="#c9a84c" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="500" y="136" text-anchor="middle" fill="rgba(201,168,76,.7)" font-size="7.5" font-family="sans-serif">🚶 10min</text>
+
+      <!-- John Wick -->
+      <rect x="510" y="76" width="82" height="32" rx="3" fill="#1a0d0d" stroke="#ff4444" stroke-width="1.5"/>
+      <text x="551" y="89" text-anchor="middle" fill="#ff8888" font-size="8" font-family="sans-serif" font-weight="bold">🎬 Escalera</text>
+      <text x="551" y="100" text-anchor="middle" fill="#ff8888" font-size="7" font-family="sans-serif">John Wick 4</text>
+
+      <!-- SACRE COEUR -->
+      <circle cx="460" cy="98" r="24" fill="#0d1825" stroke="#1a90d4" stroke-width="2.5"/>
+      <text x="460" y="92" text-anchor="middle" fill="white" font-size="14">⛪</text>
+      <text x="460" y="105" text-anchor="middle" fill="#7dd3fc" font-size="7.5" font-weight="bold" font-family="sans-serif">SACRÉ-CŒUR</text>
+      <text x="460" y="114" text-anchor="middle" fill="rgba(125,211,252,.5)" font-size="7.5" font-family="sans-serif">15:30h</text>
+
+      <!-- Tertre + Muro -->
+      <circle cx="518" cy="118" r="10" fill="#111" stroke="#1a90d4" stroke-width="1.2"/>
+      <text x="518" y="122" text-anchor="middle" fill="#7dd3fc" font-size="6.5" font-family="sans-serif">Tertre</text>
+      <circle cx="428" cy="120" r="10" fill="#111" stroke="#ff69b4" stroke-width="1.2"/>
+      <text x="428" y="117" text-anchor="middle" fill="#ffb3d9" font-size="6" font-family="sans-serif">Muro</text>
+      <text x="428" y="126" text-anchor="middle" fill="#ffb3d9" font-size="6" font-family="sans-serif">Te Amo</text>
+
+      <!-- Bajando Moulin Rouge -->
+      <line x1="437" y1="128" x2="365" y2="195" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="390" y="165" text-anchor="middle" fill="rgba(201,168,76,.6)" font-size="7" font-family="sans-serif">🚶 bajando</text>
+
+      <!-- Moulin Rouge -->
+      <circle cx="350" cy="210" r="17" fill="#200010" stroke="#cc0055" stroke-width="1.5"/>
+      <text x="350" y="205" text-anchor="middle" fill="white" font-size="10">🎪</text>
+      <text x="350" y="216" text-anchor="middle" fill="#ff69b4" font-size="6.5" font-family="sans-serif">Moulin Rouge</text>
+      <text x="350" y="225" text-anchor="middle" fill="rgba(255,105,180,.4)" font-size="6" font-family="sans-serif">(de pasada)</text>
+
+      <!-- M4 → Marais -->
+      <line x1="366" y1="212" x2="628" y2="220" stroke="#A0006E" stroke-width="3" stroke-dasharray="6,3"/>
+      <text x="495" y="208" text-anchor="middle" fill="#A0006E" font-size="9" font-family="sans-serif" font-weight="bold">M4 → Saint-Paul (~18min)</text>
+
+      <!-- PLACE DES VOSGES -->
+      <rect x="634" y="200" width="92" height="40" rx="4" fill="#1a1500" stroke="#f5c200" stroke-width="2"/>
+      <text x="680" y="216" text-anchor="middle" fill="#fde68a" font-size="8" font-weight="bold" font-family="sans-serif">Place des Vosges</text>
+      <text x="680" y="230" text-anchor="middle" fill="rgba(253,230,138,.5)" font-size="7" font-family="sans-serif">17:30h</text>
+
+      <!-- Rue Cremieux -->
+      <rect x="634" y="252" width="90" height="28" rx="3" fill="#111" stroke="#f5c200" stroke-width="1.2"/>
+      <text x="679" y="263" text-anchor="middle" fill="#fde68a" font-size="7.5" font-weight="bold" font-family="sans-serif">Rue Crémieux 🌈</text>
+      <text x="679" y="273" text-anchor="middle" fill="rgba(253,230,234,.4)" font-size="7" font-family="sans-serif">18:30h</text>
+
+      <!-- Tiendas -->
+      <rect x="634" y="292" width="90" height="28" rx="3" fill="#111" stroke="rgba(245,194,0,.4)" stroke-width="1"/>
+      <text x="679" y="304" text-anchor="middle" fill="rgba(253,230,138,.7)" font-size="7.5" font-family="sans-serif">🛍 Tiendas Marais</text>
+      <text x="679" y="314" text-anchor="middle" fill="rgba(253,230,138,.4)" font-size="7" font-family="sans-serif">Stone Island etc.</text>
+
+      <!-- Cena -->
+      <rect x="634" y="332" width="90" height="28" rx="3" fill="rgba(201,168,76,.05)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+      <text x="679" y="344" text-anchor="middle" fill="rgba(232,213,163,.7)" font-size="7.5" font-family="sans-serif">🍽 Cena Marais</text>
+      <text x="679" y="354" text-anchor="middle" fill="rgba(232,213,163,.4)" font-size="7" font-family="sans-serif">21:00h</text>
+
+      <!-- VUELTA AL HOTEL -->
+      <line x1="679" y1="360" x2="679" y2="430" stroke="#62259D" stroke-width="3" stroke-dasharray="5,2"/>
+      <line x1="679" y1="430" x2="768" y2="430" stroke="#62259D" stroke-width="3" stroke-dasharray="5,2"/>
+      <line x1="768" y1="430" x2="768" y2="90" stroke="#62259D" stroke-width="3" stroke-dasharray="5,2"/>
+      <text x="730" y="420" text-anchor="middle" fill="#62259D" font-size="8.5" font-family="sans-serif" font-weight="bold">M14 vuelta</text>
+      <!-- Hotel marker vuelta -->
+      <rect x="738" y="50" width="60" height="34" rx="3" fill="#1a2010" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="768" y="64" text-anchor="middle" fill="#e8d5a3" font-size="7.5" font-family="sans-serif" font-weight="bold">HOTEL</text>
+      <text x="768" y="75" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="sans-serif">~22:30h</text>
+
+      <!-- Flechas dirección vuelta -->
+      <text x="790" y="260" fill="rgba(98,37,157,.6)" font-size="18" font-family="sans-serif">↑</text>
+      <text x="757" y="442" fill="rgba(98,37,157,.6)" font-size="18" font-family="sans-serif">→</text>
+      <text x="668" y="408" fill="rgba(98,37,157,.6)" font-size="18" font-family="sans-serif">↓</text>
+
+      <!-- Leyenda -->
+      <rect x="30" y="480" width="800" height="62" rx="4" fill="rgba(0,0,0,.4)" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+      <text x="50" y="497" fill="rgba(201,168,76,.7)" font-size="8.5" font-family="sans-serif" font-weight="bold">ORDEN DEL DÍA</text>
+      <text x="50" y="512" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">① 09:00 Galerie Vivienne ☕</text>
+      <text x="180" y="512" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">② 10:00 Louvre + Palais Royal</text>
+      <text x="330" y="512" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">③ 11:00 Sainte-Chapelle ⭐</text>
+      <text x="470" y="512" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">④ 12:00 Notre-Dame + Île St-Louis</text>
+      <text x="640" y="512" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">⑤ 13:00 M4 → Luxemburgo</text>
+      <text x="50" y="528" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">⑥ 14:00 Panteón + St-Michel</text>
+      <text x="190" y="528" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">⑦ 15:00 M12 → Abbesses</text>
+      <text x="315" y="528" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">⑧ 15:30 Escalera JW4 🎬 + Sacré-Cœur</text>
+      <text x="510" y="528" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">⑨ 17:00 M4 → Place des Vosges</text>
+      <text x="660" y="528" fill="rgba(245,240,232,.55)" font-size="8" font-family="sans-serif">⑩ 19:00 Rue Crémieux + Tiendas</text>
+      <text x="50" y="538" fill="rgba(98,37,157,.7)" font-size="8.5" font-family="sans-serif" font-weight="bold">⑪ 21:00 Cena · ⑫ ~22:00 M14 vuelta al hotel (línea morada en mapa)</text>
+    </svg>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#62259D"></div>M14 (ida y vuelta al hotel)</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#A0006E"></div>M4</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#007852"></div>M12 (Panteón→Montmartre)</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#1a8f4a"></div>Zona Luxemburgo/Panteón</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#ff4444"></div>Localiz. JW4</div>
+      <div class="map-legend-item"><div class="map-legend-dash" style="border-color:#c9a84c"></div>A pie</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="item-time">09:00h</div><div class="item-title">☕ Galerie Vivienne · Café</div>
+      <div class="item-desc">2 min del hotel. Pasaje cubierto del siglo XIX con suelos de mosaico y techo acristalado. Para arrancar el día despacio.</div>
+      <div class="transport-row"><span class="t-badge walk">🚶 2 min desde el hotel</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">10:00h</div><div class="item-title">🔺 Louvre exterior + Palais Royal</div>
+      <div class="item-desc">M14 desde Pyramides hasta el Louvre en 6 minutos. La pirámide de Pei, el patio exterior, las columnas de Buren del Palais Royal justo al lado. Todo en 45 minutos sin entrar.</div>
+      <div class="transport-row">
+        <span class="t-badge metro m14"><span class="lc">14</span>M14 → Pyramides (directo, ~6min)</span>
+        <span class="t-badge walk">🚶 5 min a pie al Louvre</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">11:00h</div><div class="item-title">⛪ Sainte-Chapelle</div>
+      <div class="item-desc">10 minutos andando desde el Louvre hasta la Île de la Cité. Reserva online obligatoria. Las vidrieras góticas más impresionantes del mundo.</div>
+      <div class="transport-row"><span class="t-badge walk">🚶 10 min desde el Louvre</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">12:00h</div><div class="item-title">⛪ Notre-Dame + 🏝 Île Saint-Louis</div>
+      <div class="item-desc">A 5 min de Sainte-Chapelle. Notre-Dame recién restaurada. Cruzad a la Île Saint-Louis: la isla más tranquila, helados Berthillon (los mejores de París).</div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">13:00h</div><div class="item-title">🌿 Jardines de Luxemburgo</div>
+      <div class="item-desc">Metro M4 desde Cité hasta Odéon. El jardín más elegante de París. Sentaros junto al estanque sin prisa. El domingo por la mañana es cuando más tranquilo está.</div>
+      <div class="transport-row">
+        <span class="t-badge metro m4"><span class="lc">4</span>M4 Cité → Odéon (2 paradas)</span>
+        <span class="t-badge walk">🚶 5 min al jardín</span>
+      </div>
+      <div class="monuments-box">
+        <h4>👁 De pasada en el Barrio Latino</h4>
+        <div class="monument-list">
+          <span class="monument-chip">🏛 Fuente Saint-Michel</span>
+          <span class="monument-chip">🏛 La Sorbona</span>
+          <span class="monument-chip">🏛 Palacio del Senado</span>
+          <span class="monument-chip">🏛 Saint-Étienne-du-Mont</span>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">14:00h</div><div class="item-title">🏛 Panteón de París</div>
+      <div class="item-desc">8 minutos andando desde Luxemburgo. El mausoleo de Voltaire, Rousseau, Marie Curie, Victor Hugo. El exterior ya impresiona. La Fuente Saint-Michel de paso.</div>
+      <div class="transport-row"><span class="t-badge walk">🚶 8 min desde Luxemburgo</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">15:00h</div><div class="item-title">🎬 Montmartre — Escalera JW4 + Sacré-Cœur</div>
+      <div class="item-desc">M12 desde zona Panteón hasta Abbesses. Subid andando. Rue Drevet = escalera del duelo final de John Wick 4. Sacré-Cœur al lado, vistas panorámicas de París gratis. Place du Tertre y Muro de los Te Amo de pasada. Bajad por la ladera oeste para ver el Moulin Rouge.</div>
+      <div class="transport-row">
+        <span class="t-badge metro m12"><span class="lc">12</span>M12 → Abbesses (~15min)</span>
+        <span class="t-badge walk">🚶 10 min subiendo hasta Rue Drevet</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">17:30h</div><div class="item-title">🏛 Place des Vosges + Rue Crémieux + Tiendas</div>
+      <div class="item-desc">M4 desde zona Pigalle/Blanche hasta Saint-Paul. La plaza más elegante de París. Rue Crémieux a 10 min andando. Tiendas por Rue du Temple (Stone Island, multimarcas).</div>
+      <div class="transport-row">
+        <span class="t-badge metro m4"><span class="lc">4</span>M4 → Saint-Paul (~18min)</span>
+        <span class="t-badge walk">🚶 5 min a Place des Vosges</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">21:00h</div><div class="item-title">🍽 Cena en Le Marais</div>
+      <div class="item-desc">Última cena en París. Disfrutad del barrio.</div>
+      <div class="alert-box"><strong>⚠ Esta noche:</strong> Preparad las maletas. Mañana salida del hotel a las 08:00h.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">~22:00h</div><div class="item-title">🏠 Vuelta al hotel — Metro M14</div>
+      <div class="item-desc">La M14 es la más rápida de París, sin conductor y muy frecuente incluso de noche.</div>
+      <div class="transport-row">
+        <span class="t-badge metro m14"><span class="lc">14</span>M14 Saint-Paul → Pyramides (~4min)</span>
+        <span class="t-badge walk">🚶 8 min al hotel</span>
+      </div>
+      <div class="info-box"><strong>Alternativa más directa:</strong> M1 desde Saint-Paul → Châtelet + M14 → Pyramides. O simplemente taxi si estáis cansados (~12€).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     DÍA 4 · VUELTA
+══════════════════════════════════ -->
+<section class="day-section" id="dia4">
+  <div class="day-header">
+    <div class="day-number">05</div>
+    <div class="day-info"><div class="day-date">Lunes 6 de Abril</div><h2>Vuelta a casa</h2></div>
+    <div class="day-emoji">✈️</div>
+  </div>
+  <div class="map-container">
+    <p class="map-title">🗺 Ruta Hotel → Auber → Orly (o taxi)</p>
+    <svg viewBox="0 0 740 160" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect width="740" height="160" fill="#0d1117"/>
+      <line x1="0" y1="78" x2="740" y2="78" stroke="#1a2030" stroke-width="6"/>
+      <rect x="15" y="60" width="62" height="36" rx="3" fill="#1a2010" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="46" y="74" text-anchor="middle" fill="#e8d5a3" font-size="8" font-family="sans-serif" font-weight="bold">HOTEL</text>
+      <text x="46" y="85" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="sans-serif">08:00h</text>
+      <line x1="77" y1="78" x2="162" y2="78" stroke="#c9a84c" stroke-width="2.5" stroke-dasharray="5,4"/>
+      <text x="119" y="66" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="sans-serif" font-weight="bold">🚶 10min a pie</text>
+      <circle cx="180" cy="78" r="18" fill="#1a0010" stroke="#E3051B" stroke-width="2.5"/>
+      <text x="180" y="74" text-anchor="middle" fill="#ff8a8a" font-size="7.5" font-family="sans-serif" font-weight="bold">AUBER</text>
+      <text x="180" y="83" text-anchor="middle" fill="#ff8a8a" font-size="7" font-family="sans-serif">RER A</text>
+      <!-- RER A a Châtelet -->
+      <line x1="198" y1="78" x2="295" y2="78" stroke="#E3051B" stroke-width="3.5" stroke-dasharray="7,3"/>
+      <text x="246" y="66" text-anchor="middle" fill="#E3051B" font-size="9" font-family="sans-serif" font-weight="bold">RER A → Châtelet</text>
+      <!-- Chatelet transbordo RER B -->
+      <circle cx="312" cy="78" r="16" fill="#0d1825" stroke="#4B92DB" stroke-width="2"/>
+      <text x="312" y="74" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">Châtelet</text>
+      <text x="312" y="83" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">→ RER B</text>
+      <!-- RER B -->
+      <line x1="328" y1="78" x2="462" y2="78" stroke="#4B92DB" stroke-width="3.5" stroke-dasharray="8,3"/>
+      <text x="395" y="66" text-anchor="middle" fill="#4B92DB" font-size="9" font-family="sans-serif" font-weight="bold">RER B → Antony ~28min</text>
+      <!-- ANTONY -->
+      <circle cx="478" cy="78" r="14" fill="#0d1825" stroke="#4B92DB" stroke-width="2"/>
+      <text x="478" y="75" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">Antony</text>
+      <text x="478" y="84" text-anchor="middle" fill="#a8d0f5" font-size="7" font-family="sans-serif">Orlyval</text>
+      <!-- Orlyval -->
+      <line x1="492" y1="78" x2="580" y2="78" stroke="#9632C8" stroke-width="3" stroke-dasharray="6,3"/>
+      <text x="536" y="66" text-anchor="middle" fill="#9632C8" font-size="9" font-family="sans-serif" font-weight="bold">Orlyval ~8min</text>
+      <!-- ORLY -->
+      <circle cx="650" cy="78" r="30" fill="#120820" stroke="#9632C8" stroke-width="2"/>
+      <text x="650" y="73" text-anchor="middle" fill="#d4a0f5" font-size="9" font-weight="bold" font-family="sans-serif">ORLY</text>
+      <text x="650" y="85" text-anchor="middle" fill="#d4a0f5" font-size="14">✈️</text>
+      <text x="650" y="116" text-anchor="middle" fill="rgba(212,160,245,.5)" font-size="8" font-family="sans-serif">09:00h · vuelo 10:50h</text>
+      <!-- Totales -->
+      <rect x="160" y="128" width="420" height="24" rx="3" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
+      <text x="370" y="144" text-anchor="middle" fill="#c9a84c" font-size="11" font-family="sans-serif" font-weight="bold">~60 min total · Salid del hotel a las 08:00h</text>
+    </svg>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#E3051B"></div>RER A (Auber→Châtelet)</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#4B92DB"></div>RER B (→Antony)</div>
+      <div class="map-legend-item"><div class="map-legend-line" style="background:#9632C8"></div>Orlyval</div>
+      <div class="map-legend-item"><div class="map-legend-dash" style="border-color:#c9a84c"></div>A pie (10min)</div>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="item-time">07:30h</div><div class="item-title">Desayuno rápido y checkout</div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">08:00h</div><div class="item-title">Salida hacia Orly</div>
+      <div class="transport-row">
+        <span class="t-badge walk">🚶 10min → Auber (Rue Auber)</span>
+        <span class="t-badge rer">🚆 RER A → Châtelet (~5min)</span>
+        <span class="t-badge rerb">🚆 RER B → Antony (~28min)</span>
+        <span class="t-badge orlyval">🚆 Orlyval → Orly (~8min)</span>
+      </div>
+      <div class="tip-box"><strong>Con maletas grandes:</strong> 🚕 Taxi directo desde el hotel ~40min · 35-45€. Mucho más cómodo si lleváis equipaje voluminoso.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="item-time">09:00h</div><div class="item-title">✅ Orly · Facturación y embarque</div>
+      <div class="item-desc">1h50 antes del vuelo. Tiempo cómodo. ¡Bon voyage! 🇫🇷</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     LEYENDA
+══════════════════════════════════ -->
+<section class="legend" id="legend">
+  <div style="border-top:1px solid rgba(245,240,232,.08);padding-top:3rem">
+    <h3>Guía rápida de transportes</h3>
+    <div class="legend-grid">
+      <div class="legend-item"><div class="legend-dot" style="background:#6ECA97;color:#000">3</div><div>Línea 3 · Verde claro<br><small>Pont de Levallois ↔ Gallieni</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#A0006E;color:#fff">4</div><div>Línea 4 · Morada<br><small>Clignancourt ↔ Montrouge</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#B6BD00;color:#000">9</div><div>Línea 9 · Verde-amarillo<br><small>Pont de Sèvres ↔ Montreuil</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#007852;color:#fff">12</div><div>Línea 12 · Verde oscuro<br><small>Issy ↔ Aubervilliers</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#62259D;color:#fff">14</div><div>Línea 14 · Violeta<br><small>Orly ↔ Saint-Denis Pleyel</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E3051B;color:#fff">A</div><div>RER A · Rojo<br><small>Auber/Châtelet ↔ Disneyland/Orly</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#4B92DB;color:#fff">B</div><div>RER B · Azul<br><small>Châtelet ↔ Orly (vía Antony)</small></div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#9632C8;color:#fff">OV</div><div>Orlyval<br><small>Orly ↔ Antony · ~8min</small></div></div>
+    </div>
+    <div class="tip-box" style="margin-top:1.5rem">
+      <strong>💡 Ticket recomendado:</strong> <strong>Navigo Semaine</strong> (~30€) cubre metro, RER y bus. Para Disney y Orly necesitáis tickets de zona 1-5 (~10-13€ extra no cubiertos por zona básica).
+    </div>
+    <div class="tip-box" style="margin-top:.8rem">
+      <strong>📍 Reservas urgentes (hacedlas ya):</strong> Torre Eiffel · toureiffel.paris · Sainte-Chapelle · sainte-chapelle.fr · Bateaux-Mouches · bateaux-mouches.fr · Disneyland · disneylandparis.com
+    </div>
+    <div class="tip-box" style="margin-top:.8rem">
+      <strong>🏬 Galeries Lafayette mirador:</strong> Entrada gratuita a la terraza. Abren desde las 9:30h. Las mejores vistas de la Ópera Garnier y el boulevard Haussmann. Imprescindible si vais a pasar por la zona, que está a 8 minutos del hotel.
+    </div>
+  </div>
+</section>
+
+<footer>París · Abril 2026 · Hotel Ascot Opéra · 2 Rue Monsigny, 75002<br>Ruta optimizada por zonas · Sin saltos innecesarios entre distritos</footer>
+
+<script>
+  function s(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+  const secs=['dia0','dia1','dia2','dia3','dia4','legend'];
+  const btns=document.querySelectorAll('.day-btn');
+  window.addEventListener('scroll',()=>{
+    let cur='';
+    secs.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<120)cur=id;});
+    btns.forEach((b,i)=>b.classList.toggle('active',secs[i]===cur));
+  });
+</script>
+</body>
+</html>
