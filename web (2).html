@@ -1,0 +1,2452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miguel & Rocío · 6 meses</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+:root {
+  --rose: #f2b8c6;
+  --rose-deep: #e8899a;
+  --rose-pale: #fdf0f3;
+  --sky: #b8d8f2;
+  --sky-deep: #7fb8e8;
+  --sky-pale: #f0f6fd;
+  --white: #ffffff;
+  --cream: #fdfaf8;
+  --text: #2a1f25;
+  --text-mid: #6b5560;
+  --text-light: #a8909a;
+  --border: rgba(232,137,154,0.2);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(253,250,248,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  display: flex; align-items: center; gap: 0;
+  height: 56px;
+  overflow-x: auto;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--rose-deep);
+  white-space: nowrap;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+.nav-link {
+  font-size: 12px; font-weight: 400;
+  color: var(--text-mid);
+  text-decoration: none;
+  padding: 0 12px; height: 56px;
+  display: flex; align-items: center;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 2px solid transparent;
+  flex-shrink: 0;
+}
+.nav-link:hover { color: var(--rose-deep); border-bottom-color: var(--rose-deep); }
+
+/* SECTIONS */
+main {
+  padding-top: 56px;
+}
+
+.tab-section {
+  display: none;
+  min-height: calc(100vh - 56px);
+  padding: 24px 1.5rem 4rem;
+  max-width: 700px;
+  margin: 0 auto;
+  animation: fadeUp 0.35s ease;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+.section-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 300;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+/* HERO */
+#inicio {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  padding-top: 56px;
+}
+.hero-eyebrow {
+  font-size: 12px; letter-spacing: 0.15em;
+  color: var(--text-light); text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 12vw, 80px);
+  font-weight: 300; line-height: 1;
+  color: var(--text);
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+.hero-title em { font-style: italic; color: var(--rose-deep); }
+
+.hero-name-miguel {
+  color: #111111;
+}
+
+.hero-and {
+  color: var(--text);
+}
+
+.hero-name-rocio {
+  color: #e8a6b7;
+}
+
+a.nav-link.active {
+  color: var(--rose-deep);
+  border-bottom-color: var(--rose-deep);
+}
+
+.hero-heart {
+  font-size: 28px; color: var(--rose-deep);
+  display: block; margin: 1rem 0;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero-subtitle {
+  font-size: 15px; color: var(--text-mid); font-weight: 300;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.countdown-grid {
+  display: flex; gap: 1.5rem; justify-content: center;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+.countdown-item { text-align: center; }
+.countdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; font-weight: 300;
+  color: var(--rose-deep); line-height: 1;
+}
+.countdown-label { font-size: 11px; color: var(--text-light); letter-spacing: 0.08em; }
+.countdown-sep {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px; color: var(--rose);
+  align-self: flex-start; margin-top: 4px;
+}
+.hero-scroll {
+  margin-top: 3rem;
+  font-size: 11px; color: var(--text-light); letter-spacing: 0.1em;
+  animation: fadeUp 0.8s 0.5s ease both;
+}
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--rose), var(--sky));
+}
+.tl-item { position: relative; margin-bottom: 2rem; }
+.tl-dot {
+  position: absolute; left: -26px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--rose-deep);
+  border: 3px solid var(--cream);
+  box-shadow: 0 0 0 1px var(--rose-deep);
+}
+.tl-dot.funny { background: var(--sky-deep); box-shadow: 0 0 0 1px var(--sky-deep); }
+.tl-dot.big { background: var(--rose-deep); width: 16px; height: 16px; left: -28px; top: 4px; }
+.tl-date { font-size: 11px; color: var(--text-light); letter-spacing: 0.06em; margin-bottom: 3px; }
+.tl-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.tl-text { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.tl-tag {
+  display: inline-block; font-size: 10px;
+  padding: 2px 8px; border-radius: 20px;
+  margin-bottom: 4px; font-weight: 500; letter-spacing: 0.05em;
+}
+.tl-tag.rosa { background: var(--rose-pale); color: var(--rose-deep); }
+.tl-tag.azul { background: var(--sky-pale); color: var(--sky-deep); }
+
+/* === PANTALLA DE BLOQUEO === */
+#lockScreen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--cream);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem; text-align: center;
+}
+.lock-heart { font-size: 48px; margin-bottom: 1rem; }
+.lock-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; color: var(--text); margin-bottom: 0.5rem; }
+.lock-subtitle { font-size: 14px; color: var(--text-light); margin-bottom: 2rem; }
+.lock-input-wrap { width: 100%; max-width: 280px; }
+.lock-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 22px; text-align: center; letter-spacing: 0.3em; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); outline: none; margin-bottom: 10px; }
+.lock-input:focus { border-color: var(--rose-deep); }
+.lock-btn { width: 100%; padding: 12px; background: var(--rose-deep); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+.lock-btn:hover { background: #d4778a; }
+.lock-error { font-size: 12px; color: #e11d48; margin-top: 8px; min-height: 18px; }
+
+/* === BINGO CELEBRACIÓN === */
+@keyframes bingoPop { 0%{transform:scale(0) rotate(-10deg);opacity:0} 60%{transform:scale(1.15) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+@keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+#bingoWin { display:none; position:fixed; inset:0; z-index:500; background:rgba(42,31,37,0.7); backdrop-filter:blur(4px); align-items:center; justify-content:center; flex-direction:column; }
+#bingoWin.show { display:flex; }
+.bingo-win-box { background:var(--white); border-radius:var(--radius); padding:2.5rem 2rem; text-align:center; max-width:320px; width:90%; animation:bingoPop 0.5s ease both; position:relative; overflow:hidden; }
+.bingo-win-box::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--rose-pale),var(--sky-pale)); opacity:0.5; }
+.bingo-win-emoji { font-size:56px; margin-bottom:1rem; position:relative; }
+.bingo-win-title { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:400; color:var(--text); margin-bottom:0.75rem; position:relative; }
+.bingo-win-text { font-size:14px; color:var(--text-mid); line-height:1.6; position:relative; margin-bottom:1.5rem; }
+.bingo-win-close { padding:10px 28px; background:var(--rose-deep); color:white; border:none; border-radius:var(--radius-sm); font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; position:relative; }
+.confetti-piece { position:fixed; width:10px; height:10px; border-radius:2px; animation:confettiFall linear forwards; pointer-events:none; z-index:501; }
+
+/* === CASOS === */
+.casos-intro { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:2rem; }
+.casos-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:1rem; }
+.caso-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem 1.25rem; text-align:center; cursor:pointer; transition:all 0.25s; position:relative; overflow:hidden; text-decoration:none; display:block; }
+.caso-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(42,31,37,0.08); }
+.caso-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--rose),var(--sky)); }
+.caso-num { font-size:11px; letter-spacing:0.12em; color:var(--text-light); text-transform:uppercase; margin-bottom:6px; }
+.caso-icon { font-size:36px; margin-bottom:10px; }
+.caso-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:400; color:var(--text); margin-bottom:6px; }
+.caso-status { font-size:11px; padding:3px 10px; border-radius:20px; font-weight:500; display:inline-block; }
+.caso-status.abierto { background:#e9f8ef; color:#179657; }
+.caso-status.bloqueado { background:var(--rose-pale); color:var(--rose-deep); }
+.caso-card.locked-card { opacity:0.65; cursor:default; pointer-events:none; }
+
+/* === FECHAS ESPECIALES === */
+.fechas-list { margin-top:1.5rem; display:grid; gap:10px; }
+.fecha-item { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 16px; display:flex; align-items:center; gap:12px; }
+.fecha-item.proxima { border-color:var(--rose-deep); background:var(--rose-pale); }
+.fecha-emoji { font-size:24px; flex-shrink:0; }
+.fecha-info { flex:1; }
+.fecha-nombre { font-size:14px; font-weight:500; color:var(--text); }
+.fecha-date { font-size:12px; color:var(--text-light); margin-top:2px; }
+.fecha-badge { font-size:11px; padding:3px 10px; border-radius:20px; font-weight:500; flex-shrink:0; }
+.fecha-badge.hoy { background:#fde7ee; color:#d96b8c; }
+.fecha-badge.pronto { background:#fef3c7; color:#b45309; }
+.fecha-badge.ok { background:#e9f8ef; color:#179657; }
+
+/* === IDEAS NEGOCIO === */
+.ideas-intro { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:1.5rem; }
+.ideas-grid { display:grid; gap:12px; }
+.idea-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.5rem; position:relative; overflow:hidden; }
+.idea-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(to bottom,var(--rose),var(--sky)); }
+.idea-icon { font-size:28px; margin-bottom:8px; }
+.idea-title { font-family:'Cormorant Garamond',serif; font-size:19px; font-weight:400; color:var(--text); margin-bottom:6px; }
+.idea-desc { font-size:13px; color:var(--text-mid); line-height:1.7; }
+
+/* MAPA LEAFLET */
+.map-container { background:var(--white); border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; margin-top:1.5rem; }
+.map-toolbar { display:flex; align-items:center; padding:10px 14px; border-bottom:1px solid var(--border); background:#fffdfc; flex-wrap:wrap; gap:6px; }
+.map-legend { display:flex; gap:12px; flex-wrap:wrap; font-size:12px; color:var(--text-mid); }
+.legend-dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:4px; vertical-align:middle; }
+.legend-dot.done { background:#e8899a; }
+.legend-dot.planned { background:#2fbf71; }
+.legend-dot.future { background:#6ea8ff; }
+#leafletMap { width:100%; height:300px; z-index:1; }
+@media(min-width:600px){ #leafletMap { height:380px; } }
+/* Leaflet popup */
+.leaflet-popup-content-wrapper { border-radius:var(--radius) !important; border:1px solid var(--border) !important; box-shadow:0 8px 32px rgba(42,31,37,0.12) !important; padding:0 !important; overflow:hidden; }
+.leaflet-popup-content { margin:0 !important; width:auto !important; min-width:240px; max-width:90vw; }
+.leaflet-popup-tip-container { display:none; }
+.dest-popup { font-family:'DM Sans',sans-serif; }
+.dest-popup-header { display:flex; align-items:center; gap:10px; padding:12px 14px 10px; border-bottom:1px solid var(--border); background:var(--cream); flex-wrap:wrap; }
+.dest-popup-flag { font-size:22px; }
+.dest-popup-info { flex:1; min-width:0; }
+.dest-popup-name { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--text); line-height:1.2; }
+.dest-popup-meta { font-size:11px; color:var(--text-light); margin-top:2px; }
+.dest-popup-badge { font-size:10px; padding:2px 8px; border-radius:20px; font-weight:500; flex-shrink:0; }
+.dest-popup-badge.done { background:#fde7ee; color:#d96b8c; }
+.dest-popup-badge.planned { background:#e9f8ef; color:#179657; }
+.dest-popup-badge.future { background:#e8f1fd; color:#5a8ed8; }
+.dest-popup-body { padding:10px 14px 14px; }
+.dest-popup-status-btns { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+.dest-popup-status-btn { font-size:11px; padding:4px 10px; border-radius:20px; border:1px solid var(--border); background:none; cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--text-mid); transition:all 0.15s; }
+.dest-popup-status-btn.active-done { background:#fde7ee; border-color:#e8899a; color:#d96b8c; font-weight:600; }
+.dest-popup-status-btn.active-planned { background:#e9f8ef; border-color:#2fbf71; color:#179657; font-weight:600; }
+.dest-popup-status-btn.active-future { background:#e8f1fd; border-color:#6ea8ff; color:#5a8ed8; font-weight:600; }
+.dest-popup-photos { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:8px; }
+.dest-popup-photo-cell { aspect-ratio:1; border-radius:8px; overflow:hidden; position:relative; background:var(--rose-pale); border:1px dashed var(--rose); }
+.dest-popup-photo-cell img { width:100%; height:100%; object-fit:cover; display:block; }
+.dest-popup-photo-cell .photo-add { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:15px; color:var(--text-light); }
+.dest-popup-photo-cell .photo-add span { font-size:9px; color:var(--text-light); }
+.dest-popup-photo-cell input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.dest-popup-photo-del { position:absolute; top:3px; right:3px; background:rgba(0,0,0,0.5); border:none; color:white; border-radius:50%; width:18px; height:18px; font-size:11px; cursor:pointer; display:none; align-items:center; justify-content:center; line-height:1; }
+.dest-popup-photo-cell:hover .dest-popup-photo-del, .dest-popup-photo-cell:active .dest-popup-photo-del { display:flex; }
+.dest-popup-link { display:inline-flex; align-items:center; gap:5px; font-size:12px; color:var(--rose-deep); text-decoration:none; border:1px solid var(--rose); padding:6px 12px; border-radius:var(--radius-sm); transition:all 0.2s; margin-top:4px; }
+.dest-popup-link:hover { background:var(--rose-pale); }
+
+/* LISTA DESTINOS */
+.destinations-list { padding:1rem 1.25rem 0.5rem; }
+.dest-section-title { font-size:11px; font-weight:500; letter-spacing:0.1em; color:var(--text-light); text-transform:uppercase; margin:1rem 0 0.4rem; }
+.dest-section-title:first-child { margin-top:0; }
+.dest-item-wrap { margin-bottom:4px; }
+.dest-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:var(--radius-sm); transition:background 0.15s; cursor:pointer; }
+.dest-item:hover, .dest-item:active { background:var(--rose-pale); }
+.dest-flag { font-size:20px; flex-shrink:0; }
+.dest-main { flex:1; min-width:0; }
+.dest-name { font-size:14px; color:var(--text); display:block; font-weight:500; }
+.dest-meta { display:block; font-size:12px; color:var(--text-light); margin-top:1px; }
+.dest-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+.dest-status { font-size:11px; padding:3px 10px; border-radius:20px; font-weight:500; }
+.dest-status.done { background:#fde7ee; color:#d96b8c; }
+.dest-status.future { background:#e8f1fd; color:#5a8ed8; }
+.dest-status.planned { background:#e9f8ef; color:#179657; }
+.dest-web-btn { font-size:11px; color:var(--rose-deep); text-decoration:none; padding:3px 8px; border:1px solid var(--rose); border-radius:20px; white-space:nowrap; }
+/* Desplegable de fotos en lista */
+.dest-expand { display:none; padding:8px 12px 12px 44px; }
+.dest-expand.open { display:block; }
+.dest-expand-photos { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; }
+@media(max-width:400px){ .dest-expand-photos { grid-template-columns:repeat(3,1fr); } }
+.dest-exp-cell { aspect-ratio:1; border-radius:8px; overflow:hidden; position:relative; background:var(--rose-pale); border:1px dashed var(--rose); }
+.dest-exp-cell img { width:100%; height:100%; object-fit:cover; display:block; }
+.dest-exp-cell .photo-add { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font-size:14px; color:var(--text-light); }
+.dest-exp-cell .photo-add span { font-size:9px; }
+.dest-exp-cell input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.dest-exp-cell .photo-del { position:absolute; top:3px; right:3px; background:rgba(0,0,0,0.5); border:none; color:white; border-radius:50%; width:18px; height:18px; font-size:11px; cursor:pointer; display:none; align-items:center; justify-content:center; }
+.dest-exp-cell:hover .photo-del, .dest-exp-cell:active .photo-del { display:flex; }
+.dest-status-row { display:flex; gap:5px; margin-top:8px; flex-wrap:wrap; }
+.dest-status-pill { font-size:11px; padding:4px 10px; border-radius:20px; border:1px solid var(--border); background:none; cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--text-mid); }
+.dest-status-pill.active { font-weight:600; }
+.dest-status-pill.s-done.active { background:#fde7ee; border-color:#e8899a; color:#d96b8c; }
+.dest-status-pill.s-planned.active { background:#e9f8ef; border-color:#2fbf71; color:#179657; }
+.dest-status-pill.s-future.active { background:#e8f1fd; border-color:#6ea8ff; color:#5a8ed8; }
+
+/* AÑADIR DESTINO */
+.add-dest-btn { display:flex; align-items:center; gap:6px; margin:0.75rem 1.25rem 1.25rem; padding:10px 16px; border:1px dashed var(--rose); border-radius:var(--radius-sm); background:none; color:var(--rose-deep); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.15s; width:calc(100% - 2.5rem); justify-content:center; }
+.add-dest-btn:hover, .add-dest-btn:active { background:var(--rose-pale); }
+.add-dest-form-wrap { display:none; padding:1rem 1.25rem; border-top:1px solid var(--border); background:var(--cream); }
+.add-dest-form-wrap.open { display:block; }
+.add-dest-form-wrap h4 { font-size:13px; font-weight:500; color:var(--text); margin-bottom:10px; }
+.add-dest-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.add-dest-grid input, .add-dest-grid select { width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:'DM Sans',sans-serif; background:var(--white); color:var(--text); outline:none; -webkit-appearance:none; }
+.add-dest-grid input:focus, .add-dest-grid select:focus { border-color:var(--rose-deep); }
+.add-dest-full { grid-column:1/-1; }
+.add-dest-hint { font-size:11px; color:var(--text-light); margin-top:6px; line-height:1.5; }
+.add-dest-actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+.btn-save { padding:10px 20px; background:var(--rose-deep); color:white; border:none; border-radius:var(--radius-sm); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+.btn-cancel { padding:10px 16px; background:none; border:1px solid var(--border); color:var(--text-mid); border-radius:var(--radius-sm); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+@media(max-width:480px) { .add-dest-grid { grid-template-columns:1fr; } }
+/* BINGO */
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin-top: 1.5rem;
+}
+.bingo-cell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.bingo-cell:hover { transform: scale(1.03); }
+
+/* Pendiente: fondo blanco con borde rosa punteado */
+.bingo-cell.pending {
+  background: var(--white);
+  border: 2px dashed var(--rose);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; padding: 4px;
+  text-align: center;
+}
+.bingo-cell.pending .b-icon { font-size: 18px; }
+.bingo-cell.pending .b-label { font-size: 8px; color: var(--text-light); font-weight: 500; line-height: 1.2; }
+
+/* Hecho sin foto: fondo rosa clarito */
+.bingo-cell.done-empty {
+  background: var(--rose-pale);
+  border: 2px solid var(--rose);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; padding: 4px;
+  text-align: center;
+}
+.bingo-cell.done-empty .b-icon { font-size: 18px; }
+.bingo-cell.done-empty .b-label { font-size: 8px; color: var(--rose-deep); font-weight: 500; line-height: 1.2; }
+.bingo-cell.done-empty .b-add { font-size: 9px; color: var(--rose-deep); opacity: 0.7; margin-top: 1px; }
+
+/* Hecho con foto */
+.bingo-cell.done-photo {
+  border: none;
+}
+.bingo-cell.done-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.bingo-cell.done-photo .b-overlay {
+  position: absolute; bottom:0; left:0; right:0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  color: white; font-size: 8px; font-weight: 500;
+  padding: 8px 3px 3px; text-align: center; line-height: 1.2;
+}
+
+/* Input file invisible encima */
+.bingo-cell input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width:100%; height:100%;
+}
+
+.bingo-footer {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 15px;
+  color: var(--text-light); text-align: center;
+  margin-top: 1.25rem; padding: 0 1rem;
+}
+
+
+
+.timeline-editor {
+  margin-top: 1.5rem;
+}
+
+.timeline-form {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: grid;
+  gap: 10px;
+}
+
+.timeline-form input,
+.timeline-form select,
+.timeline-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+}
+
+.timeline-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.timeline-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.timeline-manage-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.timeline-manage-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.timeline-manage-meta {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.timeline-manage-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+
+.timeline-toolbar {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tl-item {
+  cursor: pointer;
+}
+
+.tl-item:hover .tl-title {
+  color: var(--rose-deep);
+}
+
+.timeline-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: rgba(42,31,37,0.6);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.timeline-modal.open {
+  display: flex;
+}
+
+.timeline-modal-inner {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.timeline-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+.timeline-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.timeline-form input,
+.timeline-form select,
+.timeline-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+}
+
+.timeline-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.timeline-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.timeline-manage-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+footer {
+  text-align: center; margin-top: 1rem;
+  font-size: 13px; color: var(--text-mid);
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+}
+
+/* CARTAS */
+.cartas-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-top: 1.5rem;
+}
+.carta-sobre {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  text-align: center; cursor: pointer;
+  transition: all 0.25s;
+  position: relative; overflow: hidden;
+}
+.carta-sobre:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(232,137,154,0.15); }
+.carta-sobre::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: linear-gradient(90deg, var(--rose), var(--sky));
+}
+.carta-icon { font-size: 32px; margin-bottom: 10px; }
+.carta-fecha { font-size: 11px; color: var(--rose-deep); font-weight: 500; letter-spacing: 0.06em; }
+.carta-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 400; color: var(--text);
+  margin: 4px 0 8px;
+}
+.carta-hint { font-size: 12px; color: var(--text-light); line-height: 1.4; }
+.carta-locked-badge { font-size: 20px; margin-top: 8px; }
+
+/* Sobre de boda borroso */
+.carta-sobre.boda-blur .carta-titulo,
+.carta-sobre.boda-blur .carta-hint,
+.carta-sobre.boda-blur .carta-fecha {
+  filter: blur(5px);
+  user-select: none;
+}
+.carta-sobre.boda-blur .carta-icon { filter: blur(2px); }
+
+/* Modal cartas */
+.carta-modal {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(42,31,37,0.6); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 1.5rem;
+}
+.carta-modal.open { display: flex; }
+.carta-modal-inner {
+  background: var(--white); border-radius: var(--radius);
+  padding: 2rem; max-width: 480px; width: 100%;
+  max-height: 80vh; overflow-y: auto;
+  position: relative;
+}
+.carta-modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: var(--text-light);
+}
+.carta-modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; font-weight: 400; margin-bottom: 1rem;
+  color: var(--text);
+}
+.carta-modal p {
+  font-size: 14px; line-height: 1.8; color: var(--text-mid);
+  white-space: pre-line;
+}
+.carta-modal .firma { margin-top: 1.5rem; color: var(--rose-deep); font-weight: 500; }
+.carta-locked-msg {
+  text-align: center; padding: 1rem 0 0.5rem;
+}
+.carta-locked-msg .lock-icon { font-size: 40px; margin-bottom: 1rem; }
+.carta-locked-msg p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+/* Input contraseña */
+.carta-pwd-wrap { margin-top: 1.5rem; }
+.carta-pwd-wrap input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 16px; text-align: center;
+  letter-spacing: 0.2em; font-family: 'DM Sans', sans-serif;
+  color: var(--text); background: var(--cream); outline: none;
+  margin-bottom: 8px;
+}
+.carta-pwd-wrap input:focus { border-color: var(--rose-deep); }
+.carta-pwd-btn {
+  width: 100%; padding: 10px; background: var(--rose-deep); color: white;
+  border: none; border-radius: var(--radius-sm); font-size: 14px;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.carta-pwd-error { font-size: 12px; color: #e11d48; margin-top: 6px; display: none; text-align: center; }
+
+/* JUEGOS */
+.juegos-tabs {
+  display: flex; gap: 8px; margin-top: 1.5rem; margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.juego-tab {
+  padding: 8px 16px; font-size: 13px;
+  border: none; background: none; cursor: pointer;
+  color: var(--text-mid); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+.juego-tab.active { color: var(--rose-deep); border-bottom-color: var(--rose-deep); font-weight: 500; }
+.juego-panel { display: none; }
+.juego-panel.active { display: block; }
+
+/* QUIZ */
+.quiz-progress {
+  height: 3px; background: var(--border);
+  border-radius: 2px; margin-bottom: 1.5rem;
+}
+.quiz-progress-fill {
+  height: 3px; background: linear-gradient(90deg, var(--rose-deep), var(--sky-deep));
+  border-radius: 2px; transition: width 0.4s;
+}
+.quiz-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+}
+.quiz-num { font-size: 11px; color: var(--text-light); margin-bottom: 6px; letter-spacing: 0.06em; }
+.quiz-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400; color: var(--text);
+  margin-bottom: 1.25rem; line-height: 1.3;
+}
+.quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.quiz-opt {
+  padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--cream); cursor: pointer;
+  font-size: 13px; color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  text-align: left; transition: all 0.15s;
+}
+.quiz-opt:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+.quiz-opt.correct { background: #f0fdf4; border-color: #16a34a; color: #15803d; }
+.quiz-opt.wrong { background: #fff1f2; border-color: #e11d48; color: #be123c; }
+.quiz-opt.reveal { background: var(--rose-pale); border-color: var(--rose-deep); color: var(--rose-deep); }
+.quiz-feedback {
+  margin-top: 10px; padding: 8px 12px;
+  border-radius: var(--radius-sm); font-size: 13px;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: #f0fdf4; color: #15803d; }
+.quiz-feedback.fail { background: #fff1f2; color: #be123c; }
+.quiz-reto {
+  background: var(--rose-pale); border-radius: var(--radius);
+  padding: 1.5rem; text-align: center;
+}
+.quiz-reto .reto-icon { font-size: 36px; margin-bottom: 8px; }
+.quiz-reto .reto-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+  color: var(--rose-deep); text-transform: uppercase; margin-bottom: 6px;
+}
+.quiz-reto .reto-text { font-size: 15px; color: var(--text); line-height: 1.6; }
+.btn-next {
+  margin-top: 1rem; width: 100%;
+  padding: 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--cream);
+  font-size: 13px; cursor: pointer; color: var(--text-mid);
+  font-family: 'DM Sans', sans-serif; display: none;
+  transition: all 0.2s;
+}
+.btn-next.show { display: block; }
+.btn-next:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+.quiz-final {
+  text-align: center; padding: 2rem 1rem; display: none;
+}
+.quiz-final h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 300; margin-bottom: 8px;
+}
+.quiz-score {
+  display: inline-block;
+  background: var(--rose-pale); color: var(--rose-deep);
+  font-size: 24px; font-weight: 500;
+  padding: 10px 24px; border-radius: 12px; margin: 1rem 0;
+}
+.quiz-final p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.btn-replay {
+  margin-top: 1rem; padding: 10px 24px;
+  border: 1px solid var(--rose-deep); color: var(--rose-deep);
+  background: none; border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 14px; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+.btn-replay:hover { background: var(--rose-pale); }
+
+/* PICTIONARY */
+.pict-container { text-align: center; }
+.pict-word-display {
+  background: var(--rose-pale); border-radius: var(--radius);
+  padding: 1.5rem; margin-bottom: 1rem; display: none;
+}
+.pict-word-display .hidden-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; color: var(--rose-deep); letter-spacing: 0.1em;
+}
+.pict-hint { font-size: 12px; color: var(--text-light); margin-top: 6px; }
+.pict-canvas-wrap {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; position: relative; margin-bottom: 1rem;
+  background: white;
+}
+#pictCanvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
+.pict-controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.pict-btn {
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--cream);
+  font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  color: var(--text-mid); transition: all 0.15s;
+}
+.pict-btn:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+.pict-btn.active { background: var(--rose-deep); color: white; border-color: var(--rose-deep); }
+.color-dot {
+  width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: border-color 0.15s;
+}
+.color-dot.active { border-color: var(--text); }
+.pict-scores {
+  display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem;
+}
+.pict-score-item {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 16px; text-align: center;
+}
+.pict-score-num { font-size: 22px; font-weight: 500; color: var(--rose-deep); }
+.pict-score-label { font-size: 11px; color: var(--text-light); }
+.pict-start-screen { padding: 2rem 1rem; }
+.pict-start-screen h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; margin-bottom: 8px;
+}
+.pict-start-screen p { font-size: 14px; color: var(--text-mid); line-height: 1.6; margin-bottom: 1.5rem; }
+.btn-primary {
+  padding: 12px 28px; background: var(--rose-deep); color: white;
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 14px; font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: #d4778a; }
+.pict-turn-banner {
+  background: var(--sky-pale); border: 1px solid var(--sky);
+  border-radius: var(--radius-sm); padding: 10px 16px;
+  font-size: 14px; color: var(--sky-deep); margin-bottom: 1rem;
+  font-weight: 500; display: none;
+}
+
+/* UTILS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+.carta-body {
+  font-size: 14px; line-height: 1.8; color: var(--text-mid);
+}
+.carta-body p { margin-bottom: 1rem; }
+.carta-body .firma { color: var(--rose-deep); font-weight: 500; margin-top: 1.5rem; }
+
+footer {
+  text-align: center; padding: 3rem 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; color: var(--text-light);
+  font-style: italic;
+  border-top: 1px solid var(--border);
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .tab-section { padding: 20px 1rem 4rem; }
+  .section-title { font-size: 28px; }
+  .hero-title { font-size: clamp(40px, 10vw, 70px); }
+  .countdown-grid { gap: 0.75rem; }
+  .countdown-num { font-size: 36px; }
+  .cartas-grid { grid-template-columns: 1fr; }
+  .casos-grid { grid-template-columns: 1fr; }
+  .bingo-grid { gap: 4px; }
+  .quiz-opts { grid-template-columns: 1fr; }
+  nav { padding: 0 0.75rem; }
+  .nav-logo { margin-right: 0.75rem; font-size: 16px; }
+  .nav-link { padding: 0 8px; font-size: 11px; }
+  .dest-right { gap: 3px; }
+  .dest-status { font-size: 10px; padding: 2px 7px; }
+  .add-dest-grid { grid-template-columns: 1fr; }
+  #leafletMap { height: 260px; }
+  .timeline { padding-left: 1.5rem; }
+  .pict-controls { gap: 5px; }
+  .ideas-grid { gap: 10px; }
+  .fechas-list { gap: 8px; }
+}
+@media (min-width: 600px) {
+  .cartas-grid { grid-template-columns: 1fr 1fr; }
+  .casos-grid { grid-template-columns: 1fr 1fr; }
+}
+/* Touch-friendly tap targets */
+@media (hover: none) {
+  .dest-popup-photo-del { display: flex !important; }
+  .dest-exp-cell .photo-del { display: flex !important; }
+  .bingo-cell { -webkit-tap-highlight-color: transparent; }
+  .nav-link { min-height: 44px; }
+  .btn-save, .btn-cancel, .btn-primary, .lock-btn { min-height: 44px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">M & R</span>
+  <a class="nav-link active" href="#inicio" data-tab="inicio" onclick="return __forceTab('inicio')">Inicio</a>
+  <a class="nav-link" href="#historia" data-tab="historia" onclick="return __forceTab('historia')">Historia</a>
+  <a class="nav-link" href="#destinos" data-tab="destinos" onclick="__forceTab('destinos'); setTimeout(initMap,80); return false;">Destinos</a>
+  <a class="nav-link" href="#bingo" data-tab="bingo" onclick="return __forceTab('bingo')">Bingo</a>
+  <a class="nav-link" href="#cartas" data-tab="cartas" onclick="return __forceTab('cartas')">Cartas</a>
+  <a class="nav-link" href="#casos" data-tab="casos" onclick="return __forceTab('casos')">Casos</a>
+  <a class="nav-link" href="#fechas" data-tab="fechas" onclick="return __forceTab('fechas')">Fechas</a>
+  <a class="nav-link" href="#juegos" data-tab="juegos" onclick="return __forceTab('juegos')">Juegos</a>
+  <a class="nav-link" href="#ideas" data-tab="ideas" onclick="return __forceTab('ideas')">Ideas</a>
+</nav>
+
+<main>
+<!-- INICIO -->
+<section id="inicio" class="tab-section active">
+  <!-- Foto principal -->
+  <div id="heroPhotoWrap" style="width:100%;max-width:420px;margin:0 auto 1.5rem;position:relative;">
+    <img src="NOMBRE_EXACTO_EN_GITHUB.jpg" alt="Miguel y Rocío" id="heroPhoto" style="width:100%; border-radius:20px; object-fit:cover; max-height:340px; display:block; box-shadow:0 8px 32px rgba(232,137,154,0.18);">
+  </div>
+
+  <p class="hero-eyebrow">5 de mayo de 2026</p>
+  <h1 class="hero-title"><span class="hero-name-miguel">Miguel</span> <span class="hero-and">&</span> <span class="hero-name-rocio">Rocío</span></h1>
+  <span class="hero-heart">♥</span>
+  <p class="hero-subtitle">6 meses de los mejores de mi vida</p>
+
+  <!-- Días juntos -->
+  <div style="font-size:13px;color:var(--text-light);margin-bottom:1rem;letter-spacing:0.04em;">
+    Llevamos juntos <strong id="diasJuntos" style="color:var(--rose-deep);font-size:15px;">—</strong> días
+  </div>
+
+  <!-- Countdown al aniversario -->
+  <div style="font-size:11px;color:var(--text-light);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Próximo aniversario en</div>
+  <div class="countdown-grid">
+    <div class="countdown-item">
+      <div class="countdown-num" id="cd-dias">0</div>
+      <div class="countdown-label">días</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-item">
+      <div class="countdown-num" id="cd-horas">0</div>
+      <div class="countdown-label">horas</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-item">
+      <div class="countdown-num" id="cd-mins">0</div>
+      <div class="countdown-label">minutos</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-item">
+      <div class="countdown-num" id="cd-segs">0</div>
+      <div class="countdown-label">segundos</div>
+    </div>
+  </div>
+  <p class="hero-scroll" style="margin-top:3rem;">nuestra historia</p>
+</section>
+
+<!-- HISTORIA -->
+<section id="historia" class="tab-section">
+  <p class="section-label">Capítulo uno</p>
+  <h2 class="section-title">Cómo costó lo suyo</h2>
+
+  <div class="timeline" id="timelineList"></div>
+
+  <div class="timeline-toolbar">
+    <button class="btn-add" onclick="openTimelineModal()">+ Añadir momento</button>
+  </div>
+
+
+</section>
+
+<!-- DESTINOS -->
+<section id="destinos" class="tab-section">
+  <p class="section-label">El mundo es nuestro</p>
+  <h2 class="section-title">Nuestros destinos</h2>
+
+  <div class="map-container">
+    <div class="map-toolbar">
+      <div class="map-legend">
+        <span><i class="legend-dot done"></i> Visitados</span>
+        <span><i class="legend-dot planned"></i> Planificados</span>
+        <span><i class="legend-dot future"></i> Futuros</span>
+      </div>
+    </div>
+    <div id="leafletMap"></div>
+    <div class="destinations-list" id="destList"></div>
+    <button class="add-dest-btn" onclick="toggleAddDest()">+ Añadir destino</button>
+    <div class="add-dest-form-wrap" id="addDestForm">
+      <h4>Nuevo destino</h4>
+      <div class="add-dest-grid">
+        <input type="text" id="newDestName" placeholder="Nombre · ej: Maldivas" />
+        <input type="text" id="newDestEmoji" placeholder="Emoji · ej: 🏝️" />
+        <input type="text" id="newDestLabel" placeholder="Fecha o nota · ej: Verano 2026" class="add-dest-full" />
+        <select id="newDestStatus">
+          <option value="future">🔵 Futuro</option>
+          <option value="planned">🟢 Planificado</option>
+          <option value="done">🌸 Visitado</option>
+        </select>
+        <input type="text" id="newDestUrl" placeholder="Web propia (opcional) · ej: paris.html" />
+        <input type="number" id="newDestLat" step="0.1" placeholder="Latitud · ej: 48.8 (París)" />
+        <input type="number" id="newDestLng" step="0.1" placeholder="Longitud · ej: 2.3 (París)" />
+      </div>
+      <p class="add-dest-hint">💡 Busca en Google Maps el lugar, haz clic derecho y copia las coordenadas. Latitud: positivo = norte, negativo = sur. Longitud: positivo = este, negativo = oeste.</p>
+      <div class="add-dest-actions">
+        <button class="btn-save" onclick="addDest()">Guardar destino</button>
+        <button class="btn-cancel" onclick="toggleAddDest()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BINGO -->
+<section id="bingo" class="tab-section">
+  <p class="section-label">2026</p>
+  <h2 class="section-title">Bingo de planes</h2>
+  <p style="font-size:14px; color:var(--text-mid); margin-bottom:0.5rem;">Los planes completados tienen foto. Toca los que quedan para subir la vuestra.</p>
+
+  <div class="bingo-grid" id="bingoGrid"></div>
+  <p class="bingo-footer">"365 días y mil planes para hacer contigo."</p>
+</section>
+
+<!-- CARTAS -->
+<section id="cartas" class="tab-section">
+  <p class="section-label">El tiempo</p>
+  <h2 class="section-title">Cartas para el futuro</h2>
+  <p style="font-size:14px; color:var(--text-mid); margin-bottom:0;">Algunas cosas se dicen mejor cuando llegue el momento.</p>
+
+  <div class="carta-body" style="margin-top:1.5rem; margin-bottom:2rem; background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem;">
+    <p class="section-label" style="margin-top:0">Para ti</p>
+    <h3 style="font-family:'Cormorant Garamond', serif; font-size:28px; font-weight:400; margin-bottom:1rem;">Una carta</h3>
+    <p>Rocío,</p>
+    <p>Hace seis meses te di el primer beso. Antes de eso, sobreviviste a un rechazo ignorado, un cruasán con servilleta, un segundo rechazo y una tableta de chocolate. No sé si fue el chocolate o si siempre lo tuviste claro, pero me alegro de que estés aquí.</p>
+    <p>Estos meses han sido de los mejores de mi vida. No solo por los viajes o las cenas de guapos, sino por el día a día: reírnos de tonterías, perder las llaves juntos, sacar los niños pequeños que somos los dos. Contigo es fácil ser yo mismo.</p>
+    <p>Gracias por todo. Por las cobras también, que al final hicieron la historia mejor.</p>
+    <p class="firma">Con todo, Miguel ♥</p>
+  </div>
+
+  <div class="cartas-grid" id="cartasGrid"></div>
+</section>
+
+<!-- JUEGOS -->
+<section id="juegos" class="tab-section">
+  <p class="section-label">A jugar</p>
+  <h2 class="section-title">Juegos</h2>
+
+  <div class="juegos-tabs">
+    <button class="juego-tab active" onclick="switchJuego('quiz', this)">¿Cuánto me conoces?</button>
+    <button class="juego-tab" onclick="switchJuego('pictionary', this)">Pictionary</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="juego-panel active" id="panel-quiz">
+    <div id="quiz-start" style="text-align:center; padding:2rem 1rem;">
+      <div style="font-size:40px; margin-bottom:1rem;">🧠</div>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; margin-bottom:8px;">¿Cuánto sabe Rocío de Miguel?</h3>
+      <p style="font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:1.5rem;">Un quiz de preguntas sobre Miguel, vuestra historia y algún reto. ¿Lista?</p>
+      <button class="btn-primary" onclick="startQuiz()">Empezar el quiz</button>
+    </div>
+    <div id="quiz-game" style="display:none;">
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="qProgress"></div></div>
+      <div id="quiz-card"></div>
+      <div class="quiz-feedback" id="quiz-fb"></div>
+      <button class="btn-next" id="quiz-next" onclick="nextQ()">Siguiente →</button>
+    </div>
+    <div class="quiz-final" id="quiz-final">
+      <div style="font-size:40px; margin-bottom:1rem;">🎉</div>
+      <h3>Fin del quiz</h3>
+      <div class="quiz-score" id="quiz-score-display"></div>
+      <p id="quiz-final-msg"></p>
+      <button class="btn-replay" onclick="restartQuiz()">Jugar otra vez</button>
+    </div>
+  </div>
+
+  <!-- PICTIONARY -->
+  <div class="juego-panel" id="panel-pictionary">
+    <div class="pict-scores">
+      <div class="pict-score-item">
+        <div class="pict-score-num" id="score-miguel">0</div>
+        <div class="pict-score-label">Miguel</div>
+      </div>
+      <div class="pict-score-item">
+        <div class="pict-score-num" id="score-rocio">0</div>
+        <div class="pict-score-label">Rocío</div>
+      </div>
+    </div>
+
+    <div class="pict-start-screen" id="pict-start">
+      <h3>Pictionary</h3>
+      <p>Por turnos: uno dibuja y el otro adivina. El que dibuja ve la palabra, el que adivina no. ¡Pasad el móvil!</p>
+      <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <button class="pict-btn active" id="turn-miguel-btn" onclick="setDrawer('Miguel')">Empieza Miguel</button>
+        <button class="pict-btn" id="turn-rocio-btn" onclick="setDrawer('Rocío')">Empieza Rocío</button>
+      </div>
+      <button class="btn-primary" onclick="startPict()">Empezar</button>
+    </div>
+
+    <div id="pict-game" style="display:none;">
+      <div class="pict-turn-banner" id="pict-turn-banner"></div>
+      <div class="pict-word-display" id="pict-word-display">
+        <div style="font-size:11px; color:var(--text-light); letter-spacing:0.08em; margin-bottom:4px;">DIBUJA ESTO:</div>
+        <div class="hidden-word" id="pict-word"></div>
+        <div class="pict-hint" id="pict-hint"></div>
+      </div>
+      <div class="pict-canvas-wrap">
+        <canvas id="pictCanvas" height="280"></canvas>
+      </div>
+      <div class="pict-controls">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <div class="color-dot active" style="background:#2a1f25;" onclick="setColor('#2a1f25', this)"></div>
+          <div class="color-dot" style="background:#e8899a;" onclick="setColor('#e8899a', this)"></div>
+          <div class="color-dot" style="background:#7fb8e8;" onclick="setColor('#7fb8e8', this)"></div>
+          <div class="color-dot" style="background:#ef9f27;" onclick="setColor('#ef9f27', this)"></div>
+          <div class="color-dot" style="background:#16a34a;" onclick="setColor('#16a34a', this)"></div>
+        </div>
+        <button class="pict-btn" onclick="setBrush(3)">Fino</button>
+        <button class="pict-btn" onclick="setBrush(8)">Grueso</button>
+        <button class="pict-btn" onclick="clearCanvas()">Borrar</button>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="pict-btn" style="flex:1;" onclick="showWord()">Ver palabra (dibujante)</button>
+        <button class="btn-primary" style="flex:1;" onclick="pointScored()">✓ Adivinado</button>
+      </div>
+      <div style="margin-top:8px;">
+        <button class="pict-btn" style="width:100%;" onclick="skipWord()">Saltar palabra →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS -->
+<section id="casos" class="tab-section">
+  <p class="section-label">Expediente M&R</p>
+  <h2 class="section-title">Casos &amp; Investigación</h2>
+  <p class="casos-intro">Dos detectives, dos casos. Cada investigación es un misterio nuevo que resolver juntos.</p>
+  <div class="casos-grid">
+    <a class="caso-card" href="expediente1.html" target="_blank">
+      <div class="caso-num">Caso · 001</div>
+      <div class="caso-icon">🔍</div>
+      <div class="caso-title">Investigación 1</div>
+      <div class="caso-status abierto">Expediente abierto</div>
+    </a>
+    <div class="caso-card locked-card">
+      <div class="caso-num">Caso · 002</div>
+      <div class="caso-icon">🔒</div>
+      <div class="caso-title">Investigación 2</div>
+      <div class="caso-status bloqueado">Se abre en 1 año</div>
+    </div>
+  </div>
+</section>
+
+<!-- FECHAS ESPECIALES -->
+<section id="fechas" class="tab-section">
+  <p class="section-label">Nuestro calendario</p>
+  <h2 class="section-title">Fechas especiales</h2>
+  <p style="font-size:14px;color:var(--text-mid);margin-bottom:1rem;">Las fechas que importan de verdad, con aviso cuando se acercan.</p>
+  <div class="fechas-list" id="fechasList"></div>
+  <div style="margin-top:1.5rem;">
+    <button class="add-dest-btn" onclick="toggleAddFecha()" style="margin:0;width:100%;">+ Añadir fecha especial</button>
+    <div id="addFechaForm" style="display:none;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;margin-top:8px;">
+      <div class="add-dest-grid">
+        <input type="text" id="newFechaEmoji" placeholder="Emoji · ej: 🎂" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);outline:none;">
+        <input type="text" id="newFechaNombre" placeholder="Nombre · ej: Nuestro aniversario" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);outline:none;">
+        <input type="date" id="newFechaDate" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);outline:none;grid-column:1/-1;">
+        <label style="font-size:13px;color:var(--text-mid);display:flex;align-items:center;gap:8px;grid-column:1/-1;">
+          <input type="checkbox" id="newFechaAnual"> Se repite cada año
+        </label>
+      </div>
+      <div class="add-dest-actions" style="margin-top:10px;">
+        <button class="btn-save" onclick="addFecha()">Guardar fecha</button>
+        <button class="btn-cancel" onclick="toggleAddFecha()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JUEGOS (ya existía, se mantiene) -->
+
+<!-- IDEAS -->
+<section id="ideas" class="tab-section">
+  <p class="section-label">El futuro</p>
+  <h2 class="section-title">Ideas para crecer</h2>
+  <p class="ideas-intro">Lo que empezó como un regalo puede convertirse en un negocio real. Aquí están las piezas.</p>
+
+  <p class="section-label" style="margin-top:2rem;">🤖 El diferenciador — IA + agente</p>
+  <div class="ideas-grid" style="margin-top:0.75rem;">
+    <div class="idea-card" style="border-left-color:var(--rose-deep);background:var(--rose-pale);">
+      <div class="idea-icon">🤖</div>
+      <div class="idea-title">Agente que construye la web solo</div>
+      <div class="idea-desc">El cliente llega, un agente de IA le hace preguntas: ¿cómo os conocisteis? ¿fechas importantes? ¿planes juntos? ¿qué la hace especial? Con eso solo, la IA genera toda la web personalizada — historia, bingo, quiz, cartas, mapa — en minutos. Sin que el cliente toque código. Esto es lo que lo cambia todo.</div>
+    </div>
+    <div class="idea-card" style="border-left-color:var(--sky-deep);background:var(--sky-pale);">
+      <div class="idea-icon">🧠</div>
+      <div class="idea-title">Personalización profunda con IA</div>
+      <div class="idea-desc">El agente no solo rellena datos — entiende el tono de la relación, sugiere textos para las cartas, genera preguntas del quiz adaptadas a su historia, propone casos de investigación basados en sus anécdotas. La IA hace el trabajo emocional que nadie más puede escalar.</div>
+    </div>
+  </div>
+
+  <p class="section-label" style="margin-top:2rem;">✨ Features del producto</p>
+  <div class="ideas-grid" style="margin-top:0.75rem;">
+    <div class="idea-card">
+      <div class="idea-icon">💬</div>
+      <div class="idea-title">Mensajes secretos con notificación</div>
+      <div class="idea-desc">Push notifications reales al móvil. "Buenos días" programado, una sorpresa sin motivo, un pensamiento del día. El que lo recibe no sabe cuándo llega. El factor sorpresa que mantiene la chispa sin esfuerzo diario. Requiere backend + service workers.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">📅</div>
+      <div class="idea-title">Avisos automáticos de fechas</div>
+      <div class="idea-desc">WhatsApp o email 3 días antes del aniversario, el cumpleaños, el día que os conocisteis. Con sugerencias de planes generadas por IA según la fecha. El producto que ningún novio olvidaría instalar. High value, bajo coste de mantenimiento.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">🔍</div>
+      <div class="idea-title">Casos de investigación generados por IA</div>
+      <div class="idea-desc">Cada pareja recibe su propio expediente basado en su historia. Pistas reales, personajes de su vida, lugares que conocen. La IA lo construye con lo que el agente recopiló. Una experiencia única e irrepetible que ninguna app de pareja ofrece.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">🎵</div>
+      <div class="idea-title">Playlist con contexto</div>
+      <div class="idea-desc">"Esta sonaba cuando..." — canciones vinculadas a momentos concretos con fecha y recuerdo. Conectada a Spotify. No es una playlist, es vuestra historia en música. El agente pregunta qué canciones os definen y las integra automáticamente.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">🌍</div>
+      <div class="idea-title">Mapa de aventuras como producto</div>
+      <div class="idea-desc">El mapa de destinos compartido como feature premium. Fotos, recuerdos, listas de deseos. Con función "próximo destino" que sugiere viajes según vuestro historial. La pareja que planifica junta dura más — y paga por herramientas que lo facilitan.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">📱</div>
+      <div class="idea-title">App nativa (largo plazo)</div>
+      <div class="idea-desc">La web como MVP, la app como escala. Notificaciones nativas, acceso offline, widgets en el inicio del móvil con el contador de días juntos. La app que las parejas instalan juntas el primer día y no desinstalan nunca. Modelo de suscripción mensual.</div>
+    </div>
+  </div>
+
+  <p class="section-label" style="margin-top:2rem;">💼 El negocio</p>
+  <div class="ideas-grid" style="margin-top:0.75rem;">
+    <div class="idea-card">
+      <div class="idea-icon">💶</div>
+      <div class="idea-title">Modelo de precios</div>
+      <div class="idea-desc"><strong>Básico 49€</strong> — web personalizada con historia, bingo y fechas. <strong>Premium 99€</strong> — añade casos, quiz, cartas y mapa. <strong>VIP 149€</strong> — todo + IA genera los textos, mensajes programados 1 año, soporte. Mercado: San Valentín, aniversarios, pedidas. Volumen posible: 50–200 webs/mes con automatización.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">⚙️</div>
+      <div class="idea-title">Stack técnico necesario</div>
+      <div class="idea-desc">Backend: Node.js o Python + Supabase (base de datos + auth). IA: API de Claude para generar contenido. Notificaciones: OneSignal o Firebase. Hosting: Vercel o Railway. Dominio + SSL. Coste mensual estimado para empezar: 30–80€. Escalable sin límite con el modelo SaaS.</div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-icon">📈</div>
+      <div class="idea-title">Ventaja competitiva real</div>
+      <div class="idea-desc">Las apps de pareja (Couple, Between) son genéricas. Nadie hace webs personalizadas con IA que cuenten vuestra historia específica. La barrera de entrada es el agente + el proceso. Una vez construido, escala solo. El MVP ya existe — es esta web.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BINGO WIN MODAL -->
+<div id="bingoWin">
+  <div class="bingo-win-box">
+    <div class="bingo-win-emoji">🎉</div>
+    <div class="bingo-win-title">¡Bingo completado!</div>
+    <div class="bingo-win-text">Lo habéis conseguido. 25 planes, 25 recuerdos. Esto es solo el principio. ♥</div>
+    <button class="bingo-win-close" onclick="document.getElementById('bingoWin').classList.remove('show')">¡Genial! 🎊</button>
+  </div>
+</div>
+
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div style="font-size:52px; margin-bottom:1.25rem;">🔒</div>
+  <div class="lock-subtitle">Introduce el código para entrar</div>
+  <div class="lock-input-wrap">
+    <input class="lock-input" type="password" id="lockInput" maxlength="8" placeholder="······"
+      onkeydown="if(event.key==='Enter') checkLock()">
+    <button class="lock-btn" onclick="checkLock()">Entrar</button>
+    <div class="lock-error" id="lockError"></div>
+  </div>
+</div>
+
+<div id="timeline-modal" class="timeline-modal">
+  <div class="timeline-modal-inner">
+    <button class="timeline-modal-close" onclick="closeTimelineModal()">✕</button>
+    <h3 id="timeline-modal-title" style="font-family:'Cormorant Garamond', serif; font-size:28px; font-weight:400;">Editar momento</h3>
+    <div class="timeline-form">
+      <input type="text" id="tl-date-input" placeholder="Fecha... ej: 18 mayo 2026" />
+      <input type="text" id="tl-tag-input" placeholder="Etiqueta... ej: Nuevo recuerdo" />
+      <select id="tl-tag-color-input">
+        <option value="rosa">Rosa</option>
+        <option value="azul">Azul</option>
+      </select>
+      <select id="tl-dot-input">
+        <option value="normal">Punto normal</option>
+        <option value="funny">Punto azul</option>
+        <option value="big">Punto grande</option>
+      </select>
+      <input type="text" id="tl-title-input" placeholder="Título del evento" />
+      <textarea id="tl-text-input" placeholder="Qué pasó..."></textarea>
+      <div class="timeline-actions">
+        <button class="btn-add" onclick="saveTimelineEvent()">Guardar</button>
+        <button class="pict-btn" onclick="resetTimelineForm()">Limpiar</button>
+      </div>
+      <div class="timeline-manage-actions">
+        <button class="pict-btn" onclick="moveCurrentTimelineEvent(-1)">Subir</button>
+        <button class="pict-btn" onclick="moveCurrentTimelineEvent(1)">Bajar</button>
+        <button class="pict-btn" onclick="deleteCurrentTimelineEvent()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="carta-modal" class="carta-modal">
+  <div class="carta-modal-inner">
+    <button class="carta-modal-close" onclick="closeCarta()">✕</button>
+    <div id="carta-modal-content"></div>
+  </div>
+</div>
+
+<footer>
+  Miguel & Rocío · 6 meses · 18 de mayo de 2026 ♥
+</footer>
+
+<script>
+// ============================================================
+// GUÍA DE IMÁGENES — sube estos archivos al raíz del repo Git
+// ------------------------------------------------------------
+// portada.jpeg        → foto vuestra para la pantalla de inicio
+// bingo1.jpeg         → casilla bingo "Juntos" (posición 2)
+// bingo2.jpeg         → casilla bingo "Juntos" (posición 5)
+// bingo3.jpeg         → casilla bingo "Juntos" (posición 6)
+// bingo4.jpeg         → casilla bingo "Cocinando" (posición 7)
+// bingo5.jpeg         → casilla bingo "Beso" (posición 10)
+// bingo6.jpeg         → casilla bingo "Con Sofía" (posición 12)
+// bingo7.jpeg         → casilla bingo "Juntos" (posición 13)
+// bingo8.jpeg         → casilla bingo "Espejo" (posición 14)
+// bingo9.jpeg         → casilla bingo "Miguel" (posición 18)
+// bingo10.jpeg        → casilla bingo "Juntos" (posición 20)
+// bingo11.jpeg        → casilla bingo "Noche" (posición 21)
+// bingo12.jpeg        → casilla bingo "Churros" (posición 22)
+// bingo13.jpeg        → casilla bingo "París" (posición 23)
+// bingo14.jpeg        → casilla bingo "Juntos" (posición 24)
+// historia1.jpeg      → foto París/Disneyland (timeline)
+// historia2.jpeg      → foto cumpleaños Rocío (timeline)
+// historia3.jpeg      → foto primer beso (timeline)
+// paris.html         → web del viaje a París (ya la tienes)
+// expediente1.html   → web del Caso 001 (cuando la hagas)
+// ============================================================
+
+// ---- COUNTDOWN ----
+// Días juntos desde el primer beso (18 nov 2024)
+function updateDiasJuntos() {
+  const el = document.getElementById('diasJuntos');
+  if (!el) return;
+  const inicio = new Date(2025, 10, 18); // 18 nov 2025
+  const hoy = new Date();
+  const diff = Math.floor((hoy - inicio) / 86400000);
+  el.textContent = diff;
+}
+
+function updateCountdown() {
+  const dias = document.getElementById('cd-dias');
+  const horas = document.getElementById('cd-horas');
+  const mins = document.getElementById('cd-mins');
+  const segs = document.getElementById('cd-segs');
+  if (!dias || !horas || !mins || !segs) return;
+
+  // Próximo aniversario: 18 nov de este año o el siguiente
+  const now = new Date();
+  // Aniversario: 18 nov cada año desde 2026
+  let target = new Date(now.getFullYear(), 10, 18, 0, 0, 0);
+  if (target <= now) target.setFullYear(now.getFullYear() + 1);
+  const diff = target.getTime() - now.getTime();
+
+  if (diff <= 0) {
+    dias.textContent = '0'; horas.textContent = '00';
+    mins.textContent = '00'; segs.textContent = '00';
+    return;
+  }
+  dias.textContent = String(Math.floor(diff / 86400000));
+  horas.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+  mins.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+  segs.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+}
+
+// Animación especial el 15 mayo 2026 a las 20:00
+function checkSpecialDay() {
+  const now = new Date();
+  const isSpecial = now.getFullYear() === 2026 && now.getMonth() === 4 && now.getDate() === 15 && now.getHours() >= 20;
+  if (isSpecial && !sessionStorage.getItem('specialShown')) {
+    sessionStorage.setItem('specialShown', '1');
+    setTimeout(() => {
+      launchConfetti();
+      const box = document.createElement('div');
+      box.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;background:rgba(42,31,37,0.7);backdrop-filter:blur(4px);';
+      box.innerHTML = `<div style="background:white;border-radius:20px;padding:2.5rem 2rem;text-align:center;max-width:320px;width:90%;animation:bingoPop 0.5s ease both;">
+        <div style="font-size:52px;margin-bottom:1rem;">🎉</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:0.75rem;">¡Felices 6 meses!</div>
+        <div style="font-size:14px;color:#6b5560;line-height:1.6;margin-bottom:1.5rem;">Hoy hace 6 meses del mejor día. Gracias por estar aquí. ♥</div>
+        <button onclick="this.parentElement.parentElement.remove()" style="padding:10px 28px;background:#e8899a;color:white;border:none;border-radius:10px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;">¡Lo celebramos! 🥂</button>
+      </div>`;
+      document.body.appendChild(box);
+    }, 1000);
+  }
+}
+
+window.addEventListener('load', () => { updateCountdown(); updateDiasJuntos(); checkSpecialDay(); });
+setTimeout(() => { updateCountdown(); updateDiasJuntos(); }, 0);
+setInterval(updateCountdown, 1000);
+
+// ---- DESTINATIONS (LEAFLET) ----
+const defaultDests = [
+  { name:'Valencia',                    flag:'🏠', status:'done',    label:'Casa',          lat:39.47,  lng:-0.37,   url:null },
+  { name:'Altea',                       flag:'🌊', status:'done',    label:'Enero 2026',    lat:38.60,  lng:-0.05,   url:null },
+  { name:'París + Disneyland',          flag:'🗼', status:'done',    label:'Abril 2026',    lat:48.85,  lng:2.35,    url:'paris.html' },
+  { name:'Oviedo · Museo F. Alonso',   flag:'🏎️', status:'planned', label:'Próximamente',  lat:43.36,  lng:-5.85,   url:null },
+  { name:'Roma',                        flag:'🍕', status:'planned', label:'Próximamente',  lat:41.90,  lng:12.48,   url:null },
+  { name:'Núremberg',                   flag:'🎄', status:'planned', label:'Próximamente',  lat:49.45,  lng:11.08,   url:null },
+  { name:'Japón',                       flag:'🗾', status:'future',  label:'',              lat:35.68,  lng:139.69,  url:null },
+  { name:'Boston',                      flag:'🦞', status:'future',  label:'',              lat:42.36,  lng:-71.06,  url:null },
+  { name:'San Diego',                   flag:'🌴', status:'future',  label:'',              lat:32.72,  lng:-117.15, url:null },
+  { name:'Auroras Boreales',            flag:'🌌', status:'future',  label:'',              lat:69.65,  lng:18.96,   url:null },
+  { name:'Suiza',                       flag:'🏔️', status:'future',  label:'',              lat:46.80,  lng:8.23,    url:null },
+  { name:'Orlando · Disney & Universal',flag:'🎢', status:'future',  label:'',              lat:28.53,  lng:-81.38,  url:null }
+];
+
+const PIN_COLORS = { done:'#e8899a', planned:'#2fbf71', future:'#6ea8ff' };
+const STATUS_LABELS = { done:'✈️ Visitado', planned:'🚩 Planificado', future:'🌍 Futuro' };
+
+function getDests() { return JSON.parse(localStorage.getItem('destinationsV3') || 'null') || defaultDests; }
+function saveDests(d) { localStorage.setItem('destinationsV3', JSON.stringify(d)); }
+// Fotos compartidas por índice de destino — mismo storage para mapa y lista
+function getDestPhotos() { return JSON.parse(localStorage.getItem('destPhotosV3') || '{}'); }
+function saveDestPhotos(obj) { localStorage.setItem('destPhotosV3', JSON.stringify(obj)); }
+
+let leafletMap = null;
+
+function initMap() {
+  const mapEl = document.getElementById('leafletMap');
+  if (!mapEl) return;
+  if (leafletMap) { setTimeout(() => leafletMap.invalidateSize(), 50); return; }
+  leafletMap = L.map('leafletMap', { center:[30,10], zoom:2, minZoom:1, maxZoom:6, zoomControl:true, attributionControl:false });
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom:16 }).addTo(leafletMap);
+  renderMapPins();
+}
+function buildLeafletMap() { initMap(); }
+
+function renderMapPins() {
+  if (!leafletMap) return;
+  leafletMap.eachLayer(l => { if (l instanceof L.Marker) leafletMap.removeLayer(l); });
+  const dests = getDests();
+  dests.forEach((d, idx) => {
+    if (typeof d.lat !== 'number' || typeof d.lng !== 'number') return;
+    const color = PIN_COLORS[d.status] || '#aaa';
+    const icon = L.divIcon({
+      className:'',
+      html:`<div style="width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid white;box-shadow:0 3px 10px rgba(0,0,0,0.28);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:14px;line-height:1;">${d.flag||'📍'}</span></div>`,
+      iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-36]
+    });
+    const marker = L.marker([d.lat, d.lng], { icon }).addTo(leafletMap);
+    marker.bindPopup(() => buildPopupContent(idx), { maxWidth:300, minWidth:240, className:'dest-custom-popup' });
+    marker._destIdx = idx;
+  });
+}
+
+function buildPopupContent(idx) {
+  const dests = getDests();
+  const d = dests[idx]; if (!d) return '';
+  const photos = getDestPhotos();
+  const destPhotos = photos[idx] || [];
+
+  // Botones de estado — permiten cambiar estado desde el popup del mapa
+  const statusBtns = ['done','planned','future'].map(s =>
+    `<button class="dest-popup-status-btn${d.status===s?' active-'+s:''}" onclick="setDestStatus(${idx},'${s}')">${STATUS_LABELS[s]}</button>`
+  ).join('');
+
+  let photosHtml = '';
+  if (d.status === 'done') {
+    photosHtml = '<div class="dest-popup-photos">';
+    for (let i = 0; i < 5; i++) {
+      if (destPhotos[i]) {
+        photosHtml += `<div class="dest-popup-photo-cell"><img src="${destPhotos[i]}" alt="foto ${i+1}"><button class="dest-popup-photo-del" onclick="deleteDestPhoto(${idx},${i})">✕</button><input type="file" accept="image/*" onchange="uploadDestPhoto(event,${idx},${i})"></div>`;
+      } else {
+        photosHtml += `<div class="dest-popup-photo-cell"><div class="photo-add">📷<span>Foto</span></div><input type="file" accept="image/*" onchange="uploadDestPhoto(event,${idx},${i})"></div>`;
+      }
+    }
+    photosHtml += '</div>';
+  }
+
+  const linkHtml = d.url ? `<a class="dest-popup-link" href="${d.url}" target="_blank">🌐 Ver la web →</a>` : '';
+
+  const el = document.createElement('div');
+  el.className = 'dest-popup';
+  el.innerHTML = `
+    <div class="dest-popup-header">
+      <span class="dest-popup-flag">${d.flag||'📍'}</span>
+      <div class="dest-popup-info">
+        <div class="dest-popup-name">${d.name}</div>
+        <div class="dest-popup-meta">${d.label||''}</div>
+      </div>
+    </div>
+    <div class="dest-popup-body">
+      <div class="dest-popup-status-btns">${statusBtns}</div>
+      ${photosHtml}
+      ${linkHtml}
+    </div>`;
+  return el;
+}
+
+function setDestStatus(idx, newStatus) {
+  const dests = getDests();
+  dests[idx].status = newStatus;
+  saveDests(dests);
+  buildDests();
+  renderMapPins();
+  // Refresca popup
+  leafletMap && leafletMap.eachLayer(l => {
+    if (l instanceof L.Marker && l._destIdx === idx && l.isPopupOpen()) {
+      l.setPopupContent(buildPopupContent(idx));
+    }
+  });
+}
+
+function uploadDestPhoto(e, destIdx, slot) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const photos = getDestPhotos();
+    if (!photos[destIdx]) photos[destIdx] = [];
+    photos[destIdx][slot] = ev.target.result;
+    saveDestPhotos(photos);
+    // Refresca mapa popup si está abierto
+    leafletMap && leafletMap.eachLayer(l => {
+      if (l instanceof L.Marker && l._destIdx === destIdx && l.isPopupOpen()) l.setPopupContent(buildPopupContent(destIdx));
+    });
+    buildDests(); // refresca lista (desplegable de fotos)
+  };
+  reader.readAsDataURL(file);
+}
+
+function deleteDestPhoto(destIdx, slot) {
+  const photos = getDestPhotos();
+  if (photos[destIdx]) { photos[destIdx][slot] = null; saveDestPhotos(photos); }
+  leafletMap && leafletMap.eachLayer(l => {
+    if (l instanceof L.Marker && l._destIdx === destIdx && l.isPopupOpen()) l.setPopupContent(buildPopupContent(destIdx));
+  });
+  buildDests();
+}
+
+// Lista de destinos con desplegable de fotos y cambio de estado
+function buildDests() {
+  const dests = getDests();
+  const list = document.getElementById('destList');
+  if (!list) return;
+  const groups = [
+    { key:'done', title:'✈️ Ya hemos ido' },
+    { key:'planned', title:'🚩 Próximamente' },
+    { key:'future', title:'🌍 Queremos ir' }
+  ];
+  let html = '';
+  groups.forEach(g => {
+    const items = dests.filter(d => d.status === g.key);
+    if (!items.length) return;
+    html += `<div class="dest-section-title">${g.title}</div>`;
+    items.forEach(d => { html += destItemHtml(d, dests.indexOf(d)); });
+  });
+  list.innerHTML = html;
+}
+
+function destItemHtml(d, idx) {
+  const photos = getDestPhotos();
+  const destPhotos = photos[idx] || [];
+  const webBtn = d.url ? `<a class="dest-web-btn" href="${d.url}" target="_blank" onclick="event.stopPropagation()">🌐 Web</a>` : '';
+  const meta = d.label ? `<span class="dest-meta">${d.label}</span>` : '';
+
+  // Fotos en el desplegable (solo para done)
+  let expandHtml = '';
+  if (d.status === 'done') {
+    let photoCells = '';
+    for (let i = 0; i < 5; i++) {
+      if (destPhotos[i]) {
+        photoCells += `<div class="dest-exp-cell"><img src="${destPhotos[i]}" alt="foto"><button class="photo-del" onclick="event.stopPropagation();deleteDestPhoto(${idx},${i})">✕</button><input type="file" accept="image/*" onchange="event.stopPropagation();uploadDestPhoto(event,${idx},${i})"></div>`;
+      } else {
+        photoCells += `<div class="dest-exp-cell"><div class="photo-add">📷<span>Añadir</span></div><input type="file" accept="image/*" onchange="event.stopPropagation();uploadDestPhoto(event,${idx},${i})"></div>`;
+      }
+    }
+    expandHtml = `<div class="dest-expand-photos">${photoCells}</div>`;
+  }
+
+  // Pills de estado
+  const pills = ['done','planned','future'].map(s =>
+    `<button class="dest-status-pill s-${s}${d.status===s?' active':''}" onclick="event.stopPropagation();setDestStatus(${idx},'${s}')">${STATUS_LABELS[s]}</button>`
+  ).join('');
+
+  return `<div class="dest-item-wrap">
+    <div class="dest-item" onclick="toggleDestExpand(${idx})">
+      <span class="dest-flag">${d.flag||'📍'}</span>
+      <div class="dest-main">
+        <span class="dest-name">${d.name}</span>
+        ${meta}
+      </div>
+      <div class="dest-right">
+        <span class="dest-status ${d.status}">${STATUS_LABELS[d.status]}</span>
+        ${webBtn}
+        <span style="font-size:10px;color:var(--text-light);">▼ fotos</span>
+      </div>
+    </div>
+    <div class="dest-expand" id="dest-exp-${idx}">
+      ${expandHtml}
+      <div class="dest-status-row">${pills}</div>
+    </div>
+  </div>`;
+}
+
+let openDestExpand = -1;
+function toggleDestExpand(idx) {
+  if (openDestExpand === idx) {
+    document.getElementById('dest-exp-'+idx)?.classList.remove('open');
+    openDestExpand = -1;
+    return;
+  }
+  if (openDestExpand >= 0) document.getElementById('dest-exp-'+openDestExpand)?.classList.remove('open');
+  document.getElementById('dest-exp-'+idx)?.classList.add('open');
+  openDestExpand = idx;
+  // También vuela al mapa
+  const d = getDests()[idx];
+  if (d && leafletMap) leafletMap.flyTo([d.lat, d.lng], 5, { duration:0.8 });
+}
+
+function toggleAddDest() {
+  document.getElementById('addDestForm').classList.toggle('open');
+}
+
+function addDest() {
+  const name = document.getElementById('newDestName').value.trim();
+  const flag = document.getElementById('newDestEmoji').value.trim() || '📍';
+  const label = document.getElementById('newDestLabel').value.trim();
+  const status = document.getElementById('newDestStatus').value;
+  const url = document.getElementById('newDestUrl').value.trim() || null;
+  const lat = parseFloat(document.getElementById('newDestLat').value);
+  const lng = parseFloat(document.getElementById('newDestLng').value);
+  if (!name || isNaN(lat) || isNaN(lng)) { alert('Pon el nombre y coordenadas.'); return; }
+  const dests = getDests();
+  dests.push({ name, flag, status, label, lat, lng, url });
+  saveDests(dests);
+  ['newDestName','newDestEmoji','newDestLabel','newDestUrl','newDestLat','newDestLng'].forEach(id => { document.getElementById(id).value=''; });
+  document.getElementById('newDestStatus').value = 'future';
+  document.getElementById('addDestForm').classList.remove('open');
+  buildDests();
+  renderMapPins();
+}
+
+window.addEventListener('load', function() {
+  const _orig = window.__forceTab;
+  window.__forceTab = function(tabId) {
+    const r = _orig ? _orig(tabId) : undefined;
+    if (tabId === 'destinos') setTimeout(initMap, 80);
+    return r;
+  };
+  if ((window.location.hash||'').replace('#','') === 'destinos') setTimeout(initMap, 200);
+});
+
+buildDests();
+// ---- LOCK SCREEN ----
+(function() {
+  const LOCK_PWD = '181125';
+  const unlocked = sessionStorage.getItem('unlocked');
+  if (unlocked) {
+    document.getElementById('lockScreen').style.display = 'none';
+    return;
+  }
+  // Show lock, hide everything else
+  document.getElementById('lockScreen').style.display = 'flex';
+})();
+
+function checkLock() {
+  const input = document.getElementById('lockInput');
+  const error = document.getElementById('lockError');
+  if (input.value === '181125') {
+    sessionStorage.setItem('unlocked', '1');
+    const ls = document.getElementById('lockScreen');
+    ls.style.transition = 'opacity 0.5s';
+    ls.style.opacity = '0';
+    setTimeout(() => ls.style.display = 'none', 500);
+  } else {
+    error.textContent = 'Código incorrecto. Inténtalo de nuevo.';
+    input.value = '';
+    input.focus();
+    setTimeout(() => { error.textContent = ''; }, 2500);
+  }
+}
+
+// ---- BINGO WIN CHECK ----
+function checkBingoWin() {
+  const saved = JSON.parse(localStorage.getItem('bingo') || '{}');
+  // Casillas "hechas" son las que tienen foto (saved[i]) O las que pending=false
+  const totalDone = bingoData.filter((item, i) => !item.pending || saved[i]).length;
+  if (totalDone >= bingoData.length) {
+    launchConfetti();
+    setTimeout(() => document.getElementById('bingoWin').classList.add('show'), 300);
+  }
+}
+
+function launchConfetti() {
+  const colors = ['#e8899a','#f2b8c6','#7fb8e8','#b8d8f2','#ffd700','#ff6b6b','#51cf66'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.top = '-20px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.width = (8 + Math.random() * 8) + 'px';
+      piece.style.height = (8 + Math.random() * 8) + 'px';
+      piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+      piece.style.animationDelay = '0s';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 4500);
+    }, i * 40);
+  }
+}
+
+// Patch uploadBingo to check win after upload
+const _origUploadBingo = uploadBingo;
+window.uploadBingo = function(e, idx) {
+  _origUploadBingo(e, idx);
+  // Check after a short delay so buildBingo runs first
+  setTimeout(checkBingoWin, 400);
+};
+
+// ---- FECHAS ESPECIALES ----
+const defaultFechas = [
+  { emoji:'💋', nombre:'Primer beso', dateStr:'2025-11-18', anual: true },
+  { emoji:'💑', nombre:'Nos hicimos novios', dateStr:'2025-12-27', anual: true },
+  { emoji:'🎂', nombre:'Cumpleaños de Rocío', dateStr:'2000-01-23', anual: true },
+  { emoji:'🎂', nombre:'Cumpleaños de Miguel', dateStr:'2003-02-16', anual: true },
+  { emoji:'🗼', nombre:'Viaje a París', dateStr:'2026-04-02', anual: false },
+  { emoji:'🌊', nombre:'Escapada a Altea', dateStr:'2026-01-16', anual: false },
+  { emoji:'💌', nombre:'6 meses juntos', dateStr:'2026-05-18', anual: false },
+  { emoji:'🥂', nombre:'1 año juntos', dateStr:'2026-11-18', anual: true },
+];
+
+function getFechas() { return JSON.parse(localStorage.getItem('fechasData') || 'null') || defaultFechas; }
+function saveFechas(d) { localStorage.setItem('fechasData', JSON.stringify(d)); }
+
+function buildFechas() {
+  const list = document.getElementById('fechasList');
+  if (!list) return;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const fechas = getFechas();
+
+  const items = fechas.map(f => {
+    const raw = new Date(f.dateStr + 'T00:00:00');
+    let target = new Date(raw);
+    if (f.anual) {
+      target.setFullYear(hoy.getFullYear());
+      if (target < hoy) target.setFullYear(hoy.getFullYear() + 1);
+    }
+    const diffDays = Math.round((target - hoy) / 86400000);
+    return { ...f, raw, target, diffDays };
+  }).sort((a, b) => {
+    const aD = a.diffDays < 0 ? 9999 + a.diffDays : a.diffDays;
+    const bD = b.diffDays < 0 ? 9999 + b.diffDays : b.diffDays;
+    return aD - bD;
+  });
+
+  list.innerHTML = items.map(item => {
+    const isHoy = item.diffDays === 0;
+    const isProximo = item.diffDays > 0 && item.diffDays <= 14;
+    const isPasado = item.diffDays < 0 && !item.anual;
+    let badge = '';
+    if (isHoy) badge = '<span class="fecha-badge hoy">¡Hoy! 🎉</span>';
+    else if (isProximo) badge = `<span class="fecha-badge pronto">En ${item.diffDays} días</span>`;
+    else if (isPasado) badge = '<span class="fecha-badge ok">Ya pasó</span>';
+    else badge = `<span class="fecha-badge ok">En ${item.diffDays} días</span>`;
+    const dateStr = item.anual
+      ? item.target.toLocaleDateString('es-ES', {day:'numeric',month:'long'}) + ' (cada año)'
+      : item.raw.toLocaleDateString('es-ES', {day:'numeric',month:'long',year:'numeric'});
+    return `<div class="fecha-item${isHoy || isProximo ? ' proxima' : ''}">
+      <span class="fecha-emoji">${item.emoji}</span>
+      <div class="fecha-info">
+        <div class="fecha-nombre">${item.nombre}</div>
+        <div class="fecha-date">${dateStr}</div>
+      </div>${badge}</div>`;
+  }).join('');
+}
+
+function toggleAddFecha() {
+  const f = document.getElementById('addFechaForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addFecha() {
+  const emoji = document.getElementById('newFechaEmoji').value.trim() || '📅';
+  const nombre = document.getElementById('newFechaNombre').value.trim();
+  const dateStr = document.getElementById('newFechaDate').value;
+  const anual = document.getElementById('newFechaAnual').checked;
+  if (!nombre || !dateStr) { alert('Pon el nombre y la fecha.'); return; }
+  const fechas = getFechas();
+  fechas.push({ emoji, nombre, dateStr, anual });
+  saveFechas(fechas);
+  document.getElementById('newFechaEmoji').value = '';
+  document.getElementById('newFechaNombre').value = '';
+  document.getElementById('newFechaDate').value = '';
+  document.getElementById('newFechaAnual').checked = false;
+  toggleAddFecha();
+  buildFechas();
+}
+
+buildFechas();
+
+
+
+
+// ---- BINGO ----
+const bingoData = [
+  { label: 'Peli & Manta',      icon: '🎬', pending: true,  photoFile: 'bingo1.jpeg' },
+  { label: 'Juntos',            icon: '📸', pending: false, photoFile: 'bingo2.jpeg' },
+  { label: 'Cata de quesos',    icon: '🧀', pending: true,  photoFile: 'bingo3.jpeg' },
+  { label: 'Rutita',            icon: '🥾', pending: true,  photoFile: 'bingo4.jpeg' },
+  { label: 'Juntos',            icon: '📸', pending: false, photoFile: 'bingo5.jpeg' },
+  { label: 'Juntos',            icon: '📸', pending: false, photoFile: 'bingo6.jpeg' },
+  { label: 'Cocinando',         icon: '👨‍🍳', pending: false, photoFile: 'bingo7.jpeg' },
+  { label: 'Día de museo',      icon: '🏛️', pending: true,  photoFile: 'bingo8.jpeg' },
+  { label: 'Bolera',            icon: '🎳', pending: true,  photoFile: 'bingo9.jpeg' },
+  { label: 'Beso',              icon: '💋', pending: false, photoFile: 'bingo10.jpeg' },
+  { label: 'Autocine',          icon: '🚗🎬', pending: true, photoFile: 'bingo11.jpeg' },
+  { label: 'Con Sofía',         icon: '👭', pending: false, photoFile: 'bingo12.jpeg' },
+  { label: 'Juntos',            icon: '📸', pending: false, photoFile: 'bingo13.jpeg' },
+  { label: 'Espejo',            icon: '🪞', pending: false, photoFile: 'bingo14.jpeg' },
+  { label: 'Calitas & Paddle',  icon: '🏓', pending: true,  photoFile: 'bingo15.jpeg' },
+  { label: 'Partido VCF',       icon: '⚽', pending: true,  photoFile: 'bingo16.jpeg' },
+  { label: 'Playlist 2026',     icon: '🎵', pending: true,  photoFile: 'bingo17.jpeg' },
+  { label: 'Miguel',            icon: '📸', pending: false, photoFile: 'bingo18.jpeg' },
+  { label: 'Resolver crimen',   icon: '🔍', pending: true,  photoFile: 'bingo19.jpeg' },
+  { label: 'Juntos',            icon: '📸', pending: false, photoFile: 'bingo20.jpeg' },
+  { label: 'Noche',             icon: '🌙', pending: false, photoFile: 'bingo21.jpeg' },
+  { label: 'Churros',           icon: '🍩', pending: false, photoFile: 'bingo22.jpeg' },
+  { label: 'París',             icon: '🗼', pending: false, photoFile: 'bingo23.jpeg' },
+  { label: 'Juntos',            icon: '📸', pending: false, photoFile: 'bingo24.jpeg' },
+  { label: 'Tarde de pintar',   icon: '🎨', pending: true,  photoFile: 'bingo25.jpeg' },
+];
+
+function buildBingo() {
+  const grid = document.getElementById('bingoGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const saved = JSON.parse(localStorage.getItem('bingo') || '{}');
+  bingoData.forEach((item, i) => {
+    const cell = document.createElement('div');
+    const imgSrc = saved[i] || (item.photoFile || null);
+    if (imgSrc) {
+      cell.className = 'bingo-cell done-photo';
+      cell.innerHTML = `<img src="${imgSrc}" alt="${item.label}" onerror="this.parentElement.className='bingo-cell done-empty';this.parentElement.innerHTML='<div class=b-icon>${item.icon}</div><div class=b-label>${item.label}</div><div class=b-add>+ foto</div><input type=file accept=image/* onchange=uploadBingo(event,${i})>'"><div class="b-overlay">${item.label}</div><input type="file" accept="image/*" onchange="uploadBingo(event,${i})">`;
+    } else if (!item.pending) {
+      cell.className = 'bingo-cell done-empty';
+      cell.innerHTML = `<div class="b-icon">${item.icon}</div><div class="b-label">${item.label}</div><div class="b-add">+ foto</div><input type="file" accept="image/*" onchange="uploadBingo(event,${i})">`;
+    } else {
+      cell.className = 'bingo-cell pending';
+      cell.innerHTML = `<div class="b-icon">${item.icon}</div><div class="b-label">${item.label}</div>`;
+    }
+    grid.appendChild(cell);
+  });
+}
+
+function uploadBingo(e, idx) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const saved = JSON.parse(localStorage.getItem('bingo') || '{}');
+    saved[idx] = ev.target.result;
+    localStorage.setItem('bingo', JSON.stringify(saved));
+    buildBingo();
+  };
+  reader.readAsDataURL(file);
+}
+buildBingo();
+
+// ---- TIMELINE ----
+const defaultTimeline = [
+  { date:'Agosto 2025', tag:'El principio', tagColor:'rosa', dot:'normal', title:'El primer mensaje', text:'Miguel te escribe por Instagram. Empieza todo... aunque tú no lo sabes todavía.' },
+  { date:'Primer rechazo', tag:'Obstáculo 1', tagColor:'azul', dot:'funny', title:'El cruasán con servilleta', text:'Miguel no se rinde. Te pide el número de la única forma posible: una servilleta con su número dentro de un cruasán. Original 10/10.' },
+  { date:'Segundo rechazo', tag:'Obstáculo 2', tagColor:'azul', dot:'funny', title:'La tableta de chocolate', text:'Tampoco. Pero llegó una tableta de chocolate con una notita. Difícil resistirse a eso.' },
+  { date:'Otoño 2025', tag:'El plan', tagColor:'rosa', dot:'normal', title:'El Siglo 21 con Sofía', text:'Quedadas en Campolivar con Sofía de por medio. Poco a poco, con cuidado. Pero ya se veía venir.' },
+  { date:'Noviembre 2025', tag:'La jugada maestra', tagColor:'rosa', dot:'normal', title:'La multa personalizada', text:'Para pedirte salir: una multa personalizada. Sancionada por no ser su novia todavía.' },
+  { date:'Primera cita a solas', tag:'Cobra 1', tagColor:'azul', dot:'funny', title:'La primera cobra', text:'El Siglo 21. Primer intento de beso: cobra. Pero con estilo.' },
+  { date:'18 noviembre 2025', tag:'Cobra 2 → Beso', tagColor:'azul', dot:'big', title:'La cobra que no pudo ser... y el primer beso', text:'McDonalds. Segundo intento de beso: otra cobra. Pero ese mismo día, antes de despedirse, llegó el primer beso. Mereció la pena esperar.' },
+  { date:'17 noviembre 2025', tag:'Hito', tagColor:'rosa', dot:'big', title:'Primera foto juntos', text:'Ya oficial en las fotos aunque no todavía en el nombre.' },
+  { date:'18 noviembre 2025 ♥', tag:'El momento', tagColor:'rosa', dot:'big', title:'El primer beso', text:'Desde aquí empieza a contar. Todo.', photo:'historia3.jpeg' },
+  { date:'9 diciembre 2025', tag:'', tagColor:'rosa', dot:'normal', title:'Te presenté a mi mamá', text:'Importante de verdad.' },
+  { date:'27 diciembre 2025', tag:'Oficial', tagColor:'rosa', dot:'big', title:'Mi novia', text:'Cena para dos en casa, menú preparado, regalos de Navidad y la pregunta. Dijiste que sí.' },
+  { date:'16 enero 2026', tag:'Primera escapada', tagColor:'azul', dot:'funny', title:'Altea y el apartamento equivocado', text:'Primera escapada juntos. Al llegar: 30 minutos poniendo el código en la puerta de otra persona. Un clásico ya.', photo:'historia2.jpeg' },
+  { date:'23 enero 2026', tag:'Tu cumpleaños', tagColor:'rosa', dot:'big', title:'Tu cumpleaños', text:'23 de enero. Te regalé el viaje a Disneyland París. El regalo que más ilusión me hizo hacer. Y que acabó siendo el primer gran viaje juntos.', photo:'historia2.jpeg' },
+  { date:'2–6 abril 2026', tag:'Gran viaje', tagColor:'rosa', dot:'big', title:'París + Disneyland', text:'El regalo de tu cumpleaños hecho realidad. Primer gran viaje juntos. Torre Eiffel, Disneyland, y los mejores días. 🗼', photo:'historia1.jpeg' },
+  { date:'Mayo 2026', tag:'Clásico nuestro', tagColor:'azul', dot:'funny', title:'Las llaves del coche', text:'30–60 minutos buscándolas. Spoiler: aparecieron.' }
+];
+
+let editingTimelineIndex = -1;
+function getTimeline() {
+  return JSON.parse(localStorage.getItem('timelineData') || 'null') || defaultTimeline;
+}
+function saveTimeline(data) {
+  localStorage.setItem('timelineData', JSON.stringify(data));
+}
+function renderTimeline() {
+  const timeline = getTimeline();
+  const list = document.getElementById('timelineList');
+  if (!list) return;
+  list.innerHTML = timeline.map((item, idx) => `
+    <div class="tl-item" onclick="editTimelineEvent(${idx})">
+      <div class="tl-dot ${item.dot === 'normal' ? '' : item.dot}"></div>
+      <div class="tl-date">${item.date || ''}</div>
+      ${item.tag ? `<div class="tl-tag ${item.tagColor || 'rosa'}">${item.tag}</div>` : ''}
+      <div class="tl-title">${item.title || ''}</div>
+      <div class="tl-text">${item.text || ''}</div>
+      ${item.photo ? `<img src="${item.photo}" alt="${item.title}" style="width:100%;max-width:280px;border-radius:12px;margin-top:10px;border:1px solid var(--border);display:block;" onerror="this.style.display='none'">` : ''}
+    </div>
+  `).join('');
+}
+
+function openTimelineModal(isNew = true) {
+  document.getElementById('timeline-modal').classList.add('open');
+  document.getElementById('timeline-modal-title').textContent = isNew ? 'Añadir momento' : 'Editar momento';
+  if (isNew) resetTimelineForm();
+}
+
+function closeTimelineModal() {
+  document.getElementById('timeline-modal').classList.remove('open');
+}
+
+function resetTimelineForm() {
+  editingTimelineIndex = -1;
+  document.getElementById('timeline-modal-title').textContent = 'Añadir momento';
+  document.getElementById('tl-date-input').value = '';
+  document.getElementById('tl-tag-input').value = '';
+  document.getElementById('tl-tag-color-input').value = 'rosa';
+  document.getElementById('tl-dot-input').value = 'normal';
+  document.getElementById('tl-title-input').value = '';
+  document.getElementById('tl-text-input').value = '';
+}
+
+function saveTimelineEvent() {
+  const timeline = getTimeline();
+  const item = {
+    date: document.getElementById('tl-date-input').value.trim(),
+    tag: document.getElementById('tl-tag-input').value.trim(),
+    tagColor: document.getElementById('tl-tag-color-input').value,
+    dot: document.getElementById('tl-dot-input').value,
+    title: document.getElementById('tl-title-input').value.trim(),
+    text: document.getElementById('tl-text-input').value.trim()
+  };
+  if (!item.title || !item.text) return;
+  if (editingTimelineIndex >= 0) timeline[editingTimelineIndex] = item;
+  else timeline.push(item);
+  saveTimeline(timeline);
+  renderTimeline();
+  closeTimelineModal();
+  resetTimelineForm();
+}
+
+function editTimelineEvent(idx) {
+  const item = getTimeline()[idx];
+  if (!item) return;
+  editingTimelineIndex = idx;
+  document.getElementById('timeline-modal-title').textContent = 'Editar momento';
+  document.getElementById('tl-date-input').value = item.date || '';
+  document.getElementById('tl-tag-input').value = item.tag || '';
+  document.getElementById('tl-tag-color-input').value = item.tagColor || 'rosa';
+  document.getElementById('tl-dot-input').value = item.dot || 'normal';
+  document.getElementById('tl-title-input').value = item.title || '';
+  document.getElementById('tl-text-input').value = item.text || '';
+  openTimelineModal(false);
+}
+
+function deleteCurrentTimelineEvent() {
+  if (editingTimelineIndex < 0) return;
+  const timeline = getTimeline();
+  timeline.splice(editingTimelineIndex, 1);
+  saveTimeline(timeline);
+  renderTimeline();
+  closeTimelineModal();
+  resetTimelineForm();
+}
+
+function moveCurrentTimelineEvent(direction) {
+  if (editingTimelineIndex < 0) return;
+  const timeline = getTimeline();
+  const newIndex = editingTimelineIndex + direction;
+  if (newIndex < 0 || newIndex >= timeline.length) return;
+  [timeline[editingTimelineIndex], timeline[newIndex]] = [timeline[newIndex], timeline[editingTimelineIndex]];
+  saveTimeline(timeline);
+  editingTimelineIndex = newIndex;
+  renderTimeline();
+}
+
+const timelineModalEl = document.getElementById('timeline-modal');
+if (timelineModalEl) {
+  timelineModalEl.addEventListener('click', e => {
+    if (e.target.id === 'timeline-modal') closeTimelineModal();
+  });
+}
+
+renderTimeline();
+
+// ---- CARTAS ----
+// tipos: 'open' = se puede leer | 'locked' = fecha futura | 'password' = contraseña
+const cartasData = [
+  {
+    icon: '💌',
+    fecha: 'Para cuando lo necesites',
+    titulo: 'Para un mal día',
+    hint: 'Ábrela cuando todo se ponga cuesta arriba',
+    type: 'open',
+    content: 'Rocío,\n\nSi estás leyendo esto es porque hoy no es tu mejor día. Y está bien. No tienes que estar bien todo el tiempo.\n\nPero quiero que sepas que tienes a alguien que te ve, que te admira, y que va a estar aquí cuando se te pase. No importa qué. Aquí estaré.\n\nMira todo lo que eres. Y mira todo lo que tenemos. Eso no cambia con un mal día.\n\nTe quiero mucho.',
+    firma: 'Miguel ♥'
+  },
+  {
+    icon: '🥂',
+    fecha: '18 noviembre 2026',
+    titulo: 'Un año juntos',
+    hint: 'Para abrir cuando cumplamos nuestro primer año',
+    type: 'locked',
+    lockDate: '18 noviembre 2026',
+    content: '',
+    firma: ''
+  },
+  {
+    icon: '🤫',
+    fecha: 'Cuando llegue ese día',
+    titulo: '????????????????',
+    hint: '🔒 Protegida con contraseña',
+    type: 'password',
+    pwd: '2316',
+    content: 'Rocío,\n\nHoy es el día más importante de mi vida. Y tú eres la razón.\n\nCada momento que hemos vivido juntos me ha traído hasta aquí. Y hoy, delante de todos, quiero que sepas que elegirte es lo mejor que he hecho.\n\nSiempre.',
+    firma: 'Tu marido ♥',
+    blur: true
+  },
+  {
+    icon: '🌍',
+    fecha: '18 noviembre 2030',
+    titulo: 'Cinco años',
+    hint: 'Dónde estaremos, qué habremos vivido',
+    type: 'locked',
+    lockDate: '18 noviembre 2030',
+    content: '',
+    firma: ''
+  },
+];
+
+function buildCartas() {
+  const grid = document.getElementById('cartasGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  cartasData.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'carta-sobre' + (c.blur ? ' boda-blur' : '');
+    div.onclick = () => openCarta(i);
+    const lockBadge = c.type === 'open' ? '💌' : c.type === 'password' ? '🔒' : '🔒';
+    div.innerHTML = `
+      <div class="carta-icon">${c.icon}</div>
+      <div class="carta-fecha">${c.fecha}</div>
+      <div class="carta-titulo">${c.titulo}</div>
+      <div class="carta-hint">${c.hint}</div>
+      <div class="carta-locked-badge">${lockBadge}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function openCarta(i) {
+  const c = cartasData[i];
+  const modal = document.getElementById('carta-modal');
+  const content = document.getElementById('carta-modal-content');
+
+  if (c.type === 'open') {
+    content.innerHTML = `
+      <h3>${c.titulo}</h3>
+      <p style="font-size:12px;color:var(--rose-deep);margin-bottom:1.25rem;letter-spacing:0.06em;">${c.fecha}</p>
+      <p>${c.content}</p>
+      ${c.firma ? `<p class="firma">${c.firma}</p>` : ''}
+    `;
+  } else if (c.type === 'locked') {
+    content.innerHTML = `
+      <div class="carta-locked-msg">
+        <div class="lock-icon">🔒</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px;">${c.titulo}</h3>
+        <p>Esta carta está guardada para <strong>${c.lockDate}</strong>.<br>Cuando llegue ese momento, aquí estará esperándote.</p>
+      </div>`;
+  } else if (c.type === 'password') {
+    content.innerHTML = `
+      <div class="carta-locked-msg">
+        <div class="lock-icon">🔒</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px;">Carta protegida</h3>
+        <p>Esta carta tiene una contraseña especial.<br>Solo podrás leerla cuando llegue el momento.</p>
+        <div class="carta-pwd-wrap">
+          <input type="password" id="cartaPwdInput" placeholder="Contraseña" maxlength="10"
+            onkeydown="if(event.key==='Enter') checkCartaPwd(${i})">
+          <button class="carta-pwd-btn" onclick="checkCartaPwd(${i})">Abrir carta 💌</button>
+          <div class="carta-pwd-error" id="cartaPwdError">Contraseña incorrecta. Inténtalo de nuevo.</div>
+        </div>
+      </div>`;
+  }
+  modal.classList.add('open');
+}
+
+function checkCartaPwd(i) {
+  const c = cartasData[i];
+  const input = document.getElementById('cartaPwdInput');
+  const error = document.getElementById('cartaPwdError');
+  if (!input) return;
+  if (input.value === c.pwd) {
+    const content = document.getElementById('carta-modal-content');
+    content.innerHTML = `
+      <h3>${c.titulo === '????????????????' ? 'Antes de la boda' : c.titulo}</h3>
+      <p style="font-size:12px;color:var(--rose-deep);margin-bottom:1.25rem;letter-spacing:0.06em;">${c.fecha}</p>
+      <p>${c.content}</p>
+      ${c.firma ? `<p class="firma">${c.firma}</p>` : ''}
+    `;
+  } else {
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+    setTimeout(() => { error.style.display = 'none'; }, 2500);
+  }
+}
+
+function closeCarta() { document.getElementById('carta-modal').classList.remove('open'); }
+document.getElementById('carta-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('carta-modal')) closeCarta();
+});
+buildCartas();
+
+// ---- QUIZ ----
+const quizQs = [
+  { type:'quiz', q:'¿Cómo consiguió Miguel tu número de teléfono?', opts:['Por Instagram directamente','Con una servilleta dentro de un cruasán','A través de Sofía','Llamando al trabajo'], ans:1, ok:'¡Exacto! Cruasán con servilleta. Nivel de creatividad máximo.', fail:'¡El cruasán! Con la servilleta con su número dentro.' },
+  { type:'quiz', q:'¿Cuántas veces le rechazaste antes del primer beso?', opts:['Ninguna','Una vez','Dos veces','Tres veces'], ans:2, ok:'Sí, dos veces. Y aquí seguimos. El chocolate ayudó.', fail:'¡Dos veces! Pero ninguna fue definitiva, gracias al chocolate.' },
+  { type:'quiz', q:'¿Cuál es la comida favorita de Miguel?', opts:['Pizza','Sushi','Pasta','Paella'], ans:2, ok:'¡Correcto! La pasta, siempre la pasta.', fail:'La pasta. Hay que comer más pasta juntos.' },
+  { type:'quiz', q:'¿A qué le tiene miedo Miguel?', opts:['A las arañas','A los payasos','A la oscuridad','A las alturas'], ans:1, ok:'¡Exacto! Los payasos. Terroríficos.', fail:'Los payasos. No hay más que hablar.' },
+  { type:'reto', q:'RETO: Dile a Miguel una cosa que él no sabe que tú sabes de él.', icon:'👀', tag:'RETO' },
+  { type:'quiz', q:'¿Cuánto tiempo estuvieron intentando abrir el apartamento equivocado en Altea?', opts:['5 minutos','15 minutos','30 minutos','1 hora'], ans:2, ok:'¡30 minutos! Un clásico ya de vuestra historia.', fail:'30 minutos poniendo el código en la puerta que no era.' },
+  { type:'verdad', q:'VERDAD: ¿Cuál fue el momento exacto en que supiste que te gustaba de verdad?', icon:'💗', tag:'VERDAD' },
+  { type:'quiz', q:'¿Cuál es el gran sueño de Miguel relacionado con el motor?', opts:['Ver un Gran Premio','Conocer a un piloto','Tener algo relacionado con la F1','Correr una carrera de karts'], ans:2, ok:'¡Sí! La F1, su sueño de siempre. Y tú ya lo sabes.', fail:'Tener algo relacionado con la F1. Su sueño de siempre.' },
+  { type:'quiz', q:'¿Cómo le pidió Miguel a Rocío que fuera su novia?', opts:['Por WhatsApp','Con una multa personalizada','Con una cena en casa el 27 de diciembre','En Disneyland París'], ans:2, ok:'¡Exacto! Cena en casa, menú, regalos de Navidad y la pregunta.', fail:'Una cena en casa el 27 de diciembre. Con menú, regalos y la pregunta.' },
+  { type:'reto', q:'RETO FINAL: Cuéntale a Miguel el momento más gracioso que recuerdas de estos 6 meses.', icon:'😂', tag:'RETO FINAL' },
+  { type:'quiz', q:'¿Qué regalo le hizo Miguel a Rocío en Navidad?', opts:['Un bolso','Un viaje a París','Unos pendientes','Una cena romántica'], ans:1, ok:'¡Exacto! París. El mejor regalo.', fail:'Un viaje a París. Su regalo de Navidad.' },
+  { type:'quiz', q:'¿Dónde fue su primera cita a solas?', opts:['Restaurante Siglo 21','McDonalds','Una cafetería','El cine'], ans:1, ok:'¡Correcto! McDonalds. Las mejores historias empiezan así.', fail:'McDonalds. Simple y perfecto.' },
+  { type:'quiz', q:'¿Cuándo se hicieron novios oficialmente?', opts:['18 noviembre 2025','27 diciembre 2025','1 enero 2026','9 diciembre 2025'], ans:1, ok:'¡Exacto! 27 de diciembre. Cena en casa y la pregunta.', fail:'El 27 de diciembre. Cena en casa con menú preparado.' },
+  { type:'verdad', q:'VERDAD: Describe a Miguel en 3 palabras, pero tiene que estar de acuerdo con las tres.', icon:'🎯', tag:'VERDAD' },
+  { type:'quiz', q:'¿Cuál es el mayor miedo de Miguel?', opts:['Las alturas','Los payasos','Las arañas','Los túneles'], ans:1, ok:'¡Los payasos! No hay más que hablar.', fail:'Los payasos. Terroríficos.' },
+  { type:'quiz', q:'¿Quién es Sofía en la historia de Miguel y Rocío?', opts:['La hermana de Rocío','Una prima de Miguel','La amiga en común que los juntó','La vecina'], ans:2, ok:'¡La amiga en común! Sin Sofía esto no existiría.', fail:'La amiga en común. La culpable de todo, en el buen sentido.' },
+  { type:'quiz', q:'¿Qué le regaló Miguel a Rocío para convencerla la segunda vez?', opts:['Un ramo de flores','Una tableta de chocolate con nota','Un peluche','Un collar'], ans:1, ok:'¡La tableta de chocolate! Irresistible.', fail:'Una tableta de chocolate con una notita. Efectivo.' },
+  { type:'reto', q:'RETO: Cantad juntos 10 segundos de la canción que más os identifica. Sin vergüenza.', icon:'🎤', tag:'RETO' },
+  { type:'quiz', q:'¿Cuándo fue la primera foto juntos?', opts:['18 noviembre 2025','17 noviembre 2025','27 diciembre 2025','9 diciembre 2025'], ans:1, ok:'¡17 de noviembre! Un día antes del primer beso.', fail:'El 17 de noviembre de 2025. Un día antes del primer beso.' },
+  { type:'quiz', q:'¿Cuál es el destino soñado de los dos en Asia?', opts:['China','Tailandia','Japón','Corea'], ans:2, ok:'¡Japón! El gran viaje pendiente.', fail:'Japón. Será el próximo gran viaje.' },
+];
+
+let qIdx = 0, qScore = 0, qAnswered = false;
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-game').style.display = 'block';
+  qIdx = 0; qScore = 0;
+  renderQ();
+}
+
+function renderQ() {
+  const q = quizQs[qIdx];
+  const pct = Math.round((qIdx / quizQs.length) * 100);
+  document.getElementById('qProgress').style.width = pct + '%';
+  qAnswered = false;
+  document.getElementById('quiz-fb').className = 'quiz-feedback';
+  document.getElementById('quiz-fb').textContent = '';
+  document.getElementById('quiz-next').className = 'btn-next';
+
+  let html = `<div class="quiz-num">Pregunta ${qIdx + 1} de ${quizQs.length}</div>`;
+
+  if (q.type === 'quiz') {
+    html += `<div class="quiz-q">${q.q}</div><div class="quiz-opts">`;
+    q.opts.forEach((o, i) => html += `<button class="quiz-opt" onclick="answerQ(${i})">${o}</button>`);
+    html += '</div>';
+  } else {
+    html += `<div class="quiz-reto">
+      <div class="reto-icon">${q.icon}</div>
+      <div class="reto-tag">${q.tag}</div>
+      <div class="reto-text">${q.q}</div>
+    </div>`;
+    setTimeout(() => { document.getElementById('quiz-next').className = 'btn-next show'; }, 800);
+  }
+  document.getElementById('quiz-card').innerHTML = html;
+}
+
+function answerQ(idx) {
+  if (qAnswered) return;
+  qAnswered = true;
+  const q = quizQs[qIdx];
+  const btns = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  if (idx === q.ans) {
+    btns[idx].classList.add('correct');
+    fb.textContent = q.ok;
+    fb.className = 'quiz-feedback show ok';
+    qScore++;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.ans].classList.add('reveal');
+    fb.textContent = q.fail;
+    fb.className = 'quiz-feedback show fail';
+  }
+  document.getElementById('quiz-next').className = 'btn-next show';
+}
+
+function nextQ() {
+  qIdx++;
+  if (qIdx >= quizQs.length) {
+    document.getElementById('quiz-game').style.display = 'none';
+    const final = document.getElementById('quiz-final');
+    final.style.display = 'block';
+    const total = quizQs.filter(q => q.type === 'quiz').length;
+    document.getElementById('quiz-score-display').textContent = qScore + ' / ' + total;
+    const msgs = ['¡Perfecto! Me conoces mejor que yo mismo. 😮', 'Casi todo bien. Impresionante. 😊', 'Todavía hay cosas que descubrir. Tenemos tiempo. 😄'];
+    document.getElementById('quiz-final-msg').textContent = qScore === total ? msgs[0] : qScore >= total - 2 ? msgs[1] : msgs[2];
+  } else {
+    renderQ();
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('quiz-final').style.display = 'none';
+  document.getElementById('quiz-start').style.display = 'block';
+}
+
+// ---- PICTIONARY ----
+const pictWords = [
+  { word: 'Cruasán', hint: '🥐 El inicio de todo' },
+  { word: 'Tableta de chocolate', hint: '🍫 El regalo clave' },
+  { word: 'Multa', hint: '📄 La pedida de salir más original' },
+  { word: 'Cobra', hint: '🐍 x2' },
+  { word: 'Apartamento equivocado', hint: '🔑 Altea' },
+  { word: 'Disneyland', hint: '🎢 París' },
+  { word: 'Torre Eiffel', hint: '🗼 Abril 2025' },
+  { word: 'Payaso', hint: '🎪 El mayor miedo de Miguel' },
+  { word: 'Pasta', hint: '🍝 Su comida favorita' },
+  { word: 'Fórmula 1', hint: '🏎️ El gran sueño' },
+  { word: 'Bolera', hint: '🎳 Plan pendiente del bingo' },
+  { word: 'Autocine', hint: '🚗🎬 Plan pendiente' },
+  { word: 'Llaves del coche', hint: '🔑 30–60 minutos buscándolas' },
+  { word: 'Sofía', hint: '👭 La amiga en común' },
+  { word: 'McDonalds', hint: '🍔 Primera cita a solas' },
+  { word: 'Instagram', hint: '📱 Donde empezó todo' },
+  { word: 'Restaurante Siglo 21', hint: '🍽️ Campolivar' },
+  { word: 'Beso', hint: '💋 El primero fue el 18 de noviembre' },
+  { word: 'Japón', hint: '🗾 Destino soñado' },
+  { word: 'Auroras boreales', hint: '🌌 En algún lugar del norte' },
+];
+
+let drawer = 'Miguel';
+let pictScores = { Miguel: 0, Rocío: 0 };
+let usedWords = [];
+let currentWord = null;
+let painting = false;
+let paintColor = '#2a1f25';
+let paintSize = 3;
+let lastX, lastY;
+
+function setDrawer(name) {
+  drawer = name;
+  document.getElementById('turn-miguel-btn').className = 'pict-btn' + (name === 'Miguel' ? ' active' : '');
+  document.getElementById('turn-rocio-btn').className = 'pict-btn' + (name === 'Rocío' ? ' active' : '');
+}
+
+function startPict() {
+  document.getElementById('pict-start').style.display = 'none';
+  document.getElementById('pict-game').style.display = 'block';
+  usedWords = [];
+  initCanvas();
+  nextWord();
+}
+
+function getWord() {
+  const available = pictWords.filter((_, i) => !usedWords.includes(i));
+  if (!available.length) { usedWords = []; return getWord(); }
+  const pool = pictWords.map((_, i) => i).filter(i => !usedWords.includes(i));
+  const idx = pool[Math.floor(Math.random() * pool.length)];
+  usedWords.push(idx);
+  return pictWords[idx];
+}
+
+function nextWord() {
+  currentWord = getWord();
+  document.getElementById('pict-turn-banner').style.display = 'block';
+  document.getElementById('pict-turn-banner').textContent = `Turno de ${drawer} — dibuja la palabra`;
+  document.getElementById('pict-word-display').style.display = 'none';
+  document.getElementById('pict-word').textContent = currentWord.word;
+  document.getElementById('pict-hint').textContent = currentWord.hint;
+  clearCanvas();
+}
+
+function showWord() {
+  document.getElementById('pict-word-display').style.display = 'block';
+}
+
+function skipWord() { nextWord(); }
+
+function pointScored() {
+  pictScores[drawer]++;
+  document.getElementById('score-miguel').textContent = pictScores['Miguel'];
+  document.getElementById('score-rocio').textContent = pictScores['Rocío'];
+  drawer = drawer === 'Miguel' ? 'Rocío' : 'Miguel';
+  nextWord();
+}
+
+function initCanvas() {
+  const canvas = document.getElementById('pictCanvas');
+  const wrap = canvas.parentElement;
+  canvas.width = wrap.clientWidth || 600;
+  canvas.height = 280;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    if (e.touches) {
+      return { x: (e.touches[0].clientX - rect.left) * scaleX, y: (e.touches[0].clientY - rect.top) * scaleY };
+    }
+    return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+  }
+
+  function startDraw(e) {
+    e.preventDefault(); painting = true;
+    const pos = getPos(e); lastX = pos.x; lastY = pos.y;
+  }
+  function draw(e) {
+    e.preventDefault(); if (!painting) return;
+    const pos = getPos(e);
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.strokeStyle = paintColor;
+    ctx.lineWidth = paintSize;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    lastX = pos.x; lastY = pos.y;
+  }
+  function stopDraw(e) { e.preventDefault(); painting = false; }
+
+  canvas.removeEventListener('mousedown', canvas._sd);
+  canvas.removeEventListener('mousemove', canvas._dr);
+  canvas.removeEventListener('mouseup', canvas._su);
+  canvas.removeEventListener('touchstart', canvas._tsd);
+  canvas.removeEventListener('touchmove', canvas._tdr);
+  canvas.removeEventListener('touchend', canvas._tsu);
+
+  canvas._sd = startDraw; canvas._dr = draw; canvas._su = stopDraw;
+  canvas._tsd = startDraw; canvas._tdr = draw; canvas._tsu = stopDraw;
+
+  canvas.addEventListener('mousedown', canvas._sd);
+  canvas.addEventListener('mousemove', canvas._dr);
+  canvas.addEventListener('mouseup', canvas._su);
+  canvas.addEventListener('touchstart', canvas._tsd, { passive: false });
+  canvas.addEventListener('touchmove', canvas._tdr, { passive: false });
+  canvas.addEventListener('touchend', canvas._tsu, { passive: false });
+}
+
+function clearCanvas() {
+  const canvas = document.getElementById('pictCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function setColor(c, el) {
+  paintColor = c;
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setBrush(s) { paintSize = s; }
+
+// ---- TABS ----
+function switchJuego(id, btn) {
+  document.querySelectorAll('.juego-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.juego-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+window.switchTab = function(tabId, updateHash = true) {
+  const sections = document.querySelectorAll('.tab-section');
+  const links = document.querySelectorAll('.nav-link');
+  const targetSection = document.getElementById(tabId);
+  if (!targetSection) return false;
+
+  sections.forEach(section => {
+    const active = section.id === tabId;
+    section.style.display = active ? 'block' : 'none';
+    section.classList.toggle('active', active);
+  });
+
+  links.forEach(link => {
+    const active = link.dataset.tab === tabId;
+    link.classList.toggle('active', active);
+  });
+
+  if (updateHash && window.location.hash !== '#' + tabId) {
+    window.location.hash = tabId;
+  }
+  window.scrollTo(0, 0);
+  return false;
+};
+
+window.addEventListener('hashchange', function() {
+  const hash = window.location.hash.replace('#', '') || 'inicio';
+  window.switchTab(hash, false);
+});
+
+window.addEventListener('load', function() {
+  const hash = window.location.hash.replace('#', '') || 'inicio';
+  window.switchTab(hash, false);
+});
+
+</script>
+
+<script>
+window.__forceTab = function(tabId) {
+  var sections = document.querySelectorAll('.tab-section');
+  var links = document.querySelectorAll('.nav-link');
+  for (var i = 0; i < sections.length; i++) {
+    var active = sections[i].id === tabId;
+    sections[i].style.display = active ? 'block' : 'none';
+    sections[i].classList.toggle('active', active);
+  }
+  for (var j = 0; j < links.length; j++) {
+    var on = links[j].getAttribute('data-tab') === tabId;
+    links[j].classList.toggle('active', on);
+  }
+  try { history.replaceState(null, '', '#' + tabId); } catch (e) {}
+  window.scrollTo(0,0);
+  return false;
+};
+window.addEventListener('load', function() {
+  var hash = (window.location.hash || '#inicio').replace('#', '');
+  window.__forceTab(hash);
+});
+window.addEventListener('hashchange', function() {
+  var hash = (window.location.hash || '#inicio').replace('#', '');
+  window.__forceTab(hash);
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</body>
+</html>
