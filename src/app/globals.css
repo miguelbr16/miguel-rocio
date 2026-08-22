@@ -30,12 +30,23 @@ body {
 
 .main-shell {
   padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  min-height: calc(100dvh - 3.5rem);
 }
 
 @media (min-width: 768px) {
   .main-shell {
-    padding-bottom: 0;
+    padding-bottom: 1rem;
+    min-height: calc(100dvh - 3.5rem);
   }
+}
+
+.tab-panel {
+  width: 100%;
+}
+
+.home-page {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .section-wrap {

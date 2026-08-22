@@ -1,12 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { MobileNav } from "@/components/MobileNav";
 import { LockScreen } from "@/components/LockScreen";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { StatsSection } from "@/components/sections/StatsSection";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { DestinationsSection } from "@/components/sections/DestinationsSection";
 import { BingoSection } from "@/components/sections/BingoSection";
@@ -15,6 +14,24 @@ import { CasosSection } from "@/components/sections/CasosSection";
 import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
 import type { SectionId } from "@/lib/constants";
+
+function TabPanel({ id, active, children }: { id: SectionId; active: SectionId; children: ReactNode }) {
+  if (id !== active) return null;
+  return (
+    <motion.div
+      key={id}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      className="tab-panel"
+      role="tabpanel"
+      id={`panel-${id}`}
+      aria-labelledby={`tab-${id}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function AppShell() {
   const [unlocked, setUnlocked] = useState(false);
@@ -29,16 +46,11 @@ export function AppShell() {
     if (hash) setActive(hash);
   }, []);
 
-  const scrollToSection = useCallback((id: SectionId) => {
+  const switchTab = useCallback((id: SectionId) => {
     setMoreOpen(false);
     setActive(id);
     window.history.replaceState(null, "", `#${id}`);
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (id === "inicio") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    window.scrollTo(0, 0);
   }, []);
 
   if (!ready) return null;
@@ -50,30 +62,39 @@ export function AppShell() {
       </AnimatePresence>
       {unlocked ? (
         <>
-          <Navigation active={active} onNavigate={scrollToSection} />
+          <Navigation active={active} onNavigate={switchTab} />
           <MobileNav
             active={active}
-            onNavigate={scrollToSection}
+            onNavigate={switchTab}
             moreOpen={moreOpen}
             onMoreToggle={() => setMoreOpen((o) => !o)}
-            onMoreSelect={scrollToSection}
+            onMoreSelect={switchTab}
           />
-          <main className="main-shell pt-0 md:pt-14">
-            <HeroSection />
-            <StatsSection />
-            <TimelineSection />
-            <DestinationsSection />
-            <BingoSection />
-            <CartasSection />
-            <CasosSection />
-            <FechasSection />
-            <JuegosSection />
-            <footer className="border-t border-border px-6 py-12 pb-28 text-center md:pb-12">
-              <p className="font-serif text-2xl font-light text-rose-deep">Miguel & Rocío</p>
-              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-text-light">
-                Desde el 18 · 11 · 2025
-              </p>
-            </footer>
+          <main className="main-shell md:pt-14">
+            <TabPanel id="inicio" active={active}>
+              <HeroSection />
+            </TabPanel>
+            <TabPanel id="historia" active={active}>
+              <TimelineSection />
+            </TabPanel>
+            <TabPanel id="destinos" active={active}>
+              <DestinationsSection />
+            </TabPanel>
+            <TabPanel id="bingo" active={active}>
+              <BingoSection />
+            </TabPanel>
+            <TabPanel id="cartas" active={active}>
+              <CartasSection />
+            </TabPanel>
+            <TabPanel id="casos" active={active}>
+              <CasosSection />
+            </TabPanel>
+            <TabPanel id="fechas" active={active}>
+              <FechasSection />
+            </TabPanel>
+            <TabPanel id="juegos" active={active}>
+              <JuegosSection />
+            </TabPanel>
           </main>
         </>
       ) : null}

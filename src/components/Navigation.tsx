@@ -21,6 +21,10 @@ export function Navigation({ active, onNavigate }: NavigationProps) {
         <button
           key={item.id}
           type="button"
+          id={`tab-${item.id}`}
+          role="tab"
+          aria-selected={active === item.id}
+          aria-controls={`panel-${item.id}`}
           onClick={() => onNavigate(item.id)}
           className={`flex h-14 shrink-0 items-center border-b-2 px-3 text-xs transition-colors ${
             active === item.id

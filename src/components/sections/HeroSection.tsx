@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 
 function CountdownUnit({ value, label }: { value: string; label: string }) {
   return (
-    <div className="text-center">
-      <div className="font-serif text-4xl font-light text-rose-deep sm:text-5xl">{value}</div>
+    <div className="text-center min-w-[52px]">
+      <div className="font-serif text-3xl font-light text-rose-deep sm:text-4xl">{value}</div>
       <div className="mt-1 text-[10px] uppercase tracking-wider text-text-light">{label}</div>
     </div>
   );
@@ -30,22 +30,19 @@ export function HeroSection() {
   const cd = mounted ? countdownParts(nextAnniversary(now), now) : null;
 
   return (
-    <section
-      id="inicio"
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center px-4 pb-24 pt-[max(5rem,env(safe-area-inset-top))] text-center md:px-6 md:pb-16 md:pt-24"
-    >
+    <section className="home-page relative flex min-h-[calc(100dvh-4rem-env(safe-area-inset-bottom))] flex-col items-center justify-center px-4 py-8 text-center md:min-h-[calc(100dvh-3.5rem)]">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-rose/30 blur-3xl" />
         <div className="absolute -right-16 bottom-32 h-80 w-80 rounded-full bg-sky/40 blur-3xl" />
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.7 }}
         className="relative z-10 w-full max-w-md"
       >
-        <div className="relative mx-auto mb-6 aspect-[4/5] max-h-[340px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_32px_rgba(232,137,154,0.25)]">
+        <div className="relative mx-auto mb-6 aspect-[4/5] w-full max-h-[min(52vh,380px)] overflow-hidden rounded-[20px] shadow-[0_8px_32px_rgba(232,137,154,0.28)]">
           <Image
             src="/photos/portada.jpeg"
             alt={`${COUPLE.name1} y ${COUPLE.name2}`}
@@ -56,39 +53,28 @@ export function HeroSection() {
           />
         </div>
 
-        <p className="mb-4 text-xs uppercase tracking-[0.15em] text-text-light">
-          Desde el 18 de noviembre de 2025
-        </p>
-
-        <h1 className="font-serif text-[clamp(2.75rem,12vw,5rem)] font-light leading-none">
+        <h1 className="font-serif text-[clamp(2.25rem,10vw,3.5rem)] font-light leading-none">
           <span className="text-[#111]">{COUPLE.name1}</span>{" "}
           <span className="text-text">&</span>{" "}
           <span className="text-[#e8a6b7]">{COUPLE.name2}</span>
         </h1>
 
-        <span className="my-4 block text-3xl text-rose-deep">♥</span>
-
-        <p className="font-serif text-xl italic text-text-mid sm:text-2xl">
-          Camino a nuestro primer año
-        </p>
-
-        <p className="mt-4 text-sm text-text-light">
-          Llevamos juntos{" "}
-          <strong className="text-base text-rose-deep">{days}</strong> días
+        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-text-light">
+          Desde el 18 · 11 · 2025 · {days} días juntos
         </p>
 
         {cd ? (
-          <div className="mt-8">
-            <p className="mb-3 text-[11px] uppercase tracking-[0.1em] text-text-light">
+          <div className="mt-8 rounded-2xl border border-border bg-white/80 px-4 py-5 backdrop-blur-sm">
+            <p className="mb-4 text-[11px] uppercase tracking-[0.12em] text-text-light">
               Próximo aniversario en
             </p>
-            <div className="flex items-start justify-center gap-1.5 sm:gap-3">
+            <div className="flex items-start justify-center gap-1 sm:gap-2">
               <CountdownUnit value={String(cd.days)} label="días" />
-              <span className="mt-2 font-serif text-2xl text-rose sm:text-3xl">:</span>
+              <span className="mt-1 font-serif text-2xl text-rose">:</span>
               <CountdownUnit value={String(cd.hours).padStart(2, "0")} label="horas" />
-              <span className="mt-2 font-serif text-2xl text-rose sm:text-3xl">:</span>
+              <span className="mt-1 font-serif text-2xl text-rose">:</span>
               <CountdownUnit value={String(cd.minutes).padStart(2, "0")} label="min" />
-              <span className="mt-2 font-serif text-2xl text-rose sm:text-3xl">:</span>
+              <span className="mt-1 font-serif text-2xl text-rose">:</span>
               <CountdownUnit value={String(cd.seconds).padStart(2, "0")} label="seg" />
             </div>
           </div>
@@ -96,20 +82,11 @@ export function HeroSection() {
 
         <Link
           href="/caso-002"
-          className="mt-8 inline-flex min-h-[48px] w-full max-w-xs items-center justify-center gap-2 rounded-2xl bg-rose-deep px-5 py-3.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(232,137,154,0.35)] transition hover:brightness-105"
+          className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center rounded-2xl bg-rose-deep px-5 py-3.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(232,137,154,0.3)]"
         >
-          🔍 Continuar Caso 002
+          🔍 Caso 002 — investigación activa
         </Link>
       </motion.div>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 text-xs uppercase tracking-[0.2em] text-text-light"
-      >
-        desliza · nuestra historia ↓
-      </motion.p>
     </section>
   );
 }
