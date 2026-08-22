@@ -14,7 +14,28 @@ export interface Destination {
   lat: number;
   lng: number;
   url?: string;
+  /** Carpeta en public/photos/ (asturias, mallorca, …) */
+  album?: string;
   memory?: DestinationMemory;
+}
+
+/**
+ * Rutas de fotos por álbum. Se regenera con:
+ *   node scripts/sync-photo-albums.mjs
+ * Mientras no haya JPG en la carpeta, usamos la portada como placeholder.
+ */
+export const photoAlbums: Record<string, string[]> = {
+  "valencia": [],
+  "altea": [],
+  "paris": [],
+  "asturias": [],
+  "mallorca": [],
+  "mestalla": []
+};
+
+function albumPhotos(key: string, fallback: string[] = ["/photos/portada.jpeg"]): string[] {
+  const list = photoAlbums[key] ?? [];
+  return list.length > 0 ? list : fallback;
 }
 
 export const destinations: Destination[] = [
@@ -25,8 +46,9 @@ export const destinations: Destination[] = [
     label: "Casa",
     lat: 39.47,
     lng: -0.37,
+    album: "valencia",
     memory: {
-      photos: ["/photos/portada.jpeg"],
+      photos: albumPhotos("valencia"),
       blurb: "Donde empezó todo. Nuestra base, nuestras calles, nuestro día a día.",
       year: "2025–2026",
     },
@@ -38,8 +60,9 @@ export const destinations: Destination[] = [
     label: "Enero 2026",
     lat: 38.6,
     lng: -0.05,
+    album: "altea",
     memory: {
-      photos: ["/photos/portada.jpeg"],
+      photos: albumPhotos("altea"),
       blurb: "Mar, casco antiguo y el plan perfecto de enero. Un fin de semana que aún duele de bonito.",
       year: "Enero 2026",
     },
@@ -52,19 +75,54 @@ export const destinations: Destination[] = [
     lat: 48.85,
     lng: 2.35,
     url: "/paris",
+    album: "paris",
     memory: {
-      photos: ["/photos/portada.jpeg"],
+      photos: albumPhotos("paris"),
       blurb: "La Torre, Disneyland, y esa foto que ya es nuestra portada. París nos queda para siempre.",
       year: "Abril 2026",
     },
   },
   {
-    name: "Oviedo · Museo F. Alonso",
-    flag: "🏎️",
-    status: "planned",
-    label: "Próximamente",
+    name: "Asturias",
+    flag: "⛰️",
+    status: "done",
+    label: "Junio 2026",
     lat: 43.36,
     lng: -5.85,
+    album: "asturias",
+    memory: {
+      photos: albumPhotos("asturias"),
+      blurb: "Junio en el norte: verde, mar y Oviedo. Asturias nos salió redondo.",
+      year: "Junio 2026",
+    },
+  },
+  {
+    name: "Mallorca",
+    flag: "🏝️",
+    status: "done",
+    label: "Agosto 2026",
+    lat: 39.57,
+    lng: 2.65,
+    album: "mallorca",
+    memory: {
+      photos: albumPhotos("mallorca"),
+      blurb: "Agosto en la isla: calma, mar y ese calor que solo Mallorca sabe dar.",
+      year: "Agosto 2026",
+    },
+  },
+  {
+    name: "Mestalla",
+    flag: "🦇",
+    status: "done",
+    label: "Agosto 2026",
+    lat: 39.4747,
+    lng: -0.3584,
+    album: "mestalla",
+    memory: {
+      photos: albumPhotos("mestalla"),
+      blurb: "Noche de partido en casa. Mestalla, agosto, y vosotros en la grada.",
+      year: "Agosto 2026",
+    },
   },
   {
     name: "Roma",
@@ -116,6 +174,5 @@ export const STATUS_LABELS: Record<DestStatus, string> = {
   future: "🌍 Futuro",
 };
 
-/** Aliases for older imports */
 export type DestStatusAlias = DestStatus;
 export const STATUS_LABELS_ALIAS = STATUS_LABELS;
