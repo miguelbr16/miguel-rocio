@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { timelineEvents, type TimelineEvent } from "@/data/timeline";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -23,7 +24,12 @@ function TimelineCard({ item, index }: { item: TimelineEvent; index: number }) {
       transition={{ delay: Math.min(index * 0.04, 0.4), duration: 0.4 }}
       className="timeline-item"
     >
-      <div className={`tl-dot ${dotClass}`} />
+      <motion.div
+        className={`tl-dot ${dotClass}`}
+        whileInView={item.dot === "big" ? { scale: [1, 1.5, 1] } : undefined}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      />
       <time className="text-[11px] font-semibold uppercase tracking-wider text-text-light">
         {item.date}
       </time>
@@ -54,9 +60,12 @@ function TimelineCard({ item, index }: { item: TimelineEvent; index: number }) {
 
 export function TimelineSection() {
   const { value: events } = useLocalStorage(STORAGE_KEYS.timeline, timelineEvents);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section id="historia" className="section-wrap">
+    <section id="historia" className="section-wrap" ref={ref}>
       <SectionHeader
         label="Capítulo uno"
         title={
@@ -66,7 +75,8 @@ export function TimelineSection() {
         }
         description="Cada momento que nos trajo hasta aquí — contado en orden."
       />
-      <div className="timeline">
+      <div className="timeline timeline-animated">
+        <motion.div className="timeline-progress" style={{ height: lineHeight }} />
         {events.map((item, i) => (
           <TimelineCard key={`${item.title}-${i}`} item={item} index={i} />
         ))}

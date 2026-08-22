@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { cartas, type Carta } from "@/data/cartas";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 function isCartaUnlocked(carta: Carta): boolean {
   if (carta.type !== "locked" || !carta.lockDateIso) return true;
@@ -34,11 +36,14 @@ function CartaModalBody({
   carta: Carta;
   onClose: () => void;
 }) {
+  const reduced = useReducedMotion();
   const [pwd, setPwd] = useState("");
   const [pwdOk, setPwdOk] = useState(false);
   const [error, setError] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   const unlocked = carta.type === "locked" ? isCartaUnlocked(carta) : true;
+  const needsEnvelope = carta.type === "open" || (carta.type === "locked" && unlocked) || (carta.type === "password" && pwdOk);
 
   function tryPwd() {
     if (pwd === carta.pwd) setPwdOk(true);
@@ -72,24 +77,29 @@ function CartaModalBody({
   } else if (carta.type === "password" && !pwdOk) {
     content = (
       <div className="py-4 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cream text-3xl">
-          🔒
-        </div>
-        <h3 className="mt-5 font-serif text-2xl">Carta protegida</h3>
-        <p className="mt-2 text-sm text-text-mid">Solo podrás leerla cuando llegue el momento.</p>
-        <input
-          type="password"
-          value={pwd}
-          maxLength={10}
-          placeholder="Contraseña"
-          onChange={(e) => setPwd(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && tryPwd()}
-          className="form-input mx-auto mt-5 max-w-xs text-center"
-        />
-        <Button className="mt-4" onClick={tryPwd}>
-          Abrir carta
-        </Button>
-        {error ? <p className="mt-2 text-sm text-rose-deep">Contraseña incorrecta</p> : null}
+        <motion.div
+          animate={error && !reduced ? { x: [-8, 8, -6, 6, 0] } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cream text-3xl">
+            🔒
+          </div>
+          <h3 className="mt-5 font-serif text-2xl">Carta protegida</h3>
+          <p className="mt-2 text-sm text-text-mid">Solo podrás leerla cuando llegue el momento.</p>
+          <input
+            type="password"
+            value={pwd}
+            maxLength={10}
+            placeholder="Contraseña"
+            onChange={(e) => setPwd(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && tryPwd()}
+            className="form-input mx-auto mt-5 max-w-xs text-center"
+          />
+          <Button className="mt-4" onClick={tryPwd}>
+            Abrir carta
+          </Button>
+          {error ? <p className="mt-2 text-sm text-rose-deep">Contraseña incorrecta</p> : null}
+        </motion.div>
       </div>
     );
   } else {
@@ -100,14 +110,55 @@ function CartaModalBody({
   }
 
   return (
-    <div className="modal-backdrop" onClick={onClose} role="presentation">
-      <div className="modal-panel" onClick={(e) => e.stopPropagation()} role="dialog">
+    <motion.div
+      className="modal-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      role="presentation"
+    >
+      <motion.div
+        className="modal-panel"
+        initial={{ opacity: 0, y: 24, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 16, scale: 0.97 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+      >
         <button type="button" className="modal-close" onClick={onClose} aria-label="Cerrar">
           ✕
         </button>
-        {content}
-      </div>
-    </div>
+
+        {needsEnvelope && !opened && !reduced ? (
+          <div className="py-8 text-center">
+            <motion.button
+              type="button"
+              className="envelope-btn mx-auto"
+              onClick={() => setOpened(true)}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <div className="envelope">
+                <div className="envelope-flap" />
+                <div className="envelope-body" />
+                <span className="envelope-heart">💌</span>
+              </div>
+            </motion.button>
+            <p className="mt-5 text-sm text-text-mid">Toca el sobre para abrir la carta</p>
+          </div>
+        ) : (
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: opened ? 0.15 : 0, duration: 0.4 }}
+          >
+            {content}
+          </motion.div>
+        )}
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -158,7 +209,9 @@ export function CartasSection() {
       </div>
 
       {active ? (
-        <CartaModalBody key={active.titulo} carta={active} onClose={() => setActive(null)} />
+        <AnimatePresence>
+          <CartaModalBody key={active.titulo} carta={active} onClose={() => setActive(null)} />
+        </AnimatePresence>
       ) : null}
     </section>
   );

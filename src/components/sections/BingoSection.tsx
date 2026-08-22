@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -16,7 +17,13 @@ export function BingoSection() {
   const saved = Object.fromEntries(
     Object.entries(data.bingo).map(([k, v]) => [Number(k), v]),
   ) as Record<number, string>;
+  const [flashIdx, setFlashIdx] = useState<number | null>(null);
   const winShown = useRef(false);
+
+  function flashCell(idx: number) {
+    setFlashIdx(idx);
+    setTimeout(() => setFlashIdx(null), 600);
+  }
 
   function checkWin(next: Record<number, string>) {
     const done = countBingoDone(next);
@@ -33,6 +40,7 @@ export function BingoSection() {
       if (typeof img !== "string") return;
       const next = { ...saved, [idx]: img };
       saveBingo(next);
+      flashCell(idx);
       setTimeout(() => checkWin(next), 300);
     };
     reader.readAsDataURL(file);
@@ -71,8 +79,15 @@ export function BingoSection() {
           const isDone = Boolean(imgSrc) || !item.pending;
 
           return (
-            <div
+            <motion.div
               key={i}
+              layout
+              animate={
+                flashIdx === i
+                  ? { scale: [1, 1.08, 1], boxShadow: "0 0 0 3px rgba(201, 107, 136, 0.5)" }
+                  : { scale: 1, boxShadow: "0 0 0 0px transparent" }
+              }
+              transition={{ duration: 0.45 }}
               className={`bingo-cell ${isDone ? (imgSrc ? "bingo-done-photo" : "bingo-done-empty") : "bingo-pending"}`}
             >
               {imgSrc ? (
@@ -107,7 +122,7 @@ export function BingoSection() {
                   />
                 </label>
               ) : null}
-            </div>
+            </motion.div>
           );
         })}
       </div>
