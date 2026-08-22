@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { cartas, type Carta } from "@/data/cartas";
 import { useSiteConfig } from "@/context/SiteConfigContext";
@@ -14,13 +16,13 @@ function renderCartaBody(carta: Carta, title?: string) {
   return (
     <>
       <h3 className="font-serif text-2xl">{title ?? carta.titulo}</h3>
-      <p className="mb-4 text-xs tracking-wide text-rose">{carta.fecha}</p>
+      <p className="mb-4 text-xs font-medium tracking-wide text-rose-deep">{carta.fecha}</p>
       {carta.content?.split("\n\n").map((p, i) => (
         <p key={i} className="mb-3 text-sm leading-relaxed text-text-mid">
           {p}
         </p>
       ))}
-      {carta.firma ? <p className="mt-4 font-serif italic text-rose">{carta.firma}</p> : null}
+      {carta.firma ? <p className="mt-4 font-serif italic text-rose-deep">{carta.firma}</p> : null}
     </>
   );
 }
@@ -54,9 +56,11 @@ function CartaModalBody({
   } else if (carta.type === "locked" && !unlocked) {
     content = (
       <div className="py-6 text-center">
-        <div className="text-4xl">🔒</div>
-        <h3 className="mt-4 font-serif text-2xl">{carta.titulo}</h3>
-        <p className="mt-3 text-sm text-text-mid">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cream text-3xl">
+          🔒
+        </div>
+        <h3 className="mt-5 font-serif text-2xl">{carta.titulo}</h3>
+        <p className="mt-3 text-sm leading-relaxed text-text-mid">
           Guardada para <strong>{carta.lockDate}</strong>.
           <br />
           Cuando llegue ese momento, aquí estará esperándote.
@@ -68,8 +72,10 @@ function CartaModalBody({
   } else if (carta.type === "password" && !pwdOk) {
     content = (
       <div className="py-4 text-center">
-        <div className="text-4xl">🔒</div>
-        <h3 className="mt-4 font-serif text-2xl">Carta protegida</h3>
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cream text-3xl">
+          🔒
+        </div>
+        <h3 className="mt-5 font-serif text-2xl">Carta protegida</h3>
         <p className="mt-2 text-sm text-text-mid">Solo podrás leerla cuando llegue el momento.</p>
         <input
           type="password"
@@ -78,12 +84,12 @@ function CartaModalBody({
           placeholder="Contraseña"
           onChange={(e) => setPwd(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && tryPwd()}
-          className="form-input mt-4 w-full max-w-xs text-center"
+          className="form-input mx-auto mt-5 max-w-xs text-center"
         />
-        <button type="button" onClick={tryPwd} className="btn-primary mt-3">
-          Abrir carta 💌
-        </button>
-        {error ? <p className="mt-2 text-sm text-rose">Contraseña incorrecta</p> : null}
+        <Button className="mt-4" onClick={tryPwd}>
+          Abrir carta
+        </Button>
+        {error ? <p className="mt-2 text-sm text-rose-deep">Contraseña incorrecta</p> : null}
       </div>
     );
   } else {
@@ -118,17 +124,17 @@ export function CartasSection() {
         description="Algunas cosas se dicen mejor cuando llegue el momento."
       />
 
-      <article className="glass-card-gold mb-8 p-6">
+      <Card variant="elevated" padding="lg" className="carta-featured mb-8">
         <p className="section-label">Para ti</p>
         <h3 className="font-serif text-3xl font-normal">Una carta</h3>
-        <div className="mt-4 space-y-3 text-sm leading-relaxed text-text-mid">
-          <p>{cartaIntro.saludo}</p>
+        <div className="mt-5 space-y-3 text-sm leading-relaxed text-text-mid">
+          <p className="font-medium text-text">{cartaIntro.saludo}</p>
           {cartaIntro.paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
-          <p className="font-serif italic text-rose">{cartaIntro.firma}</p>
+          <p className="font-serif italic text-rose-deep">{cartaIntro.firma}</p>
         </div>
-      </article>
+      </Card>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {cartas.map((carta) => (
@@ -136,12 +142,16 @@ export function CartasSection() {
             key={carta.titulo}
             type="button"
             onClick={() => setActive(carta)}
-            className={`carta-card text-left ${carta.blur ? "carta-blur" : ""}`}
+            className={`carta-card ${carta.blur ? "carta-blur" : ""}`}
           >
-            <div className="text-3xl">{carta.icon}</div>
-            <p className="mt-3 text-[11px] uppercase tracking-wide text-text-light">{carta.fecha}</p>
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cream text-3xl">
+              {carta.icon}
+            </div>
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-wide text-text-light">
+              {carta.fecha}
+            </p>
             <h4 className="mt-1 font-serif text-xl">{carta.titulo}</h4>
-            <p className="mt-2 text-xs text-text-mid">{carta.hint}</p>
+            <p className="mt-2 text-xs leading-relaxed text-text-mid">{carta.hint}</p>
             <span className="carta-badge">{carta.type === "open" ? "💌" : "🔒"}</span>
           </button>
         ))}

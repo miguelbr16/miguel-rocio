@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { quizItems } from "@/data/quiz";
 import { pictWords } from "@/data/pictWords";
@@ -39,11 +41,11 @@ function QuizPanel() {
 
   if (!started) {
     return (
-      <div className="py-8 text-center">
+      <div className="py-10 text-center">
         <p className="text-sm text-text-mid">¿Cuánto sabes de nosotros?</p>
-        <button type="button" className="btn-primary mt-4" onClick={() => setStarted(true)}>
+        <Button className="mt-5" onClick={() => setStarted(true)}>
           Empezar quiz
-        </button>
+        </Button>
       </div>
     );
   }
@@ -51,19 +53,19 @@ function QuizPanel() {
   if (finished) {
     const msgs =
       score === quizTotal
-        ? "¡Perfecto! Me conoces mejor que yo mismo. 😮"
+        ? "¡Perfecto! Me conoces mejor que yo mismo."
         : score >= quizTotal - 2
-          ? "Casi todo bien. Impresionante. 😊"
-          : "Todavía hay cosas que descubrir. Tenemos tiempo. 😄";
+          ? "Casi todo bien. Impresionante."
+          : "Todavía hay cosas que descubrir. Tenemos tiempo.";
     return (
-      <div className="py-8 text-center">
-        <div className="font-serif text-5xl text-gold">
+      <div className="py-10 text-center">
+        <div className="font-serif text-5xl text-rose-deep">
           {score} / {quizTotal}
         </div>
         <p className="mt-4 text-sm text-text-mid">{msgs}</p>
-        <button
-          type="button"
-          className="btn-ghost mt-6"
+        <Button
+          variant="ghost"
+          className="mt-6"
           onClick={() => {
             setStarted(false);
             setFinished(false);
@@ -72,7 +74,7 @@ function QuizPanel() {
           }}
         >
           Volver
-        </button>
+        </Button>
       </div>
     );
   }
@@ -81,15 +83,15 @@ function QuizPanel() {
 
   return (
     <div>
-      <div className="mb-4 h-1 overflow-hidden rounded-full bg-rose-pale">
-        <div className="h-full bg-rose-deep transition-all" style={{ width: `${progress}%` }} />
+      <div className="progress-bar mb-5">
+        <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
       </div>
       {q.type === "quiz" ? (
         <>
-          <p className="mb-1 text-xs text-text-light">
+          <p className="mb-1 text-xs font-medium text-text-light">
             Pregunta {idx + 1} de {quizItems.length}
           </p>
-          <p className="mb-4 font-serif text-xl">{q.q}</p>
+          <p className="mb-5 font-serif text-xl">{q.q}</p>
           <div className="space-y-2">
             {q.opts.map((opt, i) => (
               <button
@@ -97,12 +99,12 @@ function QuizPanel() {
                 type="button"
                 disabled={answered}
                 onClick={() => answer(i)}
-                className={`quiz-opt w-full rounded-xl border px-4 py-3 text-left text-sm transition ${
+                className={`quiz-opt w-full px-4 py-3.5 text-left text-sm ${
                   answered
                     ? i === q.ans
-                      ? "border-sky/50 bg-sky-pale text-sky"
-                      : "border-white/10 opacity-50"
-                    : "border-white/10 hover:border-rose/40 hover:bg-rose-pale"
+                      ? "quiz-opt-correct"
+                      : "quiz-opt-wrong"
+                    : ""
                 }`}
               >
                 {opt}
@@ -115,15 +117,15 @@ function QuizPanel() {
         </>
       ) : (
         <>
-          <span className="text-xs font-medium uppercase tracking-wider text-gold">{q.tag}</span>
-          <div className="my-4 text-4xl">{q.icon}</div>
+          <span className="text-xs font-semibold uppercase tracking-wider text-gold">{q.tag}</span>
+          <div className="my-5 text-4xl">{q.icon}</div>
           <p className="font-serif text-xl">{q.q}</p>
         </>
       )}
       {(answered || q.type !== "quiz") && (
-        <button type="button" className="btn-primary mt-6 w-full" onClick={next}>
+        <Button fullWidth className="mt-6" onClick={next}>
           Siguiente →
-        </button>
+        </Button>
       )}
     </div>
   );
@@ -145,7 +147,7 @@ function PictionaryPanel() {
   const [used, setUsed] = useState<number[]>([]);
   const painting = useRef(false);
   const lastPoint = useRef({ x: 0, y: 0 });
-  const color = useRef("#080608");
+  const color = useRef("#1a1216");
   const size = useRef(3);
 
   const initCanvas = useCallback(() => {
@@ -222,56 +224,58 @@ function PictionaryPanel() {
 
   if (!started) {
     return (
-      <div className="py-6 text-center">
-        <p className="mb-4 text-sm text-text-mid">Dibuja y adivina — estilo inside jokes</p>
-        <div className="mb-4 flex justify-center gap-2">
+      <div className="py-8 text-center">
+        <p className="mb-5 text-sm text-text-mid">Dibuja y adivina — estilo inside jokes</p>
+        <div className="mb-5 flex justify-center gap-2">
           {[name1, name2].map((name) => (
             <button
               key={name}
               type="button"
               onClick={() => setDrawer(name)}
-              className={`rounded-full px-4 py-2 text-sm ${drawer === name ? "bg-rose-deep text-white" : "border border-border"}`}
+              className={`rounded-full px-4 py-2.5 text-sm font-medium transition ${
+                drawer === name
+                  ? "bg-rose-deep text-white shadow-md"
+                  : "border border-border bg-white text-text-mid"
+              }`}
             >
               Empieza {name}
             </button>
           ))}
         </div>
-        <button type="button" className="btn-primary" onClick={() => setStarted(true)}>
-          ¡A dibujar!
-        </button>
+        <Button onClick={() => setStarted(true)}>¡A dibujar!</Button>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="mb-3 flex justify-center gap-6 text-center">
+      <div className="mb-4 flex justify-center gap-8 text-center">
         <div>
           <div className="font-serif text-3xl text-gold">{scores[name1] ?? 0}</div>
-          <div className="text-xs text-text-light">{name1}</div>
+          <div className="text-xs font-medium text-text-light">{name1}</div>
         </div>
         <div>
-          <div className="font-serif text-3xl text-rose">{scores[name2] ?? 0}</div>
-          <div className="text-xs text-text-light">{name2}</div>
+          <div className="font-serif text-3xl text-rose-deep">{scores[name2] ?? 0}</div>
+          <div className="text-xs font-medium text-text-light">{name2}</div>
         </div>
       </div>
-      <p className="mb-3 rounded-xl bg-rose-pale py-2.5 text-center text-sm text-rose">
+      <p className="mb-4 rounded-full bg-rose-muted py-2.5 text-center text-sm font-medium text-rose-deep">
         Turno de {drawer} — dibuja la palabra
       </p>
       {showWord ? (
-        <div className="glass-card mb-3 p-4 text-center">
+        <Card variant="soft" padding="md" className="mb-4 text-center">
           <div className="font-serif text-2xl">{word.word}</div>
           <div className="text-xs text-text-light">{word.hint}</div>
-        </div>
+        </Card>
       ) : (
-        <button type="button" className="btn-ghost mb-3 w-full" onClick={() => setShowWord(true)}>
-          Ver palabra 👀
-        </button>
+        <Button variant="ghost" fullWidth className="mb-4" onClick={() => setShowWord(true)}>
+          Ver palabra
+        </Button>
       )}
-      <div className="glass-card overflow-hidden">
+      <div className="pict-canvas-wrap">
         <canvas
           ref={canvasRef}
-          className="block w-full touch-none bg-white/95"
+          className="block w-full touch-none bg-white"
           height={280}
           onMouseDown={(e) => startStroke(e, e.currentTarget)}
           onMouseMove={moveStroke}
@@ -288,34 +292,35 @@ function PictionaryPanel() {
           onTouchEnd={endStroke}
         />
       </div>
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap items-center gap-2">
         {PICT_COLORS.map((c) => (
           <button
             key={c}
             type="button"
-            className="h-8 w-8 rounded-full border-2 border-white/20 shadow-lg"
+            className="color-swatch"
             style={{ background: c }}
             onClick={() => {
               color.current = c;
             }}
+            aria-label={`Color ${c}`}
           />
         ))}
-        <button type="button" className="btn-ghost text-xs" onClick={clearCanvas}>
+        <Button variant="ghost" size="sm" onClick={clearCanvas}>
           Limpiar
-        </button>
-        <button type="button" className="btn-ghost text-xs" onClick={nextWord}>
+        </Button>
+        <Button variant="ghost" size="sm" onClick={nextWord}>
           Saltar
-        </button>
-        <button
-          type="button"
-          className="btn-primary ml-auto text-xs"
+        </Button>
+        <Button
+          size="sm"
+          className="ml-auto"
           onClick={() => {
             setScores((s) => ({ ...s, [drawer]: s[drawer] + 1 }));
             nextWord();
           }}
         >
           ¡Acierto! +1
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -326,8 +331,9 @@ export function JuegosSection() {
 
   return (
     <section id="juegos" className="section-wrap">
-      <SectionHeader label="Diversión" title="Juegos" />
-      <div className="mb-4 flex gap-2">
+      <SectionHeader label="Diversión" title="Juegos" description="Para pasarlo bien juntos." />
+
+      <div className="game-tabs mb-5">
         {(
           [
             ["quiz", "Quiz"],
@@ -338,19 +344,16 @@ export function JuegosSection() {
             key={id}
             type="button"
             onClick={() => setTab(id)}
-            className={`flex-1 rounded-full py-2.5 text-sm font-medium transition ${
-              tab === id
-                ? "bg-gradient-to-r from-rose-deep to-rose text-white shadow-[0_0_20px_rgba(232,84,122,0.3)]"
-                : "border border-white/10 text-text-mid hover:border-white/20"
-            }`}
+            className={`game-tab ${tab === id ? "game-tab-active" : ""}`}
           >
             {label}
           </button>
         ))}
       </div>
-      <div className="glass-card p-5">
+
+      <Card variant="elevated" padding="lg">
         {tab === "quiz" ? <QuizPanel /> : <PictionaryPanel />}
-      </div>
+      </Card>
     </section>
   );
 }

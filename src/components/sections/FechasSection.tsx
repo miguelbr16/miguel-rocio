@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SyncBadge } from "@/components/SyncBadge";
 import type { FechaEspecial } from "@/data/fechas";
@@ -19,29 +22,23 @@ function FechaRow({
 }) {
   const isToday = f.days === 0;
   const isSoon = f.days <= 7;
-  const badge = isToday ? "¡Hoy! 🎉" : f.days === 1 ? "Mañana" : `En ${f.days} días`;
-  const badgeClass = isToday
-    ? "bg-rose-pale text-rose-deep"
-    : isSoon
-      ? "bg-sky-pale text-sky-deep"
-      : "bg-cream text-text-mid border border-border";
+  const badge = isToday ? "¡Hoy!" : f.days === 1 ? "Mañana" : `En ${f.days} días`;
+  const badgeTone = isToday ? "rose" : isSoon ? "sky" : "neutral";
 
   return (
-    <div
-      className={`flex items-center gap-3 rounded-xl border bg-white px-3 py-3 ${isToday ? "border-rose-deep" : "border-border"}`}
-    >
-      <span className="text-2xl">{f.emoji}</span>
+    <div className={`fecha-row ${isToday ? "fecha-row-today" : ""}`}>
+      <span className="fecha-emoji">{f.emoji}</span>
       <div className="min-w-0 flex-1">
-        <div className={`truncate text-sm ${isToday ? "font-medium" : ""}`}>{f.nombre}</div>
+        <div className={`truncate text-sm ${isToday ? "font-semibold" : "font-medium"}`}>
+          {f.nombre}
+        </div>
         <div className="text-xs text-text-light">{formatSpanishDate(f.dateStr)}</div>
       </div>
-      <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${badgeClass}`}>
-        {badge}
-      </span>
+      <Badge tone={badgeTone}>{badge}</Badge>
       <button
         type="button"
         onClick={() => onDelete(idx)}
-        className="text-lg leading-none text-text-light hover:text-text"
+        className="flex h-8 w-8 items-center justify-center rounded-full text-lg text-text-light transition hover:bg-cream hover:text-text"
         aria-label="Eliminar"
       >
         ×
@@ -83,21 +80,21 @@ export function FechasSection() {
         label="Nuestro calendario"
         title="Fechas especiales"
         description="Las fechas que importan — compartidas entre vosotros."
+        action={<SyncBadge />}
       />
-      <div className="mb-4">
-        <SyncBadge />
-      </div>
-      <div className="space-y-2">
+
+      <div className="space-y-2.5">
         {sorted.map((f) => (
           <FechaRow key={`${f.nombre}-${f.idx}`} f={f} idx={f.idx} onDelete={deleteFecha} />
         ))}
       </div>
+
       <div className="mt-6">
-        <button type="button" className="btn-secondary w-full" onClick={() => setShowForm(!showForm)}>
-          + Añadir fecha especial
-        </button>
+        <Button variant="secondary" fullWidth onClick={() => setShowForm(!showForm)}>
+          {showForm ? "Cancelar" : "+ Añadir fecha especial"}
+        </Button>
         {showForm ? (
-          <div className="glass-card mt-3 space-y-3 p-4">
+          <Card variant="soft" padding="md" className="mt-3 space-y-3">
             <div className="grid gap-2 sm:grid-cols-2">
               <input
                 placeholder="Emoji · ej: 🎂"
@@ -123,14 +120,14 @@ export function FechasSection() {
               </label>
             </div>
             <div className="flex gap-2">
-              <button type="button" className="btn-primary flex-1" onClick={addFecha}>
+              <Button className="flex-1" onClick={addFecha}>
                 Guardar
-              </button>
-              <button type="button" className="btn-ghost flex-1" onClick={() => setShowForm(false)}>
+              </Button>
+              <Button variant="ghost" className="flex-1" onClick={() => setShowForm(false)}>
                 Cancelar
-              </button>
+              </Button>
             </div>
-          </div>
+          </Card>
         ) : null}
       </div>
     </section>

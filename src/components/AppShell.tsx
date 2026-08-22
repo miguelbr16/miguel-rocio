@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { AmbientBackground } from "@/components/AmbientBackground";
 import { Header } from "@/components/Header";
 import { LockScreen } from "@/components/LockScreen";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -43,6 +44,17 @@ export function AppShell() {
     if (isSectionId(hash)) setActive(hash);
   }, []);
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const switchTab = useCallback((id: SectionId) => {
     setMenuOpen(false);
     setActive(id);
@@ -62,6 +74,7 @@ export function AppShell() {
       {unlocked ? (
         <CoupleSyncProvider>
           <div className="app-root">
+            <AmbientBackground />
             <Header
               active={active}
               menuOpen={menuOpen}
@@ -72,10 +85,10 @@ export function AppShell() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                   className="tab-panel"
                   role="tabpanel"
                   id={`panel-${active}`}

@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useRef } from "react";
+import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SyncBadge } from "@/components/SyncBadge";
 import { bingoItems, bingoPhotoPath } from "@/data/bingo";
@@ -38,20 +40,27 @@ export function BingoSection() {
 
   const doneCount = countBingoDone(saved);
   const complete = doneCount >= bingoItems.length;
+  const progressPct = Math.round((doneCount / bingoItems.length) * 100);
 
   return (
     <section id="bingo" className="section-wrap">
       <SectionHeader
         label="2025 — 2026"
         title="Bingo de planes"
-        description="Sube fotos — se sincronizan para los dos."
+        description="Sube fotos de cada plan cumplido — se sincronizan para los dos."
+        action={<SyncBadge />}
       />
-      <div className="mb-4">
-        <SyncBadge />
-      </div>
 
-      <div className="mb-4 text-center text-xs text-text-light">
-        {doneCount} / {bingoItems.length} completados
+      <div className="mb-6">
+        <div className="mb-2 flex items-center justify-between text-xs font-medium text-text-mid">
+          <span>
+            {doneCount} / {bingoItems.length} completados
+          </span>
+          <Badge tone={complete ? "success" : "rose"}>{progressPct}%</Badge>
+        </div>
+        <div className="bingo-progress">
+          <div className="bingo-progress-fill" style={{ width: `${progressPct}%` }} />
+        </div>
       </div>
 
       <div className="bingo-grid">
@@ -104,13 +113,13 @@ export function BingoSection() {
       </div>
 
       {complete ? (
-        <div className="mt-6 rounded-2xl border border-rose-deep bg-rose-pale p-6 text-center">
+        <Card variant="elevated" padding="lg" className="mt-8 border-rose-deep/20 bg-rose-muted text-center">
           <div className="text-4xl">🎉</div>
-          <p className="mt-2 font-serif text-2xl">¡Bingo completado!</p>
-          <p className="mt-1 text-sm text-text-mid">
+          <p className="mt-3 font-serif text-2xl text-text">¡Bingo completado!</p>
+          <p className="mt-2 text-sm text-text-mid">
             {bingoItems.length} planes, {bingoItems.length} recuerdos. Esto es solo el principio. ♥
           </p>
-        </div>
+        </Card>
       ) : (
         <p className="bingo-footer">&ldquo;365 días y mil planes para hacer contigo.&rdquo;</p>
       )}

@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SyncBadge } from "@/components/SyncBadge";
 import {
@@ -17,7 +19,7 @@ const DestinationsMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[260px] items-center justify-center rounded-2xl bg-sky-pale text-sm text-text-mid">
+      <div className="flex h-[280px] items-center justify-center bg-sky-muted text-sm text-text-mid">
         Cargando mapa…
       </div>
     ),
@@ -40,11 +42,13 @@ function DestRow({
   onStatusChange: (index: number, status: DestStatus) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2 rounded-xl border border-border bg-white px-3 py-3 sm:flex-row sm:items-center">
+    <div className="dest-row">
       <div className="flex min-w-0 flex-1 items-center gap-3">
-        <span className="shrink-0 text-2xl">{dest.flag}</span>
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-2xl shadow-sm">
+          {dest.flag}
+        </span>
         <div className="min-w-0">
-          <div className="truncate text-sm font-medium">{dest.name}</div>
+          <div className="truncate text-sm font-semibold">{dest.name}</div>
           {dest.label ? <div className="text-xs text-text-light">{dest.label}</div> : null}
         </div>
       </div>
@@ -52,9 +56,9 @@ function DestRow({
         {dest.url ? (
           <Link
             href={dest.url}
-            className="rounded-full bg-rose-pale px-2.5 py-1.5 text-[11px] text-rose-deep"
+            className="rounded-full bg-rose-muted px-3 py-2 text-[11px] font-semibold text-rose-deep"
           >
-            Web
+            Ver web
           </Link>
         ) : null}
         <label className="sr-only" htmlFor={`dest-status-${index}`}>
@@ -64,7 +68,7 @@ function DestRow({
           id={`dest-status-${index}`}
           value={dest.status}
           onChange={(e) => onStatusChange(index, e.target.value as DestStatus)}
-          className="form-input min-h-[44px] flex-1 text-xs sm:min-w-[130px] sm:flex-none"
+          className="status-select min-w-[130px]"
         >
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -115,32 +119,31 @@ export function DestinationsSection() {
         label="El mundo es nuestro"
         title="Nuestros destinos"
         description="Cambia el status o añade un viaje — Rocío lo verá al instante si la sync está activa."
+        action={<SyncBadge />}
       />
-      <div className="mb-6">
-        <SyncBadge />
-      </div>
 
-      <div className="overflow-hidden rounded-2xl border border-border bg-white">
+      <div className="dest-card">
         <DestinationsMap destinations={dests} />
-        <div className="space-y-2 p-3 sm:p-4">
+        <div className="space-y-2.5 p-4">
           {dests.map((d, i) => (
             <DestRow key={`${d.name}-${i}`} dest={d} index={i} onStatusChange={updateStatus} />
           ))}
         </div>
       </div>
 
-      <div className="mt-4">
-        <button type="button" className="btn-secondary w-full" onClick={() => setShowAdd(!showAdd)}>
-          + Añadir destino
-        </button>
+      <div className="mt-5">
+        <Button variant="secondary" fullWidth onClick={() => setShowAdd(!showAdd)}>
+          {showAdd ? "Cancelar" : "+ Añadir destino"}
+        </Button>
         {showAdd ? (
-          <div className="glass-card mt-3 space-y-3 p-4">
+          <Card variant="soft" padding="md" className="mt-3 space-y-3">
             <div className="grid gap-2 sm:grid-cols-[4rem_1fr]">
               <input
-                className="form-input text-center"
+                className="form-input text-center text-xl"
                 value={flag}
                 onChange={(e) => setFlag(e.target.value)}
                 placeholder="🌍"
+                aria-label="Emoji del destino"
               />
               <input
                 className="form-input"
@@ -155,10 +158,10 @@ export function DestinationsSection() {
               onChange={(e) => setLabel(e.target.value)}
               placeholder="Etiqueta · ej: Verano 2027"
             />
-            <button type="button" className="btn-primary w-full" onClick={addDestination}>
+            <Button fullWidth onClick={addDestination}>
               Guardar destino
-            </button>
-          </div>
+            </Button>
+          </Card>
         ) : null}
       </div>
     </section>
