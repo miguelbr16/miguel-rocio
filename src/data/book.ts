@@ -1,75 +1,101 @@
 export interface BookPage {
   id: string;
-  chapter: string;
+  kind: "cover" | "spread";
+  chapter?: string;
   title: string;
   date?: string;
+  /** Frase / texto principal */
   body: string;
-  emoji: string;
+  /** Frase corta tipo cita */
+  quote?: string;
+  emoji?: string;
   photo?: string;
+  photoCaption?: string;
 }
 
 export const bookPages: BookPage[] = [
   {
     id: "cover",
-    chapter: "Portada",
+    kind: "cover",
     title: "Miguel & Rocío",
     date: "18 · 11 · 2025 → 18 · 11 · 2026",
-    body: "Un año. Un libro. Todas las páginas que aún estamos escribiendo.",
-    emoji: "📔",
+    body: "El libro de nuestro primer año",
+    quote: "Todas las páginas que aún estamos escribiendo.",
     photo: "/photos/portada.jpeg",
   },
   {
     id: "start",
-    chapter: "Capítulo 1",
-    title: "El primer día",
+    kind: "spread",
+    chapter: "Capítulo I",
+    title: "El día uno",
     date: "18 noviembre 2025",
-    body: "Empezó como empiezan las mejores historias: sin saber que lo era. Un día cualquiera que se convirtió en el día uno.",
+    body: "Empezó sin avisar. Un día cualquiera que, mirado atrás, era imposible no llamarlo el primero.",
+    quote: "Sin saber que era el principio de todo.",
     emoji: "✨",
+    photo: "/photos/portada.jpeg",
+    photoCaption: "Donde empezó a escribirse",
   },
   {
     id: "fall",
-    chapter: "Capítulo 2",
-    title: "Cómo costó lo suyo",
-    body: "No fue de golpe. Fue de a poco: miradas, mensajes, planes. Hasta que un día ya no había vuelta atrás.",
+    kind: "spread",
+    chapter: "Capítulo II",
+    title: "De a poco",
+    body: "No fue un golpe. Fueron miradas, mensajes, planes a medias… hasta que ya no había vuelta atrás.",
+    quote: "El amor también se construye despacio.",
     emoji: "💫",
   },
   {
     id: "altea",
-    chapter: "Capítulo 3",
+    kind: "spread",
+    chapter: "Capítulo III",
     title: "Altea · Mar de invierno",
     date: "Enero 2026",
-    body: "El frío del mar, las calles blancas, y la certeza de que viajar juntos era lo nuestro.",
+    body: "Calles blancas, frío en la cara y la certeza de que viajar juntos era lo nuestro.",
+    quote: "El mar de enero todavía nos recuerda.",
     emoji: "🌊",
+    photo: "/photos/portada.jpeg",
+    photoCaption: "Invierno juntos",
   },
   {
     id: "paris",
-    chapter: "Capítulo 4",
+    kind: "spread",
+    chapter: "Capítulo IV",
     title: "París · La torre y nosotros",
     date: "Abril 2026",
-    body: "Disneyland, la Torre Eiffel, y esa foto que ahora abre nuestra web. París no fue un viaje: fue una declaración.",
+    body: "Disneyland, la Torre, y esa foto que ahora abre nuestra web. París no fue un viaje: fue una declaración.",
+    quote: "Misma pose. Misma torre. Para siempre.",
     emoji: "🗼",
     photo: "/photos/portada.jpeg",
+    photoCaption: "Nuestra portada",
   },
   {
     id: "daily",
-    chapter: "Capítulo 5",
+    kind: "spread",
+    chapter: "Capítulo V",
     title: "Lo de cada día",
-    body: "No solo los viajes. También el café, las risas tontas, las llaves perdidas y las cobras. El amor también es lo pequeño.",
+    body: "El café, las risas tontas, las llaves perdidas, las cobras. El amor también vive en lo pequeño.",
+    quote: "Los días normales también cuentan.",
     emoji: "☕",
   },
   {
     id: "bingo",
-    chapter: "Capítulo 6",
+    kind: "spread",
+    chapter: "Capítulo VI",
     title: "Planes cumplidos",
     body: "El bingo no era un juego: era una lista de promesas. Cada casilla, un recuerdo. Cada foto, una prueba.",
+    quote: "Tachamos casillas. Sumamos vida.",
     emoji: "🎯",
   },
   {
     id: "epilogue",
+    kind: "spread",
     chapter: "Epílogo",
     title: "Hacia el año dos",
     date: "18 noviembre 2026",
     body: "Este libro no se cierra. Solo pasa de página. El próximo capítulo se llama Año Dos — y lo escribimos juntos.",
+    quote: "La siguiente página empieza contigo.",
     emoji: "🤍",
+    photo: "/photos/portada.jpeg",
+    photoCaption: "Seguimos",
   },
 ];

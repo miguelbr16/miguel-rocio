@@ -30,48 +30,6 @@ const STATUS_OPTIONS: { value: DestStatus; label: string }[] = [
   { value: "future", label: STATUS_LABELS.future },
 ];
 
-function MemoryModal({ dest, onClose }: { dest: Destination; onClose: () => void }) {
-  return (
-    <div className="modal-backdrop" onClick={onClose} role="presentation">
-      <motion.div
-        className="modal-panel memory-modal"
-        initial={{ opacity: 0, y: 20, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 12 }}
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-label={`Recuerdos de ${dest.name}`}
-      >
-        <button type="button" className="modal-close" onClick={onClose} aria-label="Cerrar">
-          ✕
-        </button>
-        <p className="text-3xl">{dest.flag}</p>
-        <h3 className="mt-2 font-serif text-2xl">{dest.name}</h3>
-        {dest.label ? <p className="text-xs text-text-light">{dest.label}</p> : null}
-        {dest.memory ? (
-          <>
-            <p className="mt-4 text-sm leading-relaxed text-text-mid">{dest.memory.blurb}</p>
-            <div className="memory-photos mt-4">
-              {dest.memory.photos.map((src) => (
-                <div key={src} className="memory-photo">
-                  <Image src={src} alt={dest.name} fill className="object-cover" sizes="200px" />
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          <p className="mt-4 text-sm text-text-mid">Aún no hay fotos de este destino. ¡Pronto!</p>
-        )}
-        {dest.url ? (
-          <Link href={dest.url} className="btn btn-primary mt-5 inline-flex w-full justify-center">
-            Abrir la web →
-          </Link>
-        ) : null}
-      </motion.div>
-    </div>
-  );
-}
-
 export function DestinationsSection() {
   const { data, saveDestinations } = useCoupleSync();
   const dests = data.destinations;
@@ -80,12 +38,25 @@ export function DestinationsSection() {
   const [flag, setFlag] = useState("✈️");
   const [label, setLabel] = useState("");
   const [expanded, setExpanded] = useState<number | null>(null);
-  const [memoryDest, setMemoryDest] = useState<Destination | null>(null);
+  const [photosOpen, setPhotosOpen] = useState<number | null>(null);
 
   function updateStatus(index: number, status: DestStatus) {
     const next = [...dests];
     next[index] = { ...next[index]!, status };
     saveDestinations(next);
+  }
+
+  function openFromMap(dest: Destination) {
+    const index = dests.findIndex((d) => d.name === dest.name);
+    if (index < 0) return;
+    setExpanded(index);
+    if (dest.memory?.photos?.length) setPhotosOpen(index);
+    requestAnimationFrame(() => {
+      document.getElementById(`dest-row-${index}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    });
   }
 
   function addDestination() {
@@ -113,21 +84,29 @@ export function DestinationsSection() {
       <SectionHeader
         label="Mapa de recuerdos"
         title="Nuestros destinos"
-        description="Clic en el mapa o despliega cada destino: fotos, historia y enlace a la web si existe."
+        description="Clic en el mapa o despliega cada destino: las fotos se abren ahí mismo."
         action={<SyncBadge />}
       />
 
       <div className="dest-card">
-        <DestinationsMap destinations={dests} onSelectDestination={setMemoryDest} />
+        <DestinationsMap destinations={dests} onSelectDestination={openFromMap} />
         <div className="space-y-2 p-4">
           {dests.map((d, i) => {
             const isOpen = expanded === i;
+            const showPhotos = photosOpen === i && Boolean(d.memory?.photos?.length);
             return (
-              <div key={`${d.name}-${i}`} className={`dest-row-wrap ${isOpen ? "is-open" : ""}`}>
+              <div
+                key={`${d.name}-${i}`}
+                id={`dest-row-${i}`}
+                className={`dest-row-wrap ${isOpen ? "is-open" : ""}`}
+              >
                 <button
                   type="button"
                   className="dest-row"
-                  onClick={() => setExpanded(isOpen ? null : i)}
+                  onClick={() => {
+                    setExpanded(isOpen ? null : i);
+                    if (isOpen) setPhotosOpen(null);
+                  }}
                 >
                   <div className="flex min-w-0 flex-1 items-center gap-3">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-2xl shadow-sm">
@@ -154,9 +133,12 @@ export function DestinationsSection() {
                           {d.memory?.blurb ?? "Destino en el mapa de sueños."}
                         </p>
                         <div className="mt-3 flex flex-wrap gap-2">
-                          {d.memory ? (
-                            <Button size="sm" onClick={() => setMemoryDest(d)}>
-                              Ver fotos
+                          {d.memory?.photos?.length ? (
+                            <Button
+                              size="sm"
+                              onClick={() => setPhotosOpen(showPhotos ? null : i)}
+                            >
+                              {showPhotos ? "Ocultar fotos" : "Ver fotos"}
                             </Button>
                           ) : null}
                           {d.url ? (
@@ -178,6 +160,31 @@ export function DestinationsSection() {
                             ))}
                           </select>
                         </div>
+
+                        <AnimatePresence initial={false}>
+                          {showPhotos ? (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="dest-inline-photos mt-4">
+                                {d.memory!.photos.map((src) => (
+                                  <div key={src} className="dest-inline-photo">
+                                    <Image
+                                      src={src}
+                                      alt={d.name}
+                                      fill
+                                      className="object-cover object-[center_72%]"
+                                      sizes="(max-width: 640px) 50vw, 220px"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </motion.div>
+                          ) : null}
+                        </AnimatePresence>
                       </div>
                     </motion.div>
                   ) : null}
@@ -220,10 +227,6 @@ export function DestinationsSection() {
           </Card>
         ) : null}
       </div>
-
-      <AnimatePresence>
-        {memoryDest ? <MemoryModal dest={memoryDest} onClose={() => setMemoryDest(null)} /> : null}
-      </AnimatePresence>
     </section>
   );
 }

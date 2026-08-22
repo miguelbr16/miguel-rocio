@@ -68,7 +68,7 @@ export function HeroSection() {
             alt={`${name1} y ${name2}`}
             fill
             priority
-            className="object-cover"
+            className="object-cover object-[center_78%]"
             sizes="100vw"
           />
           <div className="hero-cinematic-scrim" aria-hidden />
@@ -134,7 +134,7 @@ export function HeroSection() {
             alt={`${name1} y ${name2}`}
             fill
             priority
-            className="object-cover"
+            className="object-cover object-[center_72%]"
             sizes="100vw"
           />
         </motion.div>
