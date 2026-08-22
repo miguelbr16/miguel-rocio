@@ -3,17 +3,20 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { SyncBadge } from "@/components/SyncBadge";
 import { bingoItems, bingoPhotoPath } from "@/data/bingo";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { countBingoDone, type BingoSaved } from "@/lib/bingo";
+import { useCoupleSync } from "@/context/CoupleSyncContext";
+import { countBingoDone } from "@/lib/bingo";
 import { launchConfetti } from "@/lib/confetti";
-import { STORAGE_KEYS } from "@/lib/constants";
 
 export function BingoSection() {
-  const { value: saved, save } = useLocalStorage<BingoSaved>(STORAGE_KEYS.bingo, {});
+  const { data, saveBingo } = useCoupleSync();
+  const saved = Object.fromEntries(
+    Object.entries(data.bingo).map(([k, v]) => [Number(k), v]),
+  ) as Record<number, string>;
   const winShown = useRef(false);
 
-  function checkWin(next: BingoSaved) {
+  function checkWin(next: Record<number, string>) {
     const done = countBingoDone(next);
     if (done >= bingoItems.length && !winShown.current) {
       winShown.current = true;
@@ -24,13 +27,11 @@ export function BingoSection() {
   function upload(idx: number, file: File) {
     const reader = new FileReader();
     reader.onload = (ev) => {
-      const data = ev.target?.result;
-      if (typeof data !== "string") return;
-      save((prev) => {
-        const next = { ...prev, [idx]: data };
-        setTimeout(() => checkWin(next), 300);
-        return next;
-      });
+      const img = ev.target?.result;
+      if (typeof img !== "string") return;
+      const next = { ...saved, [idx]: img };
+      saveBingo(next);
+      setTimeout(() => checkWin(next), 300);
     };
     reader.readAsDataURL(file);
   }
@@ -43,8 +44,11 @@ export function BingoSection() {
       <SectionHeader
         label="2025 — 2026"
         title="Bingo de planes"
-        description="Los completados tienen foto. Toca los pendientes para subir la vuestra."
+        description="Sube fotos — se sincronizan para los dos."
       />
+      <div className="mb-4">
+        <SyncBadge />
+      </div>
 
       <div className="mb-4 text-center text-xs text-text-light">
         {doneCount} / {bingoItems.length} completados

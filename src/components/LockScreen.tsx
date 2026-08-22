@@ -26,28 +26,17 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="lock-screen"
-    >
-      <div className="ambient-bg" aria-hidden>
-        <div className="ambient-mesh" />
-        <div className="ambient-orb ambient-orb-1" />
-        <div className="ambient-grain" />
-      </div>
-
+    <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }} className="lock-screen">
       <motion.div
-        initial={{ opacity: 0, y: 24, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-sm"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-sm"
       >
-        <div className="lock-icon">✦</div>
+        <div className="mb-4 text-4xl">♥</div>
         <h1 className="lock-title">
           {config.couple.name1} & {config.couple.name2}
         </h1>
-        <p className="mb-8 text-sm text-text-light">Introduce el código para entrar</p>
+        <p className="mb-6 mt-2 text-sm text-text-light">Introduce el código para entrar</p>
 
         <div className="glass-card p-6">
           <input
@@ -60,18 +49,10 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
             onKeyDown={(e) => e.key === "Enter" && submit()}
             className="lock-input mb-4"
           />
-          <button type="button" onClick={submit} className="btn-gold w-full">
+          <button type="button" onClick={submit} className="btn-primary w-full">
             Entrar
           </button>
-          {error ? (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-3 text-sm text-rose"
-            >
-              {error}
-            </motion.p>
-          ) : null}
+          {error ? <p className="mt-3 text-sm text-rose-deep">{error}</p> : null}
         </div>
       </motion.div>
     </motion.div>

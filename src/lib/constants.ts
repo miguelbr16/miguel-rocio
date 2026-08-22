@@ -20,7 +20,14 @@ export const STORAGE_KEYS = {
   timeline: "timelineData-v2",
   caso002Progress: "caso002-day",
   siteConfig: "site-config-v1",
+  coupleSync: "couple-sync-v1",
 } as const;
+
+/** Caso 002 visible como activo en la UI (la ruta /caso-002 sigue abierta para pruebas) */
+export const CASO002_UI_ACTIVE = false;
+
+/** Fecha en la que el Caso 002 se muestra como activo (8 nov 2026) */
+export const CASO002_OPENS = new Date(2026, 10, 8);
 
 export const NAV_ITEMS = [
   { id: "inicio", label: "Inicio", icon: "🏠" },

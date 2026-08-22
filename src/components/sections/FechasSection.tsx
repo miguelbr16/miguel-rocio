@@ -2,25 +2,33 @@
 
 import { useState } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { SyncBadge } from "@/components/SyncBadge";
 import type { FechaEspecial } from "@/data/fechas";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { STORAGE_KEYS } from "@/lib/constants";
+import { useCoupleSync } from "@/context/CoupleSyncContext";
 import { daysUntilDate, formatSpanishDate } from "@/lib/dates";
 
-function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days: number }; idx: number; onDelete: (i: number) => void }) {
+function FechaRow({
+  f,
+  idx,
+  onDelete,
+}: {
+  f: FechaEspecial & { idx: number; days: number };
+  idx: number;
+  onDelete: (i: number) => void;
+}) {
   const isToday = f.days === 0;
   const isSoon = f.days <= 7;
   const badge = isToday ? "¡Hoy! 🎉" : f.days === 1 ? "Mañana" : `En ${f.days} días`;
   const badgeClass = isToday
-    ? "bg-gold-pale text-gold border border-gold/30"
+    ? "bg-rose-pale text-rose-deep"
     : isSoon
-      ? "bg-rose-pale text-rose border border-rose/20"
-      : "bg-sky-pale text-sky border border-sky/20";
+      ? "bg-sky-pale text-sky-deep"
+      : "bg-cream text-text-mid border border-border";
 
   return (
     <div
-      className={`glass-card flex items-center gap-3 px-3 py-3 ${isToday ? "glow-ring" : ""}`}
+      className={`flex items-center gap-3 rounded-xl border bg-white px-3 py-3 ${isToday ? "border-rose-deep" : "border-border"}`}
     >
       <span className="text-2xl">{f.emoji}</span>
       <div className="min-w-0 flex-1">
@@ -44,7 +52,8 @@ function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days
 
 export function FechasSection() {
   const { config } = useSiteConfig();
-  const { value: fechas, save } = useLocalStorage(STORAGE_KEYS.fechas, config.fechas);
+  const { data, saveFechas } = useCoupleSync();
+  const fechas = data.fechas.length > 0 ? data.fechas : config.fechas;
   const [showForm, setShowForm] = useState(false);
   const [emoji, setEmoji] = useState("");
   const [nombre, setNombre] = useState("");
@@ -57,7 +66,7 @@ export function FechasSection() {
 
   function addFecha() {
     if (!nombre.trim() || !dateStr) return;
-    save([...fechas, { emoji: emoji || "📅", nombre: nombre.trim(), dateStr, anual }]);
+    saveFechas([...fechas, { emoji: emoji || "📅", nombre: nombre.trim(), dateStr, anual }]);
     setEmoji("");
     setNombre("");
     setDateStr("");
@@ -65,7 +74,7 @@ export function FechasSection() {
   }
 
   function deleteFecha(idx: number) {
-    save(fechas.filter((_, i) => i !== idx));
+    saveFechas(fechas.filter((_, i) => i !== idx));
   }
 
   return (
@@ -73,8 +82,11 @@ export function FechasSection() {
       <SectionHeader
         label="Nuestro calendario"
         title="Fechas especiales"
-        description="Las fechas que importan de verdad, con aviso cuando se acercan."
+        description="Las fechas que importan — compartidas entre vosotros."
       />
+      <div className="mb-4">
+        <SyncBadge />
+      </div>
       <div className="space-y-2">
         {sorted.map((f) => (
           <FechaRow key={`${f.nombre}-${f.idx}`} f={f} idx={f.idx} onDelete={deleteFecha} />

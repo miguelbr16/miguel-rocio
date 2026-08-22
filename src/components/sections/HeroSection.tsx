@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { CASO002_UI_ACTIVE, CASO002_OPENS } from "@/lib/constants";
 import {
   countdownParts,
   daysTogether,
@@ -16,9 +16,7 @@ function CountdownUnit({ value, label }: { value: string; label: string }) {
   return (
     <div className="countdown-unit text-center">
       <div className="countdown-value">{value}</div>
-      <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-text-light">
-        {label}
-      </div>
+      <div className="mt-1 text-[10px] uppercase tracking-wider text-text-light">{label}</div>
     </div>
   );
 }
@@ -36,24 +34,23 @@ export function HeroSection() {
 
   const days = mounted ? daysTogether(now, relationshipStart) : "—";
   const cd = mounted ? countdownParts(nextAnniversary(now, relationshipStart), now) : null;
+  const casoOpensLabel = CASO002_OPENS.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+  });
 
   return (
     <section
       id="inicio"
-      className="home-page relative flex min-h-[calc(100dvh-6rem-env(safe-area-inset-bottom))] flex-col items-center justify-center px-5 py-10 text-center md:min-h-[calc(100dvh-5.5rem)]"
+      className="home-page relative flex min-h-[calc(100dvh-5rem)] flex-col items-center justify-center px-5 py-10 text-center"
     >
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-md"
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md"
       >
-        <motion.div
-          initial={{ scale: 0.92, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.9, delay: 0.1 }}
-          className="photo-frame glow-ring relative mx-auto mb-8 aspect-[3/4] w-full max-h-[min(48vh,400px)] shadow-[0_20px_60px_rgba(232,84,122,0.25)]"
-        >
+        <div className="photo-frame relative mx-auto mb-8 aspect-[3/4] w-full max-h-[min(48vh,400px)]">
           <Image
             src="/photos/portada.jpeg"
             alt={`${config.couple.name1} y ${config.couple.name2}`}
@@ -62,43 +59,30 @@ export function HeroSection() {
             className="object-cover"
             sizes="(max-width: 700px) 100vw, 420px"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-gold">
-            {config.hero.tagline}
-          </p>
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-text-light">
+          {config.hero.tagline}
+        </p>
 
-          <h1 className="font-serif text-[clamp(2.5rem,11vw,4rem)] font-normal leading-[1.05]">
-            <span className="text-white">{config.couple.name1}</span>
-            <span className="mx-2 text-rose/60">&</span>
-            <span className="bg-gradient-to-r from-rose to-gold bg-clip-text text-transparent">
-              {config.couple.name2}
-            </span>
-          </h1>
+        <h1 className="font-serif text-[clamp(2.25rem,10vw,3.25rem)] font-normal leading-tight">
+          <span className="text-text">{config.couple.name1}</span>
+          <span className="mx-2 text-rose-deep">&</span>
+          <span className="text-rose-deep">{config.couple.name2}</span>
+        </h1>
 
-          <p className="mt-4 text-xs uppercase tracking-[0.18em] text-text-light">
-            {formatRelationshipStartDisplay(relationshipStart)}
-            <span className="mx-2 text-rose/40">·</span>
-            <span className="text-gold">{days}</span> días juntos
-          </p>
-        </motion.div>
+        <p className="mt-3 text-xs uppercase tracking-[0.16em] text-text-light">
+          {formatRelationshipStartDisplay(relationshipStart)}
+          <span className="mx-2">·</span>
+          <span className="text-rose-deep">{days}</span> días juntos
+        </p>
 
         {cd ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="countdown-box mt-10 px-5 py-6"
-          >
-            <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold">
+          <div className="countdown-box mt-8 px-4 py-5">
+            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.14em] text-text-light">
               Próximo aniversario
             </p>
-            <div className="flex items-start justify-center gap-1.5 sm:gap-2">
+            <div className="flex items-start justify-center gap-1.5">
               <CountdownUnit value={String(cd.days)} label="días" />
               <span className="countdown-sep">:</span>
               <CountdownUnit value={String(cd.hours).padStart(2, "0")} label="horas" />
@@ -107,22 +91,22 @@ export function HeroSection() {
               <span className="countdown-sep">:</span>
               <CountdownUnit value={String(cd.seconds).padStart(2, "0")} label="seg" />
             </div>
-          </motion.div>
+          </div>
         ) : null}
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-        >
-          <Link
-            href="/caso-002"
-            className="btn-gold mt-8 inline-flex min-h-[52px] w-full items-center justify-center gap-2 text-sm"
-          >
-            <span>🔍</span>
-            Caso 002 — investigación activa
-          </Link>
-        </motion.div>
+        {CASO002_UI_ACTIVE ? (
+          <a href="/caso-002" className="btn-primary mt-8 inline-flex min-h-[48px] w-full items-center justify-center gap-2 text-sm">
+            🔍 Caso 002 — investigación activa
+          </a>
+        ) : (
+          <div className="mt-8 rounded-xl border border-border bg-white px-4 py-4 text-sm text-text-mid">
+            <p className="font-medium text-text">Caso 002 · Próximamente</p>
+            <p className="mt-1 text-xs text-text-light">
+              La investigación se abre el {casoOpensLabel}. La ruta{" "}
+              <code className="text-rose-deep">/caso-002</code> sigue disponible para pruebas.
+            </p>
+          </div>
+        )}
       </motion.div>
     </section>
   );
