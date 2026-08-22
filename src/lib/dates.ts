@@ -9,7 +9,15 @@ export function daysTogether(from: Date = new Date()): number {
 }
 
 export function nextAnniversary(from: Date = new Date()): Date {
-  const target = new Date(from.getFullYear(), 10, 18, 0, 0, 0, 0);
+  const target = new Date(
+    from.getFullYear(),
+    RELATIONSHIP_START.getMonth(),
+    RELATIONSHIP_START.getDate(),
+    0,
+    0,
+    0,
+    0,
+  );
   if (target <= from) {
     target.setFullYear(from.getFullYear() + 1);
   }
@@ -43,6 +51,8 @@ export function formatSpanishDate(dateStr: string): string {
   });
 }
 
-export function yearsTogether(from: Date = new Date()): number {
-  return Math.floor(daysTogether(from) / 365);
+export function formatRelationshipStartDisplay(date: Date = RELATIONSHIP_START): string {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${day} · ${month} · ${date.getFullYear()}`;
 }

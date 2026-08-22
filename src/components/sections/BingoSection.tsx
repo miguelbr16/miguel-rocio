@@ -5,16 +5,16 @@ import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { bingoItems, bingoPhotoPath } from "@/data/bingo";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { countBingoDone, type BingoSaved } from "@/lib/bingo";
 import { launchConfetti } from "@/lib/confetti";
-
-type BingoSaved = Record<number, string>;
+import { STORAGE_KEYS } from "@/lib/constants";
 
 export function BingoSection() {
-  const { value: saved, save } = useLocalStorage<BingoSaved>("bingo-v2", {});
+  const { value: saved, save } = useLocalStorage<BingoSaved>(STORAGE_KEYS.bingo, {});
   const winShown = useRef(false);
 
   function checkWin(next: BingoSaved) {
-    const done = bingoItems.filter((item, i) => !item.pending || next[i]).length;
+    const done = countBingoDone(next);
     if (done >= bingoItems.length && !winShown.current) {
       winShown.current = true;
       launchConfetti();
@@ -35,7 +35,7 @@ export function BingoSection() {
     reader.readAsDataURL(file);
   }
 
-  const doneCount = bingoItems.filter((item, i) => !item.pending || saved[i]).length;
+  const doneCount = countBingoDone(saved);
   const complete = doneCount >= bingoItems.length;
 
   return (
@@ -64,7 +64,14 @@ export function BingoSection() {
             >
               {imgSrc ? (
                 <>
-                  <Image src={imgSrc} alt={item.label} fill className="object-cover" sizes="120px" unoptimized={imgSrc.startsWith("data:")} />
+                  <Image
+                    src={imgSrc}
+                    alt={item.label}
+                    fill
+                    className="object-cover"
+                    sizes="120px"
+                    unoptimized={imgSrc.startsWith("data:")}
+                  />
                   <div className="bingo-overlay">{item.label}</div>
                 </>
               ) : (
@@ -97,7 +104,7 @@ export function BingoSection() {
           <div className="text-4xl">🎉</div>
           <p className="mt-2 font-serif text-2xl">¡Bingo completado!</p>
           <p className="mt-1 text-sm text-text-mid">
-            25 planes, 25 recuerdos. Esto es solo el principio. ♥
+            {bingoItems.length} planes, {bingoItems.length} recuerdos. Esto es solo el principio. ♥
           </p>
         </div>
       ) : (

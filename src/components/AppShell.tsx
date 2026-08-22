@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { Navigation } from "@/components/Navigation";
@@ -14,9 +14,9 @@ import { CartasSection } from "@/components/sections/CartasSection";
 import { CasosSection } from "@/components/sections/CasosSection";
 import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
-import type { SectionId } from "@/lib/constants";
+import { STORAGE_KEYS, type SectionId } from "@/lib/constants";
 
-const SECTIONS: Record<SectionId, React.ComponentType> = {
+const SECTIONS: Record<SectionId, ComponentType> = {
   inicio: HeroSection,
   historia: TimelineSection,
   destinos: DestinationsSection,
@@ -27,6 +27,10 @@ const SECTIONS: Record<SectionId, React.ComponentType> = {
   juegos: JuegosSection,
 };
 
+function isSectionId(value: string): value is SectionId {
+  return value in SECTIONS;
+}
+
 export function AppShell() {
   const [unlocked, setUnlocked] = useState(false);
   const [active, setActive] = useState<SectionId>("inicio");
@@ -34,10 +38,10 @@ export function AppShell() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setUnlocked(sessionStorage.getItem("unlocked") === "1");
+    setUnlocked(sessionStorage.getItem(STORAGE_KEYS.unlocked) === "1");
     setReady(true);
-    const hash = window.location.hash.replace("#", "") as SectionId;
-    if (hash && hash in SECTIONS) setActive(hash);
+    const hash = window.location.hash.replace("#", "");
+    if (isSectionId(hash)) setActive(hash);
   }, []);
 
   const switchTab = useCallback((id: SectionId) => {

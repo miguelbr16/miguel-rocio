@@ -9,6 +9,21 @@ function isCartaUnlocked(carta: Carta): boolean {
   return new Date() >= new Date(`${carta.lockDateIso}T00:00:00`);
 }
 
+function renderCartaBody(carta: Carta, title?: string) {
+  return (
+    <>
+      <h3 className="font-serif text-2xl">{title ?? carta.titulo}</h3>
+      <p className="mb-4 text-xs tracking-wide text-rose">{carta.fecha}</p>
+      {carta.content?.split("\n\n").map((p, i) => (
+        <p key={i} className="mb-3 text-sm leading-relaxed text-text-mid">
+          {p}
+        </p>
+      ))}
+      {carta.firma ? <p className="mt-4 font-serif italic text-rose">{carta.firma}</p> : null}
+    </>
+  );
+}
+
 function CartaModalBody({
   carta,
   onClose,
@@ -34,18 +49,7 @@ function CartaModalBody({
   let content: ReactNode;
 
   if (carta.type === "open") {
-    content = (
-      <>
-        <h3 className="font-serif text-2xl">{carta.titulo}</h3>
-        <p className="mb-4 text-xs tracking-wide text-rose-deep">{carta.fecha}</p>
-        {carta.content?.split("\n\n").map((p, i) => (
-          <p key={i} className="mb-3 text-sm leading-relaxed text-text-mid">
-            {p}
-          </p>
-        ))}
-        {carta.firma ? <p className="mt-4 font-serif italic text-rose-deep">{carta.firma}</p> : null}
-      </>
-    );
+    content = renderCartaBody(carta);
   } else if (carta.type === "locked" && !unlocked) {
     content = (
       <div className="py-6 text-center">
@@ -59,18 +63,7 @@ function CartaModalBody({
       </div>
     );
   } else if (carta.type === "locked" && unlocked) {
-    content = (
-      <>
-        <h3 className="font-serif text-2xl">{carta.titulo}</h3>
-        <p className="mb-4 text-xs tracking-wide text-rose-deep">{carta.fecha}</p>
-        {carta.content?.split("\n\n").map((p, i) => (
-          <p key={i} className="mb-3 text-sm leading-relaxed text-text-mid">
-            {p}
-          </p>
-        ))}
-        {carta.firma ? <p className="mt-4 font-serif italic text-rose-deep">{carta.firma}</p> : null}
-      </>
-    );
+    content = renderCartaBody(carta);
   } else if (carta.type === "password" && !pwdOk) {
     content = (
       <div className="py-4 text-center">
@@ -84,28 +77,18 @@ function CartaModalBody({
           placeholder="Contraseña"
           onChange={(e) => setPwd(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && tryPwd()}
-          className="mt-4 w-full max-w-xs rounded-lg border border-border px-4 py-2 text-center outline-none focus:border-rose-deep"
+          className="form-input mt-4 w-full max-w-xs text-center"
         />
-        <button type="button" onClick={tryPwd} className="mt-3 rounded-lg bg-rose-deep px-6 py-2 text-sm text-white">
+        <button type="button" onClick={tryPwd} className="btn-primary mt-3">
           Abrir carta 💌
         </button>
-        {error ? <p className="mt-2 text-sm text-red-500">Contraseña incorrecta</p> : null}
+        {error ? <p className="mt-2 text-sm text-rose">Contraseña incorrecta</p> : null}
       </div>
     );
   } else {
-    content = (
-      <>
-        <h3 className="font-serif text-2xl">
-          {carta.titulo === "????????????????" ? "Antes de la boda" : carta.titulo}
-        </h3>
-        <p className="mb-4 text-xs tracking-wide text-rose-deep">{carta.fecha}</p>
-        {carta.content?.split("\n\n").map((p, i) => (
-          <p key={i} className="mb-3 text-sm leading-relaxed text-text-mid">
-            {p}
-          </p>
-        ))}
-        {carta.firma ? <p className="mt-4 font-serif italic text-rose-deep">{carta.firma}</p> : null}
-      </>
+    content = renderCartaBody(
+      carta,
+      carta.titulo === "????????????????" ? "Antes de la boda" : undefined,
     );
   }
 
@@ -119,17 +102,6 @@ function CartaModalBody({
       </div>
     </div>
   );
-}
-
-function CartaModal({
-  carta,
-  onClose,
-}: {
-  carta: Carta | null;
-  onClose: () => void;
-}) {
-  if (!carta) return null;
-  return <CartaModalBody key={carta.titulo} carta={carta} onClose={onClose} />;
 }
 
 export function CartasSection() {
@@ -172,14 +144,14 @@ export function CartasSection() {
             <p className="mt-3 text-[11px] uppercase tracking-wide text-text-light">{carta.fecha}</p>
             <h4 className="mt-1 font-serif text-xl">{carta.titulo}</h4>
             <p className="mt-2 text-xs text-text-mid">{carta.hint}</p>
-            <span className="carta-badge">
-              {carta.type === "open" ? "💌" : "🔒"}
-            </span>
+            <span className="carta-badge">{carta.type === "open" ? "💌" : "🔒"}</span>
           </button>
         ))}
       </div>
 
-      <CartaModal carta={active} onClose={() => setActive(null)} />
+      {active ? (
+        <CartaModalBody key={active.titulo} carta={active} onClose={() => setActive(null)} />
+      ) : null}
     </section>
   );
 }

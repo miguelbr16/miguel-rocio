@@ -4,6 +4,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { fechasEspeciales, type FechaEspecial } from "@/data/fechas";
 import { daysUntilDate, formatSpanishDate } from "@/lib/dates";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { STORAGE_KEYS } from "@/lib/constants";
 import { useState } from "react";
 
 function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days: number }; idx: number; onDelete: (i: number) => void }) {
@@ -41,7 +42,7 @@ function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days
 }
 
 export function FechasSection() {
-  const { value: fechas, save } = useLocalStorage("fechas-v2", fechasEspeciales);
+  const { value: fechas, save } = useLocalStorage(STORAGE_KEYS.fechas, fechasEspeciales);
   const [showForm, setShowForm] = useState(false);
   const [emoji, setEmoji] = useState("");
   const [nombre, setNombre] = useState("");

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 
 export function useLocalStorage<T>(key: string, initial: T) {
   const [value, setValue] = useState<T>(initial);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     try {
@@ -13,7 +12,6 @@ export function useLocalStorage<T>(key: string, initial: T) {
     } catch {
       /* keep initial */
     }
-    setReady(true);
   }, [key]);
 
   const save = useCallback(
@@ -31,5 +29,5 @@ export function useLocalStorage<T>(key: string, initial: T) {
     [key],
   );
 
-  return { value, save, ready };
+  return { value, save };
 }

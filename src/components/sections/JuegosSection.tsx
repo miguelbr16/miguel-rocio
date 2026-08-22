@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { quizItems, type QuizItem } from "@/data/quiz";
+import { quizItems } from "@/data/quiz";
 import { pictWords } from "@/data/pictWords";
+import { COUPLE, PICT_COLORS, PLAYER_NAMES, type PlayerName } from "@/lib/constants";
 
 function QuizPanel() {
   const [started, setStarted] = useState(false);
@@ -130,13 +131,17 @@ function QuizPanel() {
 function PictionaryPanel() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [started, setStarted] = useState(false);
-  const [drawer, setDrawer] = useState<"Miguel" | "Rocío">("Miguel");
-  const [scores, setScores] = useState({ Miguel: 0, Rocío: 0 });
+  const [drawer, setDrawer] = useState<PlayerName>(COUPLE.name1);
+  const [scores, setScores] = useState<Record<PlayerName, number>>({
+    [COUPLE.name1]: 0,
+    [COUPLE.name2]: 0,
+  });
   const [word, setWord] = useState(pictWords[0]);
   const [showWord, setShowWord] = useState(false);
   const [used, setUsed] = useState<number[]>([]);
   const painting = useRef(false);
-  const color = useRef("#2a1f25");
+  const lastPoint = useRef({ x: 0, y: 0 });
+  const color = useRef("#080608");
   const size = useRef(3);
 
   const initCanvas = useCallback(() => {
@@ -171,7 +176,7 @@ function PictionaryPanel() {
     setWord(pictWords[pick] ?? pictWords[0]);
     setShowWord(false);
     clearCanvas();
-    setDrawer((d) => (d === "Miguel" ? "Rocío" : "Miguel"));
+    setDrawer((current) => (current === COUPLE.name1 ? COUPLE.name2 : COUPLE.name1));
   }
 
   function getPos(e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) {
@@ -186,15 +191,37 @@ function PictionaryPanel() {
     };
   }
 
-  let lastX = 0;
-  let lastY = 0;
+  function startStroke(e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) {
+    painting.current = true;
+    lastPoint.current = getPos(e, canvas);
+  }
+
+  function moveStroke(e: React.MouseEvent | React.TouchEvent) {
+    if (!painting.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!ctx || !canvas) return;
+    const point = getPos(e, canvas);
+    ctx.beginPath();
+    ctx.moveTo(lastPoint.current.x, lastPoint.current.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.strokeStyle = color.current;
+    ctx.lineWidth = size.current;
+    ctx.lineCap = "round";
+    ctx.stroke();
+    lastPoint.current = point;
+  }
+
+  function endStroke() {
+    painting.current = false;
+  }
 
   if (!started) {
     return (
       <div className="py-6 text-center">
         <p className="mb-4 text-sm text-text-mid">Dibuja y adivina — estilo inside jokes</p>
         <div className="mb-4 flex justify-center gap-2">
-          {(["Miguel", "Rocío"] as const).map((name) => (
+          {PLAYER_NAMES.map((name) => (
             <button
               key={name}
               type="button"
@@ -216,12 +243,12 @@ function PictionaryPanel() {
     <div>
       <div className="mb-3 flex justify-center gap-6 text-center">
         <div>
-          <div className="font-serif text-3xl text-gold">{scores.Miguel}</div>
-          <div className="text-xs text-text-light">Miguel</div>
+          <div className="font-serif text-3xl text-gold">{scores[COUPLE.name1]}</div>
+          <div className="text-xs text-text-light">{COUPLE.name1}</div>
         </div>
         <div>
-          <div className="font-serif text-3xl text-rose">{scores.Rocío}</div>
-          <div className="text-xs text-text-light">Rocío</div>
+          <div className="font-serif text-3xl text-rose">{scores[COUPLE.name2]}</div>
+          <div className="text-xs text-text-light">{COUPLE.name2}</div>
         </div>
       </div>
       <p className="mb-3 rounded-xl bg-rose-pale py-2.5 text-center text-sm text-rose">
@@ -242,63 +269,23 @@ function PictionaryPanel() {
           ref={canvasRef}
           className="block w-full touch-none bg-white/95"
           height={280}
-          onMouseDown={(e) => {
-            painting.current = true;
-            const p = getPos(e, e.currentTarget);
-            lastX = p.x;
-            lastY = p.y;
-          }}
-          onMouseMove={(e) => {
-            if (!painting.current) return;
-            const ctx = canvasRef.current?.getContext("2d");
-            if (!ctx || !canvasRef.current) return;
-            const p = getPos(e, canvasRef.current);
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(p.x, p.y);
-            ctx.strokeStyle = color.current;
-            ctx.lineWidth = size.current;
-            ctx.lineCap = "round";
-            ctx.stroke();
-            lastX = p.x;
-            lastY = p.y;
-          }}
-          onMouseUp={() => {
-            painting.current = false;
-          }}
-          onMouseLeave={() => {
-            painting.current = false;
-          }}
+          onMouseDown={(e) => startStroke(e, e.currentTarget)}
+          onMouseMove={moveStroke}
+          onMouseUp={endStroke}
+          onMouseLeave={endStroke}
           onTouchStart={(e) => {
             e.preventDefault();
-            painting.current = true;
-            const p = getPos(e, e.currentTarget);
-            lastX = p.x;
-            lastY = p.y;
+            startStroke(e, e.currentTarget);
           }}
           onTouchMove={(e) => {
             e.preventDefault();
-            if (!painting.current) return;
-            const ctx = canvasRef.current?.getContext("2d");
-            if (!ctx || !canvasRef.current) return;
-            const p = getPos(e, canvasRef.current);
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(p.x, p.y);
-            ctx.strokeStyle = color.current;
-            ctx.lineWidth = size.current;
-            ctx.lineCap = "round";
-            ctx.stroke();
-            lastX = p.x;
-            lastY = p.y;
+            moveStroke(e);
           }}
-          onTouchEnd={() => {
-            painting.current = false;
-          }}
+          onTouchEnd={endStroke}
         />
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        {["#080608", "#e8547a", "#7eb8ff", "#e8c872"].map((c) => (
+        {PICT_COLORS.map((c) => (
           <button
             key={c}
             type="button"

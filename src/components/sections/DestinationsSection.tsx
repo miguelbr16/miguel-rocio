@@ -9,6 +9,7 @@ import {
   type Destination,
 } from "@/data/destinations";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { STORAGE_KEYS } from "@/lib/constants";
 import Link from "next/link";
 
 const DestinationsMap = dynamic(
@@ -79,7 +80,7 @@ function DestRow({
 }
 
 export function DestinationsSection() {
-  const { value: dests, save } = useLocalStorage("destinations-v2", destinations);
+  const { value: dests, save } = useLocalStorage(STORAGE_KEYS.destinations, destinations);
 
   function updateStatus(index: number, status: DestStatus) {
     save((prev) => {
@@ -90,7 +91,7 @@ export function DestinationsSection() {
   }
 
   return (
-    <section className="section-wrap">
+    <section id="destinos" className="section-wrap">
       <SectionHeader
         label="El mundo es nuestro"
         title="Nuestros destinos"

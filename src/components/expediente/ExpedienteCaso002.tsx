@@ -118,7 +118,6 @@ export function ExpedienteCaso002() {
   const [mounted, setMounted] = useState(false);
 
   const maxUnlocked = useMemo(() => (mounted ? getUnlockedDayIndex() : -1), [mounted]);
-  const progress = useMemo(() => (mounted ? getCaso002Progress() : -1), [mounted]);
   const day = caso002Days[dayIndex];
   const finaleReady = mounted && isFinaleRevealed();
 

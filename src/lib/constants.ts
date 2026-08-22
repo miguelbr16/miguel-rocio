@@ -10,6 +10,17 @@ export const COUPLE = {
   initials: "M & R",
 } as const;
 
+export type PlayerName = (typeof COUPLE)["name1"] | (typeof COUPLE)["name2"];
+
+export const STORAGE_KEYS = {
+  unlocked: "unlocked",
+  bingo: "bingo-v2",
+  fechas: "fechas-v2",
+  destinations: "destinations-v2",
+  timeline: "timelineData-v2",
+  caso002Progress: "caso002-day",
+} as const;
+
 export const NAV_ITEMS = [
   { id: "inicio", label: "Inicio", icon: "🏠" },
   { id: "historia", label: "Historia", icon: "📖" },
@@ -38,3 +49,7 @@ export const MORE_SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: "fechas", label: "Fechas", icon: "📅" },
   { id: "juegos", label: "Juegos", icon: "🎮" },
 ];
+
+export const PLAYER_NAMES: PlayerName[] = [COUPLE.name1, COUPLE.name2];
+
+export const PICT_COLORS = ["#080608", "#e8547a", "#7eb8ff", "#e8c872"] as const;

@@ -11,7 +11,7 @@ export function CasosSection() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Link href="/expediente" className="caso-card caso-open min-h-[140px]">
+        <Link href="/expediente/" className="caso-card caso-open min-h-[140px]">
           <div className="text-[11px] uppercase tracking-widest text-text-light">Caso · 001</div>
           <div className="my-3 text-4xl">✅</div>
           <div className="font-serif text-xl">Los 6 meses</div>

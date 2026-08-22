@@ -4,7 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { COUPLE } from "@/lib/constants";
-import { countdownParts, daysTogether, nextAnniversary } from "@/lib/dates";
+import {
+  countdownParts,
+  daysTogether,
+  formatRelationshipStartDisplay,
+  nextAnniversary,
+} from "@/lib/dates";
 import { useEffect, useState } from "react";
 
 function CountdownUnit({ value, label }: { value: string; label: string }) {
@@ -32,7 +37,10 @@ export function HeroSection() {
   const cd = mounted ? countdownParts(nextAnniversary(now), now) : null;
 
   return (
-    <section className="home-page relative flex min-h-[calc(100dvh-6rem-env(safe-area-inset-bottom))] flex-col items-center justify-center px-5 py-10 text-center md:min-h-[calc(100dvh-5.5rem)]">
+    <section
+      id="inicio"
+      className="home-page relative flex min-h-[calc(100dvh-6rem-env(safe-area-inset-bottom))] flex-col items-center justify-center px-5 py-10 text-center md:min-h-[calc(100dvh-5.5rem)]"
+    >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -73,7 +81,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-4 text-xs uppercase tracking-[0.18em] text-text-light">
-            18 · 11 · 2025
+            {formatRelationshipStartDisplay()}
             <span className="mx-2 text-rose/40">·</span>
             <span className="text-gold">{days}</span> días juntos
           </p>

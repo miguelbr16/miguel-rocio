@@ -1,6 +1,7 @@
+import { STORAGE_KEYS } from "@/lib/constants";
 import { sorpresaConfig } from "./sorpresa-config";
 
-export type Caso002Mode = "q" | "reto" | "final" | "intro";
+export type Caso002Mode = "q" | "reto" | "final";
 
 export interface Caso002Evidence {
   stamp: string;
@@ -264,11 +265,11 @@ export const caso002Days: Caso002Day[] = [
 
 export function getCaso002Progress(): number {
   if (typeof window === "undefined") return 0;
-  return Number(localStorage.getItem("caso002-day") ?? "-1");
+  return Number(localStorage.getItem(STORAGE_KEYS.caso002Progress) ?? "-1");
 }
 
 export function setCaso002Progress(dayIndex: number) {
-  localStorage.setItem("caso002-day", String(dayIndex));
+  localStorage.setItem(STORAGE_KEYS.caso002Progress, String(dayIndex));
 }
 
 export function getUnlockedDayIndex(now = new Date()): number {

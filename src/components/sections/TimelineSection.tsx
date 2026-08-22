@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { timelineEvents, type TimelineEvent } from "@/data/timeline";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { STORAGE_KEYS } from "@/lib/constants";
 
 function TimelineCard({ item, index }: { item: TimelineEvent; index: number }) {
   const dotClass =
@@ -50,7 +51,7 @@ function TimelineCard({ item, index }: { item: TimelineEvent; index: number }) {
 }
 
 export function TimelineSection() {
-  const { value: events } = useLocalStorage("timelineData-v2", timelineEvents);
+  const { value: events } = useLocalStorage(STORAGE_KEYS.timeline, timelineEvents);
 
   return (
     <section id="historia" className="section-wrap">
@@ -58,7 +59,7 @@ export function TimelineSection() {
         label="Capítulo uno"
         title={
           <>
-            Cómo costó <em className="italic text-rose-deep">lo suyo</em>
+            Cómo costó <em className="italic text-rose">lo suyo</em>
           </>
         }
       />
