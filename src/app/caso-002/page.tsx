@@ -1,3 +1,4 @@
+import { SiteConfigProvider } from "@/context/SiteConfigContext";
 import { ExpedienteCaso002 } from "@/components/expediente/ExpedienteCaso002";
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function Caso002Page() {
-  return <ExpedienteCaso002 />;
+  return (
+    <SiteConfigProvider>
+      <ExpedienteCaso002 />
+    </SiteConfigProvider>
+  );
 }

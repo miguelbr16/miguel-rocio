@@ -1,18 +1,18 @@
 import { RELATIONSHIP_START } from "./constants";
 
-export function daysTogether(from: Date = new Date()): number {
-  const start = new Date(RELATIONSHIP_START);
+export function daysTogether(from: Date = new Date(), relationshipStart: Date = RELATIONSHIP_START): number {
+  const start = new Date(relationshipStart);
   start.setHours(0, 0, 0, 0);
   const today = new Date(from);
   today.setHours(0, 0, 0, 0);
   return Math.floor((today.getTime() - start.getTime()) / 86_400_000);
 }
 
-export function nextAnniversary(from: Date = new Date()): Date {
+export function nextAnniversary(from: Date = new Date(), start: Date = RELATIONSHIP_START): Date {
   const target = new Date(
     from.getFullYear(),
-    RELATIONSHIP_START.getMonth(),
-    RELATIONSHIP_START.getDate(),
+    start.getMonth(),
+    start.getDate(),
     0,
     0,
     0,

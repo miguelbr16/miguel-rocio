@@ -19,6 +19,7 @@ export const STORAGE_KEYS = {
   destinations: "destinations-v2",
   timeline: "timelineData-v2",
   caso002Progress: "caso002-day",
+  siteConfig: "site-config-v1",
 } as const;
 
 export const NAV_ITEMS = [

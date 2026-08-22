@@ -13,7 +13,7 @@ import {
   setCaso002Progress,
   type Caso002Day,
 } from "@/data/caso002";
-import { sorpresaConfig } from "@/data/sorpresa-config";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 type Screen = "intro" | "wait" | "clue" | "evidence" | "finale";
 
@@ -55,7 +55,8 @@ function CountdownTo({ date }: { date: Date }) {
 }
 
 function FinaleReveal() {
-  const { cena, flores, extra, cartaFisica } = sorpresaConfig;
+  const { sorpresa } = useSiteConfig();
+  const { cena, flores, extra, cartaFisica } = sorpresa;
 
   return (
     <motion.div
@@ -110,6 +111,7 @@ function FinaleReveal() {
 }
 
 export function ExpedienteCaso002() {
+  const { sorpresa } = useSiteConfig();
   const [screen, setScreen] = useState<Screen>("intro");
   const [dayIndex, setDayIndex] = useState(0);
   const [answer, setAnswer] = useState("");
@@ -370,12 +372,12 @@ export function ExpedienteCaso002() {
               {dayIndex >= caso002Days.length - 1 && !finaleReady ? (
                 <div className="mt-6 rounded-xl border border-[#e8d5a3]/20 p-4 text-center text-sm text-[#a89080]">
                   El gran reveal se desbloquea el 18 nov a las{" "}
-                  {sorpresaConfig.revealAt.toLocaleTimeString("es-ES", {
+                  {sorpresa.revealAt.toLocaleTimeString("es-ES", {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
                   .<br />
-                  <CountdownTo date={sorpresaConfig.revealAt} />
+                  <CountdownTo date={sorpresa.revealAt} />
                 </div>
               ) : null}
 

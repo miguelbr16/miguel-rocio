@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { quizItems } from "@/data/quiz";
 import { pictWords } from "@/data/pictWords";
-import { COUPLE, PICT_COLORS, PLAYER_NAMES, type PlayerName } from "@/lib/constants";
+import { PICT_COLORS } from "@/lib/constants";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 function QuizPanel() {
   const [started, setStarted] = useState(false);
@@ -129,12 +130,15 @@ function QuizPanel() {
 }
 
 function PictionaryPanel() {
+  const { config } = useSiteConfig();
+  const name1 = config.couple.name1;
+  const name2 = config.couple.name2;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [started, setStarted] = useState(false);
-  const [drawer, setDrawer] = useState<PlayerName>(COUPLE.name1);
-  const [scores, setScores] = useState<Record<PlayerName, number>>({
-    [COUPLE.name1]: 0,
-    [COUPLE.name2]: 0,
+  const [drawer, setDrawer] = useState(name1);
+  const [scores, setScores] = useState<Record<string, number>>({
+    [name1]: 0,
+    [name2]: 0,
   });
   const [word, setWord] = useState(pictWords[0]);
   const [showWord, setShowWord] = useState(false);
@@ -176,7 +180,7 @@ function PictionaryPanel() {
     setWord(pictWords[pick] ?? pictWords[0]);
     setShowWord(false);
     clearCanvas();
-    setDrawer((current) => (current === COUPLE.name1 ? COUPLE.name2 : COUPLE.name1));
+    setDrawer((current) => (current === name1 ? name2 : name1));
   }
 
   function getPos(e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) {
@@ -221,7 +225,7 @@ function PictionaryPanel() {
       <div className="py-6 text-center">
         <p className="mb-4 text-sm text-text-mid">Dibuja y adivina — estilo inside jokes</p>
         <div className="mb-4 flex justify-center gap-2">
-          {PLAYER_NAMES.map((name) => (
+          {[name1, name2].map((name) => (
             <button
               key={name}
               type="button"
@@ -243,12 +247,12 @@ function PictionaryPanel() {
     <div>
       <div className="mb-3 flex justify-center gap-6 text-center">
         <div>
-          <div className="font-serif text-3xl text-gold">{scores[COUPLE.name1]}</div>
-          <div className="text-xs text-text-light">{COUPLE.name1}</div>
+          <div className="font-serif text-3xl text-gold">{scores[name1] ?? 0}</div>
+          <div className="text-xs text-text-light">{name1}</div>
         </div>
         <div>
-          <div className="font-serif text-3xl text-rose">{scores[COUPLE.name2]}</div>
-          <div className="text-xs text-text-light">{COUPLE.name2}</div>
+          <div className="font-serif text-3xl text-rose">{scores[name2] ?? 0}</div>
+          <div className="text-xs text-text-light">{name2}</div>
         </div>
       </div>
       <p className="mb-3 rounded-xl bg-rose-pale py-2.5 text-center text-sm text-rose">

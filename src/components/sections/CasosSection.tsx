@@ -43,6 +43,12 @@ export function CasosSection() {
         vuestra historia como investigación y cerró el <strong className="text-gold">15 de mayo</strong> con flores y
         carta. El Caso 002 empieza ahí — pistas del 8 al 18 nov.
       </p>
+
+      <p className="mt-4 text-center">
+        <Link href="/configurador" className="text-[11px] text-text-light underline hover:text-gold">
+          🔧 Actualizar expediente (privado)
+        </Link>
+      </p>
     </section>
   );
 }

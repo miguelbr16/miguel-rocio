@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { COUPLE, NAV_ITEMS, type SectionId } from "@/lib/constants";
+import { NAV_ITEMS, type SectionId } from "@/lib/constants";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 interface NavigationProps {
   active: SectionId;
@@ -9,9 +10,11 @@ interface NavigationProps {
 }
 
 export function Navigation({ active, onNavigate }: NavigationProps) {
+  const { initials } = useSiteConfig();
+
   return (
     <nav className="nav-desktop" aria-label="Navegación escritorio" role="tablist">
-      <span className="nav-desktop-brand">{COUPLE.initials}</span>
+      <span className="nav-desktop-brand">{initials}</span>
       {NAV_ITEMS.map((item) => (
         <button
           key={item.id}

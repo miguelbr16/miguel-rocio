@@ -2,18 +2,20 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { LOCK_CODE, COUPLE, STORAGE_KEYS } from "@/lib/constants";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { STORAGE_KEYS } from "@/lib/constants";
 
 interface LockScreenProps {
   onUnlock: () => void;
 }
 
 export function LockScreen({ onUnlock }: LockScreenProps) {
+  const { config } = useSiteConfig();
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
 
   function submit() {
-    if (code === LOCK_CODE) {
+    if (code === config.lockCode) {
       sessionStorage.setItem(STORAGE_KEYS.unlocked, "1");
       onUnlock();
       return;
@@ -43,7 +45,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
       >
         <div className="lock-icon">✦</div>
         <h1 className="lock-title">
-          {COUPLE.name1} & {COUPLE.name2}
+          {config.couple.name1} & {config.couple.name2}
         </h1>
         <p className="mb-8 text-sm text-text-light">Introduce el código para entrar</p>
 
@@ -51,7 +53,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
           <input
             type="password"
             inputMode="numeric"
-            maxLength={LOCK_CODE.length}
+            maxLength={Math.max(config.lockCode.length, 6)}
             value={code}
             placeholder="······"
             onChange={(e) => setCode(e.target.value)}

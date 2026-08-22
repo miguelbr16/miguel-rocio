@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { cartas, type Carta } from "@/data/cartas";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 function isCartaUnlocked(carta: Carta): boolean {
   if (carta.type !== "locked" || !carta.lockDateIso) return true;
@@ -106,6 +107,8 @@ function CartaModalBody({
 
 export function CartasSection() {
   const [active, setActive] = useState<Carta | null>(null);
+  const { config } = useSiteConfig();
+  const { cartaIntro } = config;
 
   return (
     <section id="cartas" className="section-wrap">
@@ -119,16 +122,11 @@ export function CartasSection() {
         <p className="section-label">Para ti</p>
         <h3 className="font-serif text-3xl font-normal">Una carta</h3>
         <div className="mt-4 space-y-3 text-sm leading-relaxed text-text-mid">
-          <p>Rocío,</p>
-          <p>
-            El 18 de noviembre de 2025 empezó todo. Antes de eso, sobreviviste a un rechazo
-            ignorado, un cruasán con servilleta, un segundo rechazo y una tableta de chocolate.
-          </p>
-          <p>
-            Cada día contigo suma. Por las risas, los viajes, las llaves perdidas y las cobras
-            que al final hicieron la historia mejor.
-          </p>
-          <p className="font-serif italic text-rose">Con todo, Miguel ♥</p>
+          <p>{cartaIntro.saludo}</p>
+          {cartaIntro.paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+          <p className="font-serif italic text-rose">{cartaIntro.firma}</p>
         </div>
       </article>
 

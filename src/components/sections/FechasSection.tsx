@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { fechasEspeciales, type FechaEspecial } from "@/data/fechas";
-import { daysUntilDate, formatSpanishDate } from "@/lib/dates";
+import type { FechaEspecial } from "@/data/fechas";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { STORAGE_KEYS } from "@/lib/constants";
-import { useState } from "react";
+import { daysUntilDate, formatSpanishDate } from "@/lib/dates";
 
 function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days: number }; idx: number; onDelete: (i: number) => void }) {
   const isToday = f.days === 0;
@@ -42,7 +43,8 @@ function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days
 }
 
 export function FechasSection() {
-  const { value: fechas, save } = useLocalStorage(STORAGE_KEYS.fechas, fechasEspeciales);
+  const { config } = useSiteConfig();
+  const { value: fechas, save } = useLocalStorage(STORAGE_KEYS.fechas, config.fechas);
   const [showForm, setShowForm] = useState(false);
   const [emoji, setEmoji] = useState("");
   const [nombre, setNombre] = useState("");

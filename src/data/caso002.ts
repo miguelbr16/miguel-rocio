@@ -1,5 +1,5 @@
 import { STORAGE_KEYS } from "@/lib/constants";
-import { sorpresaConfig } from "./sorpresa-config";
+import { getRuntimeSorpresa } from "@/lib/site-config-runtime";
 
 export type Caso002Mode = "q" | "reto" | "final";
 
@@ -273,7 +273,7 @@ export function setCaso002Progress(dayIndex: number) {
 }
 
 export function getUnlockedDayIndex(now = new Date()): number {
-  if (sorpresaConfig.devUnlockAll) return caso002Days.length - 1;
+  if (getRuntimeSorpresa().devUnlockAll) return caso002Days.length - 1;
 
   const today = new Date(now);
   today.setHours(0, 0, 0, 0);
@@ -288,6 +288,6 @@ export function getUnlockedDayIndex(now = new Date()): number {
 }
 
 export function isFinaleRevealed(now = new Date()): boolean {
-  if (sorpresaConfig.devUnlockAll) return true;
-  return now >= sorpresaConfig.revealAt;
+  if (getRuntimeSorpresa().devUnlockAll) return true;
+  return now >= getRuntimeSorpresa().revealAt;
 }

@@ -3,14 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { COUPLE } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 import {
   countdownParts,
   daysTogether,
   formatRelationshipStartDisplay,
   nextAnniversary,
 } from "@/lib/dates";
-import { useEffect, useState } from "react";
 
 function CountdownUnit({ value, label }: { value: string; label: string }) {
   return (
@@ -24,6 +24,7 @@ function CountdownUnit({ value, label }: { value: string; label: string }) {
 }
 
 export function HeroSection() {
+  const { config, relationshipStart } = useSiteConfig();
   const [mounted, setMounted] = useState(false);
   const [now, setNow] = useState(() => new Date());
 
@@ -33,8 +34,8 @@ export function HeroSection() {
     return () => clearInterval(id);
   }, []);
 
-  const days = mounted ? daysTogether(now) : "—";
-  const cd = mounted ? countdownParts(nextAnniversary(now), now) : null;
+  const days = mounted ? daysTogether(now, relationshipStart) : "—";
+  const cd = mounted ? countdownParts(nextAnniversary(now, relationshipStart), now) : null;
 
   return (
     <section
@@ -55,7 +56,7 @@ export function HeroSection() {
         >
           <Image
             src="/photos/portada.jpeg"
-            alt={`${COUPLE.name1} y ${COUPLE.name2}`}
+            alt={`${config.couple.name1} y ${config.couple.name2}`}
             fill
             priority
             className="object-cover"
@@ -69,19 +70,19 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-gold">
-            Nuestro primer año
+            {config.hero.tagline}
           </p>
 
           <h1 className="font-serif text-[clamp(2.5rem,11vw,4rem)] font-normal leading-[1.05]">
-            <span className="text-white">{COUPLE.name1}</span>
+            <span className="text-white">{config.couple.name1}</span>
             <span className="mx-2 text-rose/60">&</span>
             <span className="bg-gradient-to-r from-rose to-gold bg-clip-text text-transparent">
-              {COUPLE.name2}
+              {config.couple.name2}
             </span>
           </h1>
 
           <p className="mt-4 text-xs uppercase tracking-[0.18em] text-text-light">
-            {formatRelationshipStartDisplay()}
+            {formatRelationshipStartDisplay(relationshipStart)}
             <span className="mx-2 text-rose/40">·</span>
             <span className="text-gold">{days}</span> días juntos
           </p>
