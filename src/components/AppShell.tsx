@@ -8,9 +8,11 @@ import { LockScreen } from "@/components/LockScreen";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { DestinationsSection } from "@/components/sections/DestinationsSection";
+import { BookSection } from "@/components/sections/BookSection";
 import { BingoSection } from "@/components/sections/BingoSection";
 import { CartasSection } from "@/components/sections/CartasSection";
 import { CasosSection } from "@/components/sections/CasosSection";
+import { PromisesSection } from "@/components/sections/PromisesSection";
 import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
 import { CoupleSyncProvider } from "@/context/CoupleSyncContext";
@@ -20,9 +22,11 @@ const SECTIONS: Record<SectionId, ComponentType> = {
   inicio: HeroSection,
   historia: TimelineSection,
   destinos: DestinationsSection,
+  libro: BookSection,
   bingo: BingoSection,
   cartas: CartasSection,
   casos: CasosSection,
+  promesas: PromisesSection,
   fechas: FechasSection,
   juegos: JuegosSection,
 };
@@ -42,6 +46,17 @@ export function AppShell() {
     setReady(true);
     const hash = window.location.hash.replace("#", "");
     if (isSectionId(hash)) setActive(hash);
+
+    function onHashChange() {
+      const next = window.location.hash.replace("#", "");
+      if (isSectionId(next)) {
+        setMenuOpen(false);
+        setActive(next);
+        window.scrollTo(0, 0);
+      }
+    }
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
   useEffect(() => {

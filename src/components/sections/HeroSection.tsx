@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FlipDigit } from "@/components/effects/FlipDigit";
+import { CapsuleCard } from "@/components/CapsuleCard";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { StatsSection } from "@/components/sections/StatsSection";
@@ -51,94 +51,121 @@ export function HeroSection() {
     month: "long",
   });
 
-  const name1Letters = config.couple.name1.split("");
-  const name2Letters = config.couple.name2.split("");
+  const name1 = config.couple.name1;
+  const name2 = config.couple.name2;
+
+  function go(section: string) {
+    window.location.hash = section;
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  }
 
   return (
-    <section id="inicio" className="home-page">
-      <div className="hero-desktop-wrap">
-        <div className="hero-grid">
-          <motion.div
-            initial={reduced ? false : { opacity: 0, scale: 0.94, rotate: -1 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="hero-photo-col order-1 lg:order-none"
-          >
-            <div className="photo-frame hero-photo-glow relative mx-auto aspect-[3/4] w-full max-w-md lg:mx-0 lg:max-w-none">
-              <Image
-                src="/photos/portada.jpeg"
-                alt={`${config.couple.name1} y ${config.couple.name2}`}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 55vw"
-              />
-              <div className="hero-photo-shimmer" aria-hidden />
-            </div>
-          </motion.div>
+    <section id="inicio" className="home-page home-page-cinematic">
+      <div className="hero-cinematic">
+        <div className="hero-cinematic-media">
+          <Image
+            src="/photos/portada.jpeg"
+            alt={`${name1} y ${name2}`}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="hero-cinematic-scrim" aria-hidden />
+        </div>
 
-          <motion.div
-            variants={reduced ? undefined : staggerContainer}
-            initial={reduced ? false : "initial"}
-            animate="animate"
-            className="hero-content-col flex flex-col justify-center text-center lg:text-left"
-          >
+        <motion.div
+          className="hero-cinematic-content"
+          initial={reduced ? false : { opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="hero-cinematic-kicker">{config.hero.tagline}</p>
+          <h1 className="hero-cinematic-title">
+            {name1} <span>&</span> {name2}
+          </h1>
+          <p className="hero-cinematic-meta">
+            {formatRelationshipStartDisplay(relationshipStart)}
+            <span>·</span>
+            <strong>{days}</strong> días juntos
+          </p>
+
+          {cd ? (
+            <div className="hero-cinematic-countdown">
+              <p className="hero-countdown-label">Próximo aniversario</p>
+              <div className="hero-countdown-row">
+                <CountdownUnit value={String(cd.days)} label="días" />
+                <span className="countdown-sep">:</span>
+                <CountdownUnit value={String(cd.hours).padStart(2, "0")} label="horas" />
+                <span className="countdown-sep">:</span>
+                <CountdownUnit value={String(cd.minutes).padStart(2, "0")} label="min" />
+                <span className="countdown-sep">:</span>
+                <CountdownUnit value={String(cd.seconds).padStart(2, "0")} label="seg" />
+              </div>
+            </div>
+          ) : null}
+
+          <div className="hero-cinematic-actions">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() =>
+                document.getElementById("capsula-home")?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              Ver la cápsula
+            </button>
+            <button type="button" className="btn btn-ghost" onClick={() => go("libro")}>
+              Abrir el libro
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="hero-mobile-stack">
+        <motion.div
+          initial={reduced ? false : { opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="photo-frame hero-photo-glow relative mx-auto aspect-[3/4] w-full max-w-md"
+        >
+          <Image
+            src="/photos/portada.jpeg"
+            alt={`${name1} y ${name2}`}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </motion.div>
+
+        <motion.div
+          variants={reduced ? undefined : staggerContainer}
+          initial={reduced ? false : "initial"}
+          animate="animate"
+          className="mt-8 text-center"
+        >
           <motion.div variants={reduced ? undefined : staggerItem}>
             <Badge tone="rose">{config.hero.tagline}</Badge>
           </motion.div>
-
-          <h1 className="hero-title mt-5 font-serif font-normal leading-[1.08] tracking-tight">
-            <span className="hero-name-line">
-              {name1Letters.map((char, i) => (
-                <motion.span
-                  key={`n1-${i}`}
-                  initial={reduced ? false : { opacity: 0, y: 20, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ delay: 0.15 + i * 0.04, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block text-text"
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </span>
-            <motion.span
-              initial={reduced ? false : { opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-              className="mx-2 inline-block text-rose-deep"
-            >
-              &
-            </motion.span>
-            <span className="hero-name-line">
-              {name2Letters.map((char, i) => (
-                <motion.span
-                  key={`n2-${i}`}
-                  initial={reduced ? false : { opacity: 0, y: 20, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ delay: 0.55 + i * 0.04, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block text-rose-deep"
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </span>
+          <h1 className="hero-title mt-4 font-serif">
+            {name1} <span className="text-rose-deep">&</span> {name2}
           </h1>
-
-          <motion.div variants={reduced ? undefined : staggerItem} className="hero-meta lg:justify-start">
-            <span>{formatRelationshipStartDisplay(relationshipStart)}</span>
+          <motion.p variants={reduced ? undefined : staggerItem} className="hero-meta justify-center">
+            {formatRelationshipStartDisplay(relationshipStart)}
             <span className="hero-meta-dot">·</span>
             <span>
               <strong className="text-rose-deep">{days}</strong> días juntos
             </span>
-          </motion.div>
+          </motion.p>
 
           {cd ? (
             <motion.div variants={reduced ? undefined : staggerItem}>
-              <Card variant="soft" padding="lg" className="hero-countdown-card mt-8 hero-countdown-glow">
-                <p className="hero-countdown-label mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-text-light lg:text-left">
+              <Card variant="soft" padding="lg" className="mt-6">
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-text-light">
                   Próximo aniversario
                 </p>
-                <div className="hero-countdown-row flex items-start justify-center gap-2 lg:justify-start">
+                <div className="flex items-start justify-center gap-2">
                   <CountdownUnit value={String(cd.days)} label="días" />
                   <span className="countdown-sep">:</span>
                   <CountdownUnit value={String(cd.hours).padStart(2, "0")} label="horas" />
@@ -150,36 +177,38 @@ export function HeroSection() {
               </Card>
             </motion.div>
           ) : null}
-
-          <motion.div variants={reduced ? undefined : staggerItem}>
-            {CASO002_UI_ACTIVE ? (
-              <Link
-                href="/caso-002"
-                className="btn btn-primary btn-lg mt-8 inline-flex w-full lg:w-auto"
-              >
-                Caso 002 — investigación activa
-              </Link>
-            ) : (
-              <Card variant="outline" padding="md" className="mt-8 border-dashed">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="font-medium text-text">Caso 002 · Próximamente</p>
-                    <p className="mt-1 text-xs leading-relaxed text-text-mid">
-                      La investigación se abre el {casoOpensLabel}. La ruta{" "}
-                      <code className="rounded bg-cream px-1 py-0.5 text-rose-deep">/caso-002</code>{" "}
-                      sigue abierta para pruebas.
-                    </p>
-                  </div>
-                  <Badge tone="neutral">8 nov 2026</Badge>
-                </div>
-              </Card>
-            )}
-          </motion.div>
         </motion.div>
-        </div>
       </div>
 
-      <StatsSection />
+      <div className="home-below-hero">
+        <StatsSection />
+
+        <div id="capsula-home" className="mt-10">
+          <CapsuleCard />
+        </div>
+
+        <div className="mt-8">
+          {CASO002_UI_ACTIVE ? (
+            <a href="/caso-002" className="btn btn-primary btn-lg inline-flex w-full sm:w-auto">
+              Caso 002 — investigación activa
+            </a>
+          ) : (
+            <Card variant="outline" padding="md" className="border-dashed">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="font-medium text-text">Caso 002 · Próximamente</p>
+                  <p className="mt-1 text-xs leading-relaxed text-text-mid">
+                    La investigación se abre el {casoOpensLabel}. La ruta{" "}
+                    <code className="rounded bg-cream px-1 py-0.5 text-rose-deep">/caso-002</code>{" "}
+                    sigue abierta para pruebas.
+                  </p>
+                </div>
+                <Badge tone="neutral">8 nov 2026</Badge>
+              </div>
+            </Card>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

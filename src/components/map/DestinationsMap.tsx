@@ -5,7 +5,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Destination } from "@/data/destinations";
 import { PIN_COLORS, STATUS_LABELS } from "@/data/destinations";
-import Link from "next/link";
 
 const pinIcon = (color: string) =>
   L.divIcon({
@@ -17,16 +16,17 @@ const pinIcon = (color: string) =>
 
 interface DestinationsMapProps {
   destinations: Destination[];
+  onSelectDestination?: (dest: Destination) => void;
 }
 
-export function DestinationsMap({ destinations }: DestinationsMapProps) {
+export function DestinationsMap({ destinations, onSelectDestination }: DestinationsMapProps) {
   return (
     <MapContainer
       center={[30, 10]}
       zoom={2}
       minZoom={1}
       maxZoom={6}
-      className="h-[280px] w-full z-0"
+      className="z-0 h-[280px] w-full lg:h-[360px]"
       scrollWheelZoom={false}
       attributionControl={false}
     >
@@ -36,6 +36,9 @@ export function DestinationsMap({ destinations }: DestinationsMapProps) {
           key={d.name}
           position={[d.lat, d.lng]}
           icon={pinIcon(PIN_COLORS[d.status])}
+          eventHandlers={{
+            click: () => onSelectDestination?.(d),
+          }}
         >
           <Popup>
             <div className="text-sm">
@@ -44,10 +47,19 @@ export function DestinationsMap({ destinations }: DestinationsMapProps) {
               </strong>
               <div className="text-xs text-gray-500">{STATUS_LABELS[d.status]}</div>
               {d.label ? <div className="text-xs">{d.label}</div> : null}
+              {d.memory ? (
+                <button
+                  type="button"
+                  className="mt-2 text-xs font-semibold text-rose-600"
+                  onClick={() => onSelectDestination?.(d)}
+                >
+                  Ver recuerdos →
+                </button>
+              ) : null}
               {d.url ? (
-                <Link href={d.url} className="mt-1 block text-xs text-rose-600">
-                  Ver la web →
-                </Link>
+                <a href={d.url} className="mt-1 block text-xs text-rose-600">
+                  Abrir web →
+                </a>
               ) : null}
             </div>
           </Popup>

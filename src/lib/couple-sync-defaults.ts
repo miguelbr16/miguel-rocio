@@ -1,4 +1,4 @@
-import { destinations } from "@/data/destinations";
+import { destinations, type Destination } from "@/data/destinations";
 import { fechasEspeciales } from "@/data/fechas";
 import { COUPLE_SYNC_VERSION, type CoupleSyncData } from "@/types/couple-sync";
 
@@ -12,13 +12,29 @@ export function createDefaultCoupleSync(): CoupleSyncData {
   };
 }
 
+/** Keep user status/edits, but restore seed memory/url when missing in saved data */
+function enrichDestinations(saved: Destination[]): Destination[] {
+  const seedByName = new Map(destinations.map((d) => [d.name, d]));
+  return saved.map((d) => {
+    const seed = seedByName.get(d.name);
+    if (!seed) return d;
+    return {
+      ...d,
+      url: d.url ?? seed.url,
+      memory: d.memory ?? seed.memory,
+      lat: d.lat ?? seed.lat,
+      lng: d.lng ?? seed.lng,
+    };
+  });
+}
+
 export function mergeCoupleSync(partial: Partial<CoupleSyncData> | null): CoupleSyncData {
   const base = createDefaultCoupleSync();
   if (!partial) return base;
   return {
     ...base,
     ...partial,
-    destinations: partial.destinations ?? base.destinations,
+    destinations: enrichDestinations(partial.destinations ?? base.destinations),
     fechas: partial.fechas ?? base.fechas,
     bingo: partial.bingo ?? base.bingo,
   };

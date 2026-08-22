@@ -21,7 +21,13 @@ export const STORAGE_KEYS = {
   caso002Progress: "caso002-day",
   siteConfig: "site-config-v1",
   coupleSync: "couple-sync-v1",
+  promises: "promises-v1",
+  annualPhotos: "annual-photos-v1",
+  capsulePreview: "capsule-preview-v1",
 } as const;
+
+/** Cápsula / carta aniversario — 18 nov 2026 */
+export const ANNIVERSARY_DATE = new Date(2026, 10, 18);
 
 /** Caso 002 visible como activo en la UI (la ruta /caso-002 sigue abierta para pruebas) */
 export const CASO002_UI_ACTIVE = false;
@@ -33,9 +39,11 @@ export const NAV_ITEMS = [
   { id: "inicio", label: "Inicio", icon: "🏠" },
   { id: "historia", label: "Historia", icon: "📖" },
   { id: "destinos", label: "Destinos", icon: "🌍" },
+  { id: "libro", label: "Libro", icon: "📔" },
   { id: "bingo", label: "Bingo", icon: "🎯" },
   { id: "cartas", label: "Cartas", icon: "💌" },
   { id: "casos", label: "Casos", icon: "🔍" },
+  { id: "promesas", label: "Año 2", icon: "🤍" },
   { id: "fechas", label: "Fechas", icon: "📅" },
   { id: "juegos", label: "Juegos", icon: "🎮" },
 ] as const;
@@ -54,6 +62,8 @@ export const MOBILE_TAB_ITEMS = [
 export const MORE_SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: "historia", label: "Historia", icon: "📖" },
   { id: "destinos", label: "Destinos", icon: "🌍" },
+  { id: "libro", label: "Libro", icon: "📔" },
+  { id: "promesas", label: "Año 2", icon: "🤍" },
   { id: "fechas", label: "Fechas", icon: "📅" },
   { id: "juegos", label: "Juegos", icon: "🎮" },
 ];

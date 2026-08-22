@@ -29,12 +29,12 @@ export const cartas: Carta[] = [
     icon: "🥂",
     fecha: "18 noviembre 2026",
     titulo: "Un año juntos",
-    hint: "Para abrir cuando cumplamos nuestro primer año",
+    hint: "Se abre con la cápsula del aniversario · 18 nov",
     type: "locked",
     lockDate: "18 noviembre 2026",
     lockDateIso: "2026-11-18",
     content:
-      "Rocío,\n\nUn año. 365 días desde el primer beso. Desde el cruasán, el chocolate, las cobras y las multas.\n\nGracias por cada día. Por Altea, París, las llaves perdidas y las risas tontas. Por elegirme.\n\nEste es solo el primer capítulo. Te quiero.",
+      "Rocío,\n\nUn año. 365 días desde el primer beso. Desde el cruasán, el chocolate, las cobras y las multas.\n\nSi estás leyendo esto, ya has abierto la cápsula. Has visto el vídeo. Has revivido Altea, París, las risas tontas y todo lo que no cabe en un montaje.\n\nGracias por cada día. Por elegirme. Por construir esto conmigo.\n\nEste es solo el primer capítulo del libro. El Año Dos empieza ahora — y quiero escribirlo contigo.\n\nTe quiero. Más que el año pasado. Más que mañana.",
     firma: "Miguel ♥",
   },
   {

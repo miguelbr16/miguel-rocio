@@ -9,15 +9,7 @@ export function daysTogether(from: Date = new Date(), relationshipStart: Date = 
 }
 
 export function nextAnniversary(from: Date = new Date(), start: Date = RELATIONSHIP_START): Date {
-  const target = new Date(
-    from.getFullYear(),
-    start.getMonth(),
-    start.getDate(),
-    0,
-    0,
-    0,
-    0,
-  );
+  const target = new Date(from.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0, 0);
   if (target <= from) {
     target.setFullYear(from.getFullYear() + 1);
   }
