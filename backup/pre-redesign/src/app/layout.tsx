@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "600"],
   style: ["normal", "italic"],
-  variable: "--font-playfair",
+  variable: "--font-cormorant",
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-jakarta",
+  weight: ["300", "400", "500"],
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${playfair.variable} ${jakarta.variable}`}>
+    <html lang="es" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );

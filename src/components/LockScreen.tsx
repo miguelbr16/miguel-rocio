@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { LOCK_CODE } from "@/lib/constants";
+import { LOCK_CODE, COUPLE } from "@/lib/constants";
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -27,30 +27,51 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cream px-6 text-center"
+      className="lock-screen"
     >
-      <div className="mb-5 text-5xl">🔒</div>
-      <p className="mb-6 text-sm tracking-wide text-text-light">
-        Introduce el código para entrar
-      </p>
-      <input
-        type="password"
-        inputMode="numeric"
-        maxLength={8}
-        value={code}
-        placeholder="······"
-        onChange={(e) => setCode(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && submit()}
-        className="mb-3 w-full max-w-[260px] rounded-[10px] border border-border bg-white px-4 py-3.5 text-center font-sans text-xl tracking-[0.25em] text-text outline-none focus:border-rose-deep"
-      />
-      <button
-        type="button"
-        onClick={submit}
-        className="w-full max-w-[260px] rounded-[10px] bg-rose-deep py-3.5 text-[15px] text-white transition hover:brightness-105"
+      <div className="ambient-bg" aria-hidden>
+        <div className="ambient-mesh" />
+        <div className="ambient-orb ambient-orb-1" />
+        <div className="ambient-grain" />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 w-full max-w-sm"
       >
-        Entrar
-      </button>
-      {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
+        <div className="lock-icon">✦</div>
+        <h1 className="lock-title">{COUPLE.name1} & {COUPLE.name2}</h1>
+        <p className="mb-8 text-sm text-text-light">
+          Introduce el código para entrar
+        </p>
+
+        <div className="glass-card p-6">
+          <input
+            type="password"
+            inputMode="numeric"
+            maxLength={8}
+            value={code}
+            placeholder="······"
+            onChange={(e) => setCode(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
+            className="lock-input mb-4"
+          />
+          <button type="button" onClick={submit} className="btn-gold w-full">
+            Entrar
+          </button>
+          {error ? (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-3 text-sm text-rose"
+            >
+              {error}
+            </motion.p>
+          ) : null}
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

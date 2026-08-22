@@ -143,7 +143,7 @@ export function CartasSection() {
         description="Algunas cosas se dicen mejor cuando llegue el momento."
       />
 
-      <article className="glass-card-gold mb-8 p-6">
+      <article className="mb-8 rounded-2xl border border-border bg-white p-6">
         <p className="section-label">Para ti</p>
         <h3 className="font-serif text-3xl font-normal">Una carta</h3>
         <div className="mt-4 space-y-3 text-sm leading-relaxed text-text-mid">
@@ -156,7 +156,7 @@ export function CartasSection() {
             Cada día contigo suma. Por las risas, los viajes, las llaves perdidas y las cobras
             que al final hicieron la historia mejor.
           </p>
-          <p className="font-serif italic text-rose">Con todo, Miguel ♥</p>
+          <p className="font-serif italic text-rose-deep">Con todo, Miguel ♥</p>
         </div>
       </article>
 

@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AmbientBackground } from "@/components/AmbientBackground";
 import { Navigation } from "@/components/Navigation";
 import { MobileNav } from "@/components/MobileNav";
 import { LockScreen } from "@/components/LockScreen";
@@ -16,16 +15,23 @@ import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
 import type { SectionId } from "@/lib/constants";
 
-const SECTIONS: Record<SectionId, React.ComponentType> = {
-  inicio: HeroSection,
-  historia: TimelineSection,
-  destinos: DestinationsSection,
-  bingo: BingoSection,
-  cartas: CartasSection,
-  casos: CasosSection,
-  fechas: FechasSection,
-  juegos: JuegosSection,
-};
+function TabPanel({ id, active, children }: { id: SectionId; active: SectionId; children: ReactNode }) {
+  if (id !== active) return null;
+  return (
+    <motion.div
+      key={id}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      className="tab-panel"
+      role="tabpanel"
+      id={`panel-${id}`}
+      aria-labelledby={`tab-${id}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function AppShell() {
   const [unlocked, setUnlocked] = useState(false);
@@ -37,7 +43,7 @@ export function AppShell() {
     setUnlocked(sessionStorage.getItem("unlocked") === "1");
     setReady(true);
     const hash = window.location.hash.replace("#", "") as SectionId;
-    if (hash && hash in SECTIONS) setActive(hash);
+    if (hash) setActive(hash);
   }, []);
 
   const switchTab = useCallback((id: SectionId) => {
@@ -49,16 +55,13 @@ export function AppShell() {
 
   if (!ready) return null;
 
-  const ActiveSection = SECTIONS[active];
-
   return (
     <>
       <AnimatePresence>
         {!unlocked ? <LockScreen onUnlock={() => setUnlocked(true)} /> : null}
       </AnimatePresence>
       {unlocked ? (
-        <div className="app-root">
-          <AmbientBackground />
+        <>
           <Navigation active={active} onNavigate={switchTab} />
           <MobileNav
             active={active}
@@ -67,24 +70,33 @@ export function AppShell() {
             onMoreToggle={() => setMoreOpen((o) => !o)}
             onMoreSelect={switchTab}
           />
-          <main className="main-shell">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="tab-panel"
-                role="tabpanel"
-                id={`panel-${active}`}
-                aria-labelledby={`tab-${active}`}
-              >
-                <ActiveSection />
-              </motion.div>
-            </AnimatePresence>
+          <main className="main-shell md:pt-14">
+            <TabPanel id="inicio" active={active}>
+              <HeroSection />
+            </TabPanel>
+            <TabPanel id="historia" active={active}>
+              <TimelineSection />
+            </TabPanel>
+            <TabPanel id="destinos" active={active}>
+              <DestinationsSection />
+            </TabPanel>
+            <TabPanel id="bingo" active={active}>
+              <BingoSection />
+            </TabPanel>
+            <TabPanel id="cartas" active={active}>
+              <CartasSection />
+            </TabPanel>
+            <TabPanel id="casos" active={active}>
+              <CasosSection />
+            </TabPanel>
+            <TabPanel id="fechas" active={active}>
+              <FechasSection />
+            </TabPanel>
+            <TabPanel id="juegos" active={active}>
+              <JuegosSection />
+            </TabPanel>
           </main>
-        </div>
+        </>
       ) : null}
     </>
   );

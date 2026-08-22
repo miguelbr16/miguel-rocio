@@ -11,14 +11,14 @@ function FechaRow({ f, idx, onDelete }: { f: FechaEspecial & { idx: number; days
   const isSoon = f.days <= 7;
   const badge = isToday ? "¡Hoy! 🎉" : f.days === 1 ? "Mañana" : `En ${f.days} días`;
   const badgeClass = isToday
-    ? "bg-gold-pale text-gold border border-gold/30"
+    ? "bg-amber-100 text-amber-800"
     : isSoon
-      ? "bg-rose-pale text-rose border border-rose/20"
-      : "bg-sky-pale text-sky border border-sky/20";
+      ? "bg-rose-pale text-rose-deep"
+      : "bg-sky-pale text-sky-deep";
 
   return (
     <div
-      className={`glass-card flex items-center gap-3 px-3 py-3 ${isToday ? "glow-ring" : ""}`}
+      className={`flex items-center gap-3 rounded-xl border bg-white px-3 py-3 ${isToday ? "border-rose-deep" : "border-border"}`}
     >
       <span className="text-2xl">{f.emoji}</span>
       <div className="min-w-0 flex-1">
@@ -82,7 +82,7 @@ export function FechasSection() {
           + Añadir fecha especial
         </button>
         {showForm ? (
-          <div className="glass-card mt-3 space-y-3 p-4">
+          <div className="mt-3 space-y-3 rounded-xl border border-border bg-cream p-4">
             <div className="grid gap-2 sm:grid-cols-2">
               <input
                 placeholder="Emoji · ej: 🎂"

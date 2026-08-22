@@ -55,7 +55,7 @@ function QuizPanel() {
           : "Todavía hay cosas que descubrir. Tenemos tiempo. 😄";
     return (
       <div className="py-8 text-center">
-        <div className="font-serif text-5xl text-gold">
+        <div className="font-serif text-5xl text-rose-deep">
           {score} / {quizTotal}
         </div>
         <p className="mt-4 text-sm text-text-mid">{msgs}</p>
@@ -98,9 +98,9 @@ function QuizPanel() {
                 className={`quiz-opt w-full rounded-xl border px-4 py-3 text-left text-sm transition ${
                   answered
                     ? i === q.ans
-                      ? "border-sky/50 bg-sky-pale text-sky"
-                      : "border-white/10 opacity-50"
-                    : "border-white/10 hover:border-rose/40 hover:bg-rose-pale"
+                      ? "border-green-500 bg-green-50"
+                      : "border-border opacity-60"
+                    : "border-border hover:border-rose-deep hover:bg-rose-pale"
                 }`}
               >
                 {opt}
@@ -113,7 +113,7 @@ function QuizPanel() {
         </>
       ) : (
         <>
-          <span className="text-xs font-medium uppercase tracking-wider text-gold">{q.tag}</span>
+          <span className="text-xs font-medium uppercase tracking-wider text-rose-deep">{q.tag}</span>
           <div className="my-4 text-4xl">{q.icon}</div>
           <p className="font-serif text-xl">{q.q}</p>
         </>
@@ -216,19 +216,19 @@ function PictionaryPanel() {
     <div>
       <div className="mb-3 flex justify-center gap-6 text-center">
         <div>
-          <div className="font-serif text-3xl text-gold">{scores.Miguel}</div>
+          <div className="font-serif text-3xl text-rose-deep">{scores.Miguel}</div>
           <div className="text-xs text-text-light">Miguel</div>
         </div>
         <div>
-          <div className="font-serif text-3xl text-rose">{scores.Rocío}</div>
+          <div className="font-serif text-3xl text-rose-deep">{scores.Rocío}</div>
           <div className="text-xs text-text-light">Rocío</div>
         </div>
       </div>
-      <p className="mb-3 rounded-xl bg-rose-pale py-2.5 text-center text-sm text-rose">
+      <p className="mb-3 rounded-xl bg-rose-pale py-2 text-center text-sm">
         Turno de {drawer} — dibuja la palabra
       </p>
       {showWord ? (
-        <div className="glass-card mb-3 p-4 text-center">
+        <div className="mb-3 rounded-xl border border-border bg-white p-4 text-center">
           <div className="font-serif text-2xl">{word.word}</div>
           <div className="text-xs text-text-light">{word.hint}</div>
         </div>
@@ -237,10 +237,10 @@ function PictionaryPanel() {
           Ver palabra 👀
         </button>
       )}
-      <div className="glass-card overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-border bg-white">
         <canvas
           ref={canvasRef}
-          className="block w-full touch-none bg-white/95"
+          className="block w-full touch-none"
           height={280}
           onMouseDown={(e) => {
             painting.current = true;
@@ -298,11 +298,11 @@ function PictionaryPanel() {
         />
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        {["#080608", "#e8547a", "#7eb8ff", "#e8c872"].map((c) => (
+        {["#2a1f25", "#e8899a", "#7fb8e8", "#2fbf71"].map((c) => (
           <button
             key={c}
             type="button"
-            className="h-8 w-8 rounded-full border-2 border-white/20 shadow-lg"
+            className="h-8 w-8 rounded-full border-2 border-white shadow"
             style={{ background: c }}
             onClick={() => {
               color.current = c;
@@ -347,17 +347,13 @@ export function JuegosSection() {
             key={id}
             type="button"
             onClick={() => setTab(id)}
-            className={`flex-1 rounded-full py-2.5 text-sm font-medium transition ${
-              tab === id
-                ? "bg-gradient-to-r from-rose-deep to-rose text-white shadow-[0_0_20px_rgba(232,84,122,0.3)]"
-                : "border border-white/10 text-text-mid hover:border-white/20"
-            }`}
+            className={`flex-1 rounded-full py-2 text-sm ${tab === id ? "bg-rose-deep text-white" : "border border-border"}`}
           >
             {label}
           </button>
         ))}
       </div>
-      <div className="glass-card p-5">
+      <div className="rounded-2xl border border-border bg-white p-4">
         {tab === "quiz" ? <QuizPanel /> : <PictionaryPanel />}
       </div>
     </section>

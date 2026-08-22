@@ -8,11 +8,11 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ label, title, description }: SectionHeaderProps) {
   return (
-    <header className="mb-10">
+    <header className="mb-8">
       <p className="section-label">{label}</p>
       <h2 className="section-title">{title}</h2>
       {description ? (
-        <p className="mt-3 max-w-lg text-sm leading-relaxed text-text-mid">{description}</p>
+        <p className="mt-2 text-sm leading-relaxed text-text-mid">{description}</p>
       ) : null}
     </header>
   );
