@@ -56,37 +56,38 @@ export function HeroSection() {
 
   return (
     <section id="inicio" className="home-page">
-      <div className="hero-grid">
-        <motion.div
-          initial={reduced ? false : { opacity: 0, scale: 0.94, rotate: -1 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="order-1 md:order-none"
-        >
-          <div className="photo-frame hero-photo-glow relative mx-auto aspect-[3/4] w-full max-w-md md:max-w-none">
-            <Image
-              src="/photos/portada.jpeg"
-              alt={`${config.couple.name1} y ${config.couple.name2}`}
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 420px"
-            />
-            <div className="hero-photo-shimmer" aria-hidden />
-          </div>
-        </motion.div>
+      <div className="hero-desktop-wrap">
+        <div className="hero-grid">
+          <motion.div
+            initial={reduced ? false : { opacity: 0, scale: 0.94, rotate: -1 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-photo-col order-1 lg:order-none"
+          >
+            <div className="photo-frame hero-photo-glow relative mx-auto aspect-[3/4] w-full max-w-md lg:mx-0 lg:max-w-none">
+              <Image
+                src="/photos/portada.jpeg"
+                alt={`${config.couple.name1} y ${config.couple.name2}`}
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+              />
+              <div className="hero-photo-shimmer" aria-hidden />
+            </div>
+          </motion.div>
 
-        <motion.div
-          variants={reduced ? undefined : staggerContainer}
-          initial={reduced ? false : "initial"}
-          animate="animate"
-          className="flex flex-col justify-center text-center md:text-left"
-        >
+          <motion.div
+            variants={reduced ? undefined : staggerContainer}
+            initial={reduced ? false : "initial"}
+            animate="animate"
+            className="hero-content-col flex flex-col justify-center text-center lg:text-left"
+          >
           <motion.div variants={reduced ? undefined : staggerItem}>
             <Badge tone="rose">{config.hero.tagline}</Badge>
           </motion.div>
 
-          <h1 className="mt-5 font-serif text-[clamp(2.5rem,9vw,3.5rem)] font-normal leading-[1.08] tracking-tight">
+          <h1 className="hero-title mt-5 font-serif font-normal leading-[1.08] tracking-tight">
             <span className="hero-name-line">
               {name1Letters.map((char, i) => (
                 <motion.span
@@ -123,7 +124,7 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <motion.div variants={reduced ? undefined : staggerItem} className="hero-meta md:justify-start">
+          <motion.div variants={reduced ? undefined : staggerItem} className="hero-meta lg:justify-start">
             <span>{formatRelationshipStartDisplay(relationshipStart)}</span>
             <span className="hero-meta-dot">·</span>
             <span>
@@ -133,11 +134,11 @@ export function HeroSection() {
 
           {cd ? (
             <motion.div variants={reduced ? undefined : staggerItem}>
-              <Card variant="soft" padding="lg" className="mt-8 hero-countdown-glow">
-                <p className="mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-text-light md:text-left">
+              <Card variant="soft" padding="lg" className="hero-countdown-card mt-8 hero-countdown-glow">
+                <p className="hero-countdown-label mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-text-light lg:text-left">
                   Próximo aniversario
                 </p>
-                <div className="flex items-start justify-center gap-2 md:justify-start">
+                <div className="hero-countdown-row flex items-start justify-center gap-2 lg:justify-start">
                   <CountdownUnit value={String(cd.days)} label="días" />
                   <span className="countdown-sep">:</span>
                   <CountdownUnit value={String(cd.hours).padStart(2, "0")} label="horas" />
@@ -154,7 +155,7 @@ export function HeroSection() {
             {CASO002_UI_ACTIVE ? (
               <Link
                 href="/caso-002"
-                className="btn btn-primary btn-lg mt-8 inline-flex w-full md:w-auto"
+                className="btn btn-primary btn-lg mt-8 inline-flex w-full lg:w-auto"
               >
                 Caso 002 — investigación activa
               </Link>
@@ -175,6 +176,7 @@ export function HeroSection() {
             )}
           </motion.div>
         </motion.div>
+        </div>
       </div>
 
       <StatsSection />

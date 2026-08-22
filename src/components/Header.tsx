@@ -59,8 +59,6 @@ export function Header({ active, menuOpen, onMenuToggle, onNavigate }: HeaderPro
                 </button>
               ))}
             </nav>
-
-            <div className="hidden w-10 md:block" aria-hidden />
           </div>
         </div>
       </header>
