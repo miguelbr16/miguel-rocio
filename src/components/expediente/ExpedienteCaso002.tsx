@@ -254,14 +254,16 @@ export function ExpedienteCaso002() {
                 <span className="italic text-[#c8607a]">El primer año</span>
               </h1>
               <p className="mt-6 text-sm leading-relaxed text-[#a89080]">
-                Agente Ro, el Caso 001 archivó el origen: Instagram, París, los 6 meses.
+                Agente Ro, el <strong className="text-[#e8d5a3]">Caso 001</strong> contó vuestra
+                historia entera (multa, París, llaves…) y se cerró el{" "}
+                <strong className="text-[#e8d5a3]">15 de mayo</strong> con flores y carta.
                 <br />
                 <br />
-                El <strong className="text-[#e8d5a3]">Caso 002</strong> es otro expediente: lo
-                que pasó <em>después</em> de la Torre Eiffel hasta hoy.
+                Este es otro expediente: lo que pasó{" "}
+                <em>después de aquel cierre</em> hasta hoy.
                 <br />
                 <br />
-                Una pista al día. El 18 de noviembre: la gran noche.
+                Una pista al día · gran noche el 18 nov.
               </p>
               <button
                 type="button"

@@ -7,7 +7,7 @@ export function CasosSection() {
       <SectionHeader
         label="Expediente M&R"
         title="Casos & Investigación"
-        description="El Caso 001 contó el origen hasta París. El Caso 002 documenta lo que vino después — hasta la gran noche del año."
+        description="El Caso 001 contó vuestra historia y cerró el 15 mayo con flores y carta. El Caso 002 sigue desde ahí hasta la gran noche del año."
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -15,7 +15,7 @@ export function CasosSection() {
           <div className="text-[11px] uppercase tracking-widest text-text-light">Caso · 001</div>
           <div className="my-3 text-4xl">✅</div>
           <div className="font-serif text-xl">Los 6 meses</div>
-          <div className="mt-2 text-xs text-text-mid">Multa · París · Llaves · Flores</div>
+          <div className="mt-2 text-xs text-text-mid">4–15 mayo · cerró con flores y carta</div>
           <div className="mt-2 text-xs font-medium text-emerald-600">Completado — ver expediente</div>
         </Link>
 
@@ -30,18 +30,18 @@ export function CasosSection() {
             </span>
           </div>
           <div className="my-3 text-4xl">🥂</div>
-          <div className="font-serif text-xl">Capítulo post-París</div>
+          <div className="font-serif text-xl">Después del Caso 001</div>
           <div className="mt-2 text-xs text-text-mid">
-            Después de la Torre Eiffel → cena · flores · sorpresa
+            Desde el cierre (15 mayo) → cena · flores · sorpresa
           </div>
           <div className="mt-2 text-xs font-medium text-rose-deep">Continuar investigación →</div>
         </Link>
       </div>
 
       <p className="mt-6 rounded-xl border border-rose-deep/20 bg-rose-pale/50 p-4 text-center text-sm leading-relaxed text-text-mid">
-        <strong className="text-rose-deep">Agente Ro:</strong> el Caso 001 ya contó vuestra
-        historia inicial. Este es nuevo: vida después de París, pistas del 8 al 18 nov, y el
-        reveal de la gran noche.
+        <strong className="text-rose-deep">Agente Ro:</strong> el Caso 001 (mayo) contó toda
+        vuestra historia como investigación y cerró el <strong>15 de mayo</strong> con flores y
+        carta. El Caso 002 empieza ahí — pistas del 8 al 18 nov.
       </p>
     </section>
   );
