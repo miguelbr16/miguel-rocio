@@ -2253,3 +2253,10 @@ body {
 .hero-countdown-label { margin-bottom: 0.75rem; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
 .hero-countdown-row { display: flex; align-items: flex-start; gap: 0.65rem; }
 .home-page-cinematic { width: 100%; }
+
+.hero-mobile-stack { display: block; }
+.home-below-hero { width: min(100%, 920px); margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+@media (min-width: 1024px) {
+  .hero-mobile-stack { display: none; }
+  .home-below-hero { max-width: 1140px; padding: 3rem 2.5rem 4rem; }
+}
