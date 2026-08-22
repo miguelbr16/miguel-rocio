@@ -7,7 +7,7 @@ export function CasosSection() {
       <SectionHeader
         label="Expediente M&R"
         title="Casos & Investigación"
-        description="Dos detectives, dos casos. El primero llevó a flores y una carta. El segundo… a la gran noche."
+        description="El Caso 001 contó el origen hasta París. El Caso 002 documenta lo que vino después — hasta la gran noche del año."
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -30,17 +30,18 @@ export function CasosSection() {
             </span>
           </div>
           <div className="my-3 text-4xl">🥂</div>
-          <div className="font-serif text-xl">El primer año</div>
+          <div className="font-serif text-xl">Capítulo post-París</div>
           <div className="mt-2 text-xs text-text-mid">
-            Pistas diarias → cena · flores · sorpresa
+            Después de la Torre Eiffel → cena · flores · sorpresa
           </div>
           <div className="mt-2 text-xs font-medium text-rose-deep">Continuar investigación →</div>
         </Link>
       </div>
 
       <p className="mt-6 rounded-xl border border-rose-deep/20 bg-rose-pale/50 p-4 text-center text-sm leading-relaxed text-text-mid">
-        <strong className="text-rose-deep">Agente Ro:</strong> el Caso 002 se desbloquea día a día
-        del 8 al 18 de noviembre. El 18 descubrirás todo lo que M ha preparado.
+        <strong className="text-rose-deep">Agente Ro:</strong> el Caso 001 ya contó vuestra
+        historia inicial. Este es nuevo: vida después de París, pistas del 8 al 18 nov, y el
+        reveal de la gran noche.
       </p>
     </section>
   );
