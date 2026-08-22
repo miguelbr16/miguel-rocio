@@ -11,14 +11,30 @@ export const COUPLE = {
 } as const;
 
 export const NAV_ITEMS = [
-  { id: "inicio", label: "Inicio" },
-  { id: "historia", label: "Historia" },
-  { id: "destinos", label: "Destinos" },
-  { id: "bingo", label: "Bingo" },
-  { id: "cartas", label: "Cartas" },
-  { id: "casos", label: "Casos" },
-  { id: "fechas", label: "Fechas" },
-  { id: "juegos", label: "Juegos" },
+  { id: "inicio", label: "Inicio", icon: "🏠" },
+  { id: "historia", label: "Historia", icon: "📖" },
+  { id: "destinos", label: "Destinos", icon: "🌍" },
+  { id: "bingo", label: "Bingo", icon: "🎯" },
+  { id: "cartas", label: "Cartas", icon: "💌" },
+  { id: "casos", label: "Casos", icon: "🔍" },
+  { id: "fechas", label: "Fechas", icon: "📅" },
+  { id: "juegos", label: "Juegos", icon: "🎮" },
 ] as const;
 
 export type SectionId = (typeof NAV_ITEMS)[number]["id"];
+
+/** Barra inferior móvil — 5 accesos rápidos */
+export const MOBILE_TAB_ITEMS = [
+  { id: "inicio" as const, label: "Inicio", icon: "🏠" },
+  { id: "casos" as const, label: "Casos", icon: "🔍" },
+  { id: "bingo" as const, label: "Bingo", icon: "🎯" },
+  { id: "cartas" as const, label: "Cartas", icon: "💌" },
+  { id: "more" as const, label: "Más", icon: "✨" },
+];
+
+export const MORE_SECTIONS: { id: SectionId; label: string; icon: string }[] = [
+  { id: "historia", label: "Historia", icon: "📖" },
+  { id: "destinos", label: "Destinos", icon: "🌍" },
+  { id: "fechas", label: "Fechas", icon: "📅" },
+  { id: "juegos", label: "Juegos", icon: "🎮" },
+];

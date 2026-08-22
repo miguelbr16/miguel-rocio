@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { COUPLE } from "@/lib/constants";
 import { countdownParts, daysTogether, nextAnniversary } from "@/lib/dates";
@@ -31,7 +32,7 @@ export function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center px-6 pb-16 pt-24 text-center"
+      className="relative flex min-h-[100dvh] flex-col items-center justify-center px-4 pb-24 pt-[max(5rem,env(safe-area-inset-top))] text-center md:px-6 md:pb-16 md:pt-24"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-rose/30 blur-3xl" />
@@ -81,17 +82,24 @@ export function HeroSection() {
             <p className="mb-3 text-[11px] uppercase tracking-[0.1em] text-text-light">
               Próximo aniversario en
             </p>
-            <div className="flex items-start justify-center gap-2 sm:gap-3">
+            <div className="flex items-start justify-center gap-1.5 sm:gap-3">
               <CountdownUnit value={String(cd.days)} label="días" />
-              <span className="mt-2 font-serif text-3xl text-rose">:</span>
+              <span className="mt-2 font-serif text-2xl text-rose sm:text-3xl">:</span>
               <CountdownUnit value={String(cd.hours).padStart(2, "0")} label="horas" />
-              <span className="mt-2 font-serif text-3xl text-rose">:</span>
+              <span className="mt-2 font-serif text-2xl text-rose sm:text-3xl">:</span>
               <CountdownUnit value={String(cd.minutes).padStart(2, "0")} label="min" />
-              <span className="mt-2 font-serif text-3xl text-rose">:</span>
+              <span className="mt-2 font-serif text-2xl text-rose sm:text-3xl">:</span>
               <CountdownUnit value={String(cd.seconds).padStart(2, "0")} label="seg" />
             </div>
           </div>
         ) : null}
+
+        <Link
+          href="/caso-002"
+          className="mt-8 inline-flex min-h-[48px] w-full max-w-xs items-center justify-center gap-2 rounded-2xl bg-rose-deep px-5 py-3.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(232,137,154,0.35)] transition hover:brightness-105"
+        >
+          🔍 Continuar Caso 002
+        </Link>
       </motion.div>
 
       <motion.p

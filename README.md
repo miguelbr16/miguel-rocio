@@ -43,7 +43,16 @@ Si falta una foto, la UI la oculta sin romper nada.
 2. Framework: Next.js (auto-detectado)
 3. Deploy — listo
 
-## Fecha oficial
+## Caso 002 — La gran noche (18 nov 2026)
 
-**18 noviembre 2025** — primer beso / inicio de la relación.  
-Próximo hito: **1 año** el 18 noviembre 2026.
+Pistas diarias del 8 al 18 noviembre. El final revela **cena, flores y sorpresa**.
+
+**Edita antes del día D** → `src/data/sorpresa-config.ts`:
+
+```typescript
+cena: { restaurante: "...", hora: "21:00", direccion: "..." },
+flores: { detalle: "Dónde estarán las flores" },
+extra: { mensaje: "Tu sorpresa extra (anillo, viaje…)" },
+```
+
+Para probar todo sin esperar: `devUnlockAll: true` en ese mismo archivo.

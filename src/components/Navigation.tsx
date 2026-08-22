@@ -1,6 +1,7 @@
 "use client";
 
-import { COUPLE, LOCK_CODE, NAV_ITEMS, type SectionId } from "@/lib/constants";
+import Link from "next/link";
+import { COUPLE, NAV_ITEMS, type SectionId } from "@/lib/constants";
 
 interface NavigationProps {
   active: SectionId;
@@ -9,7 +10,10 @@ interface NavigationProps {
 
 export function Navigation({ active, onNavigate }: NavigationProps) {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 flex h-14 items-center gap-0 overflow-x-auto border-b border-border bg-cream/92 px-4 backdrop-blur-md [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <nav
+      className="fixed inset-x-0 top-0 z-50 hidden h-14 items-center gap-0 overflow-x-auto border-b border-border bg-cream/92 px-4 backdrop-blur-md md:flex [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      aria-label="Navegación escritorio"
+    >
       <span className="mr-4 shrink-0 font-serif text-lg font-semibold text-rose-deep">
         {COUPLE.initials}
       </span>
@@ -27,8 +31,12 @@ export function Navigation({ active, onNavigate }: NavigationProps) {
           {item.label}
         </button>
       ))}
+      <Link
+        href="/caso-002"
+        className="ml-auto shrink-0 rounded-full bg-rose-deep px-3 py-1.5 text-[11px] font-medium text-white"
+      >
+        Caso 002 →
+      </Link>
     </nav>
   );
 }
-
-export { LOCK_CODE };
