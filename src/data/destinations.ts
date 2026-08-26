@@ -1,3 +1,5 @@
+import { LONDON_GUIDE_URL } from "@/lib/constants";
+
 export type DestStatus = "done" | "planned" | "future";
 
 export interface DestinationMemory {
@@ -132,8 +134,8 @@ export const destinations: Destination[] = [
     label: "9–14 agosto 2026",
     lat: 51.5074,
     lng: -0.1278,
-    /** Guía del viaje (repo Londres → Vercel) */
-    url: "https://viaje-londres.vercel.app",
+    /** Guía: repo github.com/miguelbr16/london → Vercel */
+    url: LONDON_GUIDE_URL,
     album: "londres",
     memory: {
       photos: albumPhotos("londres"),

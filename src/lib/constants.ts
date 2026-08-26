@@ -35,6 +35,10 @@ export const CASO002_UI_ACTIVE = false;
 /** Fecha en la que el Caso 002 se muestra como activo (8 nov 2026) */
 export const CASO002_OPENS = new Date(2026, 10, 8);
 
+/** Guía Londres — repo https://github.com/miguelbr16/london */
+export const LONDON_REPO_URL = "https://github.com/miguelbr16/london";
+export const LONDON_GUIDE_URL = "https://london-miguelbr16s-projects.vercel.app";
+
 export const NAV_ITEMS = [
   { id: "inicio", label: "Inicio", icon: "🏠" },
   { id: "historia", label: "Historia", icon: "📖" },

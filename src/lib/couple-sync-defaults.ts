@@ -1,5 +1,6 @@
 import { destinations, type Destination } from "@/data/destinations";
 import { fechasEspeciales } from "@/data/fechas";
+import { LONDON_GUIDE_URL } from "@/lib/constants";
 import { COUPLE_SYNC_VERSION, type CoupleSyncData } from "@/types/couple-sync";
 
 export function createDefaultCoupleSync(): CoupleSyncData {
@@ -22,7 +23,8 @@ function enrichDestinations(saved: Destination[]): Destination[] {
     if (!seed) return d;
     return {
       ...d,
-      url: d.url ?? seed.url,
+      // Seed guide URLs win (e.g. Londres → repo Vercel)
+      url: seed.url ?? d.url,
       album: d.album ?? seed.album,
       memory: d.memory ?? seed.memory,
       lat: d.lat ?? seed.lat,
@@ -34,7 +36,6 @@ function enrichDestinations(saved: Destination[]): Destination[] {
 
   for (const seed of destinations) {
     if (seen.has(seed.name)) continue;
-    // Insert new seed destinations after the last known prior seed in list order
     const seedIndex = destinations.findIndex((d) => d.name === seed.name);
     let insertAt = merged.length;
     for (let i = seedIndex - 1; i >= 0; i--) {
@@ -48,7 +49,10 @@ function enrichDestinations(saved: Destination[]): Destination[] {
     merged.splice(insertAt, 0, { ...seed });
   }
 
-  return merged;
+  // Ensure Londres always points at the current guide deploy
+  return merged.map((d) =>
+    d.name === "Londres" ? { ...d, url: LONDON_GUIDE_URL } : d,
+  );
 }
 
 export function mergeCoupleSync(partial: Partial<CoupleSyncData> | null): CoupleSyncData {
