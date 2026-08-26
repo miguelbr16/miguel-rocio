@@ -10,6 +10,7 @@ Suelta aquí las fotos (aunque vengan en `.HEIC`). La web necesita **JPG/JPEG o 
 | `asturias/` | Viaje junio 2026 |
 | `mallorca/` | Viaje agosto 2026 |
 | `mestalla/` | Mestalla · agosto 2026 |
+| `londres/` | Londres · 9–14 agosto 2026 |
 | `paris/` | París + Disneyland · abril 2026 |
 | `altea/` | Altea · enero 2026 |
 | `valencia/` | Día a día / casa |

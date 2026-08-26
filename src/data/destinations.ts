@@ -30,7 +30,8 @@ export const photoAlbums: Record<string, string[]> = {
   "paris": [],
   "asturias": [],
   "mallorca": [],
-  "mestalla": []
+  "mestalla": [],
+  "londres": []
 };
 
 function albumPhotos(key: string, fallback: string[] = ["/photos/portada.jpeg"]): string[] {
@@ -122,6 +123,22 @@ export const destinations: Destination[] = [
       photos: albumPhotos("mestalla"),
       blurb: "Noche de partido en casa. Mestalla, agosto, y vosotros en la grada.",
       year: "Agosto 2026",
+    },
+  },
+  {
+    name: "Londres",
+    flag: "🇬🇧",
+    status: "done",
+    label: "9–14 agosto 2026",
+    lat: 51.5074,
+    lng: -0.1278,
+    /** Guía del viaje (repo Londres → Vercel) */
+    url: "https://viaje-londres.vercel.app",
+    album: "londres",
+    memory: {
+      photos: albumPhotos("londres"),
+      blurb: "Cinco días en Londres: Big Ben, el Támesis y el plan hecho a vuestra medida. La guía del viaje va aparte — ábrela desde aquí.",
+      year: "9–14 agosto 2026",
     },
   },
   {

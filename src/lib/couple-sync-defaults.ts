@@ -12,20 +12,43 @@ export function createDefaultCoupleSync(): CoupleSyncData {
   };
 }
 
-/** Keep user status/edits, but restore seed memory/url when missing in saved data */
+/** Keep user status/edits, restore seed memory/url, and append new seed destinations */
 function enrichDestinations(saved: Destination[]): Destination[] {
   const seedByName = new Map(destinations.map((d) => [d.name, d]));
-  return saved.map((d) => {
+  const seen = new Set<string>();
+  const merged = saved.map((d) => {
+    seen.add(d.name);
     const seed = seedByName.get(d.name);
     if (!seed) return d;
     return {
       ...d,
       url: d.url ?? seed.url,
+      album: d.album ?? seed.album,
       memory: d.memory ?? seed.memory,
       lat: d.lat ?? seed.lat,
       lng: d.lng ?? seed.lng,
+      label: d.label || seed.label,
+      flag: d.flag || seed.flag,
     };
   });
+
+  for (const seed of destinations) {
+    if (seen.has(seed.name)) continue;
+    // Insert new seed destinations after the last known prior seed in list order
+    const seedIndex = destinations.findIndex((d) => d.name === seed.name);
+    let insertAt = merged.length;
+    for (let i = seedIndex - 1; i >= 0; i--) {
+      const prevName = destinations[i]!.name;
+      const idx = merged.findIndex((d) => d.name === prevName);
+      if (idx >= 0) {
+        insertAt = idx + 1;
+        break;
+      }
+    }
+    merged.splice(insertAt, 0, { ...seed });
+  }
+
+  return merged;
 }
 
 export function mergeCoupleSync(partial: Partial<CoupleSyncData> | null): CoupleSyncData {

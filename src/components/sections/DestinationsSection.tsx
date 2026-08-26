@@ -142,9 +142,21 @@ export function DestinationsSection() {
                             </Button>
                           ) : null}
                           {d.url ? (
-                            <Link href={d.url} className="btn btn-secondary btn-sm">
-                              Ver web
-                            </Link>
+                            d.url.startsWith("http") ? (
+                              <a
+                                href={d.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn btn-secondary btn-sm"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                Ver guía
+                              </a>
+                            ) : (
+                              <Link href={d.url} className="btn btn-secondary btn-sm">
+                                Ver web
+                              </Link>
+                            )
                           ) : null}
                           <select
                             value={d.status}

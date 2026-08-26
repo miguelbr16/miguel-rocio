@@ -135,9 +135,21 @@ export const bookPages: BookPage[] = [
     photoCaption: "Batidos y batallas",
   },
   {
-    id: "daily",
+    id: "londres",
     kind: "spread",
     chapter: "Capítulo X",
+    title: "Londres · Cinco días",
+    date: "9–14 agosto 2026",
+    body: "La guía ya estaba escrita antes de aterrizar. Calles, museos, lluvia posible y planes a medida. Londres no fue improvisar: fue vivir lo que habíamos soñado en el mapa.",
+    quote: "Misma maleta. Otra ciudad. Las mismas manos.",
+    emoji: "🇬🇧",
+    photo: "/photos/portada.jpeg",
+    photoCaption: "9–14 · agosto",
+  },
+  {
+    id: "daily",
+    kind: "spread",
+    chapter: "Capítulo XI",
     title: "Lo de cada día",
     body: "El café, las risas tontas, las llaves perdidas, las cobras, los “ya voy”. El amor también vive en lo pequeño — y a veces ahí es más grande.",
     quote: "Los días normales también cuentan.",
@@ -146,7 +158,7 @@ export const bookPages: BookPage[] = [
   {
     id: "bingo",
     kind: "spread",
-    chapter: "Capítulo XI",
+    chapter: "Capítulo XII",
     title: "Planes cumplidos",
     body: "El bingo no era un juego: era una lista de promesas. Cada casilla, un recuerdo. Cada foto, una prueba de que lo dijimos… y lo hicimos.",
     quote: "Tachamos casillas. Sumamos vida.",
@@ -155,7 +167,7 @@ export const bookPages: BookPage[] = [
   {
     id: "letters",
     kind: "spread",
-    chapter: "Capítulo XII",
+    chapter: "Capítulo XIII",
     title: "Palabras guardadas",
     body: "Cartas que aún no se abren. Mensajes que sí. Frases dichas en voz baja. Este año también se escribe en papel — y en la memoria.",
     quote: "Hay cosas que solo se entienden leídas dos veces.",
@@ -164,7 +176,7 @@ export const bookPages: BookPage[] = [
   {
     id: "hard",
     kind: "spread",
-    chapter: "Capítulo XIII",
+    chapter: "Capítulo XIV",
     title: "También los días difíciles",
     body: "No todo fue fácil. Hubo silencios, cansancio y días torcidos. Quedarse no siempre es romántico: a veces es valiente. Y elegirnos otra vez.",
     quote: "Quedarse también es una forma de amar.",
@@ -173,7 +185,7 @@ export const bookPages: BookPage[] = [
   {
     id: "future",
     kind: "spread",
-    chapter: "Capítulo XIV",
+    chapter: "Capítulo XV",
     title: "Páginas en blanco",
     body: "Roma, Núremberg, Japón, Boston… destinos que todavía son promesa. El mapa sigue abierto. Nosotros también.",
     quote: "Lo mejor todavía no tiene fecha.",
@@ -182,7 +194,7 @@ export const bookPages: BookPage[] = [
   {
     id: "anniversary",
     kind: "spread",
-    chapter: "Capítulo XV",
+    chapter: "Capítulo XVI",
     title: "Un año",
     date: "18 noviembre 2026",
     body: "Trescientos sesenta y cinco días después, volvemos al mismo número: 18 · 11. No para cerrar. Para mirarnos y decir: seguimos.",

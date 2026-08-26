@@ -135,4 +135,12 @@ export const timelineEvents: TimelineEvent[] = [
     title: "Las llaves del coche",
     text: "30–60 minutos buscándolas. Spoiler: aparecieron.",
   },
+  {
+    date: "9–14 agosto 2026",
+    tag: "Gran viaje",
+    tagColor: "rosa",
+    dot: "big",
+    title: "Londres",
+    text: "Cinco días en la capital: mapa, planes y la guía que ya teníamos lista. Londres, contigo.",
+  },
 ];
