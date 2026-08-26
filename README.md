@@ -46,7 +46,7 @@ El código ya está en GitHub (`cursor/spectacular-rebuild-4a94`, PR #1). Para l
 1. Crea un proyecto en [supabase.com](https://supabase.com) (nombre sugerido: `miguel-rocio`).
 2. En **SQL Editor**, ejecuta `supabase/migrations/001_couple_data.sql`.
 3. En **Settings → API** copia:
-   - Project URL → `NEXT_PUBLIC_SUPABASE_URL`
+   - Project URL → `SUPABASE_URL`
    - `service_role` (secret) → `SUPABASE_SERVICE_ROLE_KEY`
 
 ### 2. Vercel
@@ -56,7 +56,7 @@ El código ya está en GitHub (`cursor/spectacular-rebuild-4a94`, PR #1). Para l
 3. Environment Variables:
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
 COUPLE_SLUG=miguel-rocio
 ```
