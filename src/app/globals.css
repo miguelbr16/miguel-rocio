@@ -2654,6 +2654,78 @@ body {
   color: var(--color-text-light);
   letter-spacing: 0.04em;
 }
+
+/* Soundtrack */
+.soundtrack-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 560px;
+  margin-inline: auto;
+}
+.soundtrack-track {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.9rem 1rem;
+  align-items: center;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.soundtrack-track:first-child {
+  border-top: 1px solid var(--color-border);
+}
+.soundtrack-num {
+  font-family: var(--font-fraunces), serif;
+  font-size: 1.35rem;
+  color: var(--color-rose-deep);
+  opacity: 0.75;
+  min-width: 2ch;
+}
+.soundtrack-title {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(1.15rem, 3vw, 1.35rem);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+.soundtrack-artist {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text-mid);
+}
+.soundtrack-note {
+  margin: 0.45rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+.soundtrack-play {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-rose-deep);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+.soundtrack-play:hover {
+  color: var(--color-text);
+}
+.soundtrack-foot {
+  margin: 1.75rem auto 0;
+  max-width: 420px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-mid);
+  line-height: 1.5;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .book-closed,
   .physical-book,

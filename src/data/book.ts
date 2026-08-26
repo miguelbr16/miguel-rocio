@@ -147,9 +147,18 @@ export const bookPages: BookPage[] = [
     photoCaption: "9–14 · agosto",
   },
   {
-    id: "daily",
+    id: "soundtrack",
     kind: "spread",
     chapter: "Capítulo XI",
+    title: "Nuestra banda sonora",
+    body: "Tres canciones que os flipan a los dos: Me has invitado a bailar (Dani Fernández), Iris (The Goo Goo Dolls) y Wonderwall (Oasis). Cuando suenan, el año entero cabe en un estribillo.",
+    quote: "Si hay que cantarlas mal, se cantan juntas.",
+    emoji: "🎵",
+  },
+  {
+    id: "daily",
+    kind: "spread",
+    chapter: "Capítulo XII",
     title: "Lo de cada día",
     body: "El café, las risas tontas, las llaves perdidas, las cobras, los “ya voy”. El amor también vive en lo pequeño — y a veces ahí es más grande.",
     quote: "Los días normales también cuentan.",
@@ -158,7 +167,7 @@ export const bookPages: BookPage[] = [
   {
     id: "bingo",
     kind: "spread",
-    chapter: "Capítulo XII",
+    chapter: "Capítulo XIII",
     title: "Planes cumplidos",
     body: "El bingo no era un juego: era una lista de promesas. Cada casilla, un recuerdo. Cada foto, una prueba de que lo dijimos… y lo hicimos.",
     quote: "Tachamos casillas. Sumamos vida.",
@@ -167,7 +176,7 @@ export const bookPages: BookPage[] = [
   {
     id: "letters",
     kind: "spread",
-    chapter: "Capítulo XIII",
+    chapter: "Capítulo XIV",
     title: "Palabras guardadas",
     body: "Cartas que aún no se abren. Mensajes que sí. Frases dichas en voz baja. Este año también se escribe en papel — y en la memoria.",
     quote: "Hay cosas que solo se entienden leídas dos veces.",
@@ -176,7 +185,7 @@ export const bookPages: BookPage[] = [
   {
     id: "hard",
     kind: "spread",
-    chapter: "Capítulo XIV",
+    chapter: "Capítulo XV",
     title: "También los días difíciles",
     body: "No todo fue fácil. Hubo silencios, cansancio y días torcidos. Quedarse no siempre es romántico: a veces es valiente. Y elegirnos otra vez.",
     quote: "Quedarse también es una forma de amar.",
@@ -185,7 +194,7 @@ export const bookPages: BookPage[] = [
   {
     id: "future",
     kind: "spread",
-    chapter: "Capítulo XV",
+    chapter: "Capítulo XVI",
     title: "Páginas en blanco",
     body: "Roma, Núremberg, Japón, Boston… destinos que todavía son promesa. El mapa sigue abierto. Nosotros también.",
     quote: "Lo mejor todavía no tiene fecha.",
@@ -194,7 +203,7 @@ export const bookPages: BookPage[] = [
   {
     id: "anniversary",
     kind: "spread",
-    chapter: "Capítulo XVI",
+    chapter: "Capítulo XVII",
     title: "Un año",
     date: "18 noviembre 2026",
     body: "Trescientos sesenta y cinco días después, volvemos al mismo número: 18 · 11. No para cerrar. Para mirarnos y decir: seguimos.",

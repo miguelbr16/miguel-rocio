@@ -24,4 +24,7 @@ export const pictWords: PictWord[] = [
   { word: "Beso", hint: "💋 El primero fue el 18 de noviembre" },
   { word: "Japón", hint: "🗾 Destino soñado" },
   { word: "Auroras boreales", hint: "🌌 En algún lugar del norte" },
+  { word: "Wonderwall", hint: "🎸 Oasis — vuestra banda sonora" },
+  { word: "Iris", hint: "🎤 Goo Goo Dolls" },
+  { word: "Me has invitado a bailar", hint: "💃 Dani Fernández" },
 ];

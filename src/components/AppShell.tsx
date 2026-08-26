@@ -13,6 +13,7 @@ import { BingoSection } from "@/components/sections/BingoSection";
 import { CartasSection } from "@/components/sections/CartasSection";
 import { CasosSection } from "@/components/sections/CasosSection";
 import { PromisesSection } from "@/components/sections/PromisesSection";
+import { SoundtrackSection } from "@/components/sections/SoundtrackSection";
 import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
 import { CoupleSyncProvider } from "@/context/CoupleSyncContext";
@@ -27,6 +28,7 @@ const SECTIONS: Record<SectionId, ComponentType> = {
   cartas: CartasSection,
   casos: CasosSection,
   promesas: PromisesSection,
+  musica: SoundtrackSection,
   fechas: FechasSection,
   juegos: JuegosSection,
 };

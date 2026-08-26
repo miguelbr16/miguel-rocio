@@ -169,9 +169,22 @@ export const quizItems: QuizItem[] = [
   },
   {
     type: "reto",
-    q: "RETO: Cantad juntos 10 segundos de la canción que más os identifica. Sin vergüenza.",
+    q: "RETO: Cantad juntos 10 segundos de una de vuestras canciones — Me has invitado a bailar, Iris o Wonderwall. Sin vergüenza.",
     icon: "🎤",
     tag: "RETO",
+  },
+  {
+    type: "quiz",
+    q: "¿Cuál de estas NO es una de las canciones que os flipan a los dos?",
+    opts: [
+      "Me has invitado a bailar — Dani Fernández",
+      "Iris — The Goo Goo Dolls",
+      "Wonderwall — Oasis",
+      "Perfect — Ed Sheeran",
+    ],
+    ans: 3,
+    ok: "¡Correcto! Vuestra lista es Dani, Iris y Wonderwall.",
+    fail: "Las vuestras son: Me has invitado a bailar, Iris y Wonderwall.",
   },
   {
     type: "quiz",
