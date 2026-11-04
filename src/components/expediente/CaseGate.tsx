@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { PlaneGlyph } from "@/components/home/Landmark";
 import {
   caseSteps,
   caseTesting,
@@ -319,5 +318,14 @@ function Finale({ onDone, reduced }: { onDone: () => void; reduced: boolean }) {
         </button>
       </div>
     </motion.section>
+  );
+}
+
+function PlaneGlyph({ color }: { color: string }) {
+  return (
+    <path
+      d="M-22 -3h30l14-14h6l-7 14h11l6-6h4l-3 9 3 9h-4l-6-6H21l7 14h-6L8 9h-30c-4 0-6-2-6-6s2-6 6-6Z"
+      fill={color}
+    />
   );
 }
