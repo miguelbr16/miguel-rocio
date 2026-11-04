@@ -1,0 +1,3 @@
+-- Aplicada el 4-nov-2026 en el proyecto de Supabase de Momentos (venta_aniversario).
+-- Tablas mr_* y funciones mr_get_couple / mr_put_couple, protegidas con un secreto
+-- cuyo hash está en mr_secrets. Ver el SQL completo en el historial de migraciones del proyecto.

@@ -12,9 +12,12 @@ import { STORAGE_KEYS } from "@/lib/constants";
 export function CapsuleCard() {
   const [now, setNow] = useState(() => new Date());
   const [forcePreview, setForcePreview] = useState(false);
+  // El botón de pruebas solo aparece con ?pruebas en la URL (para Miguel).
+  const [tester, setTester] = useState(false);
 
   useEffect(() => {
     setForcePreview(sessionStorage.getItem(STORAGE_KEYS.capsulePreview) === "1");
+    setTester(new URLSearchParams(window.location.search).has("pruebas"));
     const id = setInterval(() => setNow(new Date()), 60_000);
     return () => clearInterval(id);
   }, []);
@@ -47,7 +50,7 @@ export function CapsuleCard() {
             <p className="mt-2 text-xs text-text-light">
               Vídeo del año + carta del aniversario (en Cartas).
             </p>
-            <Button
+            {tester && (<Button
               variant="ghost"
               size="sm"
               className="mt-4"
@@ -57,7 +60,7 @@ export function CapsuleCard() {
               }}
             >
               Vista previa (Miguel · pruebas)
-            </Button>
+            </Button>)}
           </div>
         </>
       ) : (
