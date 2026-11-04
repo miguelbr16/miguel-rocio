@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { Header } from "@/components/Header";
 import { LockScreen } from "@/components/LockScreen";
-import { HeroSection } from "@/components/sections/HeroSection";
+import { AnniversaryHome } from "@/components/home/AnniversaryHome";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { DestinationsSection } from "@/components/sections/DestinationsSection";
 import { BookSection } from "@/components/sections/BookSection";
@@ -20,7 +20,7 @@ import { CoupleSyncProvider } from "@/context/CoupleSyncContext";
 import { STORAGE_KEYS, type SectionId } from "@/lib/constants";
 
 const SECTIONS: Record<SectionId, ComponentType> = {
-  inicio: HeroSection,
+  inicio: AnniversaryHome,
   historia: TimelineSection,
   destinos: DestinationsSection,
   libro: BookSection,
@@ -91,7 +91,7 @@ export function AppShell() {
       {unlocked ? (
         <CoupleSyncProvider>
           <div className="app-root">
-            <AmbientBackground />
+            {active !== "inicio" ? <AmbientBackground /> : null}
             <Header
               active={active}
               menuOpen={menuOpen}
