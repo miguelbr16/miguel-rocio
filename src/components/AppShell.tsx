@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { Header } from "@/components/Header";
 import { LockScreen } from "@/components/LockScreen";
-import { HeroSection } from "@/components/sections/HeroSection";
+import { AnniversaryHome } from "@/components/home/AnniversaryHome";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { DestinationsSection } from "@/components/sections/DestinationsSection";
 import { BookSection } from "@/components/sections/BookSection";
@@ -17,10 +17,12 @@ import { SoundtrackSection } from "@/components/sections/SoundtrackSection";
 import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
 import { CoupleSyncProvider } from "@/context/CoupleSyncContext";
+import { CaseGate } from "@/components/expediente/CaseGate";
+import { caseGateActive } from "@/data/caso002";
 import { STORAGE_KEYS, type SectionId } from "@/lib/constants";
 
 const SECTIONS: Record<SectionId, ComponentType> = {
-  inicio: HeroSection,
+  inicio: AnniversaryHome,
   historia: TimelineSection,
   destinos: DestinationsSection,
   libro: BookSection,
@@ -42,9 +44,11 @@ export function AppShell() {
   const [active, setActive] = useState<SectionId>("inicio");
   const [menuOpen, setMenuOpen] = useState(false);
   const [ready, setReady] = useState(false);
+  const [gate, setGate] = useState(false);
 
   useEffect(() => {
     setUnlocked(sessionStorage.getItem(STORAGE_KEYS.unlocked) === "1");
+    setGate(caseGateActive());
     setReady(true);
     const hash = window.location.hash.replace("#", "");
     if (isSectionId(hash)) setActive(hash);
@@ -88,10 +92,20 @@ export function AppShell() {
       <AnimatePresence>
         {!unlocked ? <LockScreen onUnlock={() => setUnlocked(true)} /> : null}
       </AnimatePresence>
-      {unlocked ? (
+      {unlocked && gate ? (
+        <CaseGate
+          onDone={() => {
+            setGate(false);
+            setActive("inicio");
+            window.history.replaceState(null, "", "/");
+            window.scrollTo(0, 0);
+          }}
+        />
+      ) : null}
+      {unlocked && !gate ? (
         <CoupleSyncProvider>
           <div className="app-root">
-            <AmbientBackground />
+            {active !== "inicio" ? <AmbientBackground /> : null}
             <Header
               active={active}
               menuOpen={menuOpen}

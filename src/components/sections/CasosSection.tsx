@@ -64,12 +64,9 @@ export function CasosSection() {
             <div className="my-4 text-4xl opacity-60">🔒</div>
             <div className="font-serif text-xl">El primer año</div>
             <div className="mt-2 text-xs leading-relaxed text-text-mid">
-              11 días de pistas (8–18 nov). Cierra con cápsula, carta, cena y flores.
+              Se juega entero el 18 de noviembre: varios pasos y, al resolverlo, se abre todo.
             </div>
             <div className="mt-2 text-xs text-text-light">Se abre el {opensLabel}</div>
-            <Link href="/caso-002" className="mt-4 inline-block text-xs font-semibold text-rose-deep">
-              Probar modo test →
-            </Link>
           </div>
         )}
       </div>

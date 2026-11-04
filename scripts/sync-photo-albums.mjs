@@ -14,7 +14,7 @@ const root = path.join(__dirname, "..");
 const photosRoot = path.join(root, "public", "photos");
 const destFile = path.join(root, "src", "data", "destinations.ts");
 
-const ALBUMS = ["valencia", "altea", "paris", "asturias", "mallorca", "mestalla"];
+const ALBUMS = ["valencia", "altea", "paris", "asturias", "mallorca", "mestalla", "londres", "denia", "shakira"];
 const EXT = new Set([".jpg", ".jpeg", ".webp", ".png"]);
 
 function listAlbum(name) {

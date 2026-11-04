@@ -1,308 +1,200 @@
-import { STORAGE_KEYS } from "@/lib/constants";
 import { getRuntimeSorpresa } from "@/lib/site-config-runtime";
 
-export type Caso002Mode = "q" | "reto" | "final";
-
-export interface Caso002Evidence {
-  stamp: string;
-  title: string;
-  lines: string[];
-  photo?: string;
-  photoLabel?: string;
-}
-
-export interface Caso002Day {
-  id: string;
-  unlockDate: Date;
-  dia: string;
-  icon: string;
-  tipo: string;
-  txt: string;
-  mode: Caso002Mode;
-  keys?: string[];
-  reto?: string;
-  unlock: string;
-  evidence: Caso002Evidence;
-}
-
-function d(y: number, m: number, day: number) {
-  return new Date(y, m, day, 0, 0, 0, 0);
-}
-
-/** Fecha de cierre del Caso 001 (expediente legacy) */
-export const CASO001_CIERRE = new Date(2026, 4, 15, 20, 0, 0);
-
 /**
- * Caso 002 — CONTINUACIÓN DEL EXPEDIENTE
+ * CASO 002 — se juega entero el 18 de noviembre de 2026.
  *
- * Arco narrativo (8–18 nov 2026):
- * 1. Reapertura tras el Caso 001
- * 2. Memoria del cierre (flores + carta)
- * 3. Evidencia del capítulo nuevo (fotos, bingo, casa)
- * 4. Sueños / mapa / promesas del año dos
- * 5. Víspera + cápsula + aniversario
+ * Desde CASE_DAY (00:00) la web queda cerrada detrás del caso: al entrar con
+ * el código, Rocío ve el expediente en vez del inicio. Cada paso desbloquea
+ * el siguiente; al resolver el último se abre la web con el momento final.
  *
- * El Caso 001 contó el origen. Este caso documenta lo que vino después
- * y desemboca en el 18 nov: cápsula, carta, cena, flores.
+ * ✏️ Miguel: revisa las respuestas (keys) y, sobre todo, los pasos marcados
+ * con «PISTA FÍSICA»: la palabra la escribes tú en un papel y lo escondes.
+ *
+ * Tipos de paso:
+ *  - "q":    pregunta con respuesta escrita (vale cualquiera de las keys)
+ *  - "code": pista física; la respuesta es lo que pone el papel escondido
+ *  - "wait": no se abre hasta la hora `at` del día 18 (p. ej. la cena)
  */
-export const caso002Days: Caso002Day[] = [
+export type StepKind = "q" | "code" | "wait";
+
+export interface CaseStep {
+  id: string;
+  title: string;
+  /** Texto del paso. **negrita** permitida. */
+  brief: string;
+  kind: StepKind;
+  keys?: string[];
+  /** Hora del 18 a la que se abre (solo "wait"), formato "HH:MM" */
+  at?: string;
+  /** Pista si falla dos veces */
+  hint?: string;
+  /** Lo que se le dice al acertar */
+  solved: string;
+}
+
+/** Día del caso (00:00). Antes de esta fecha la web funciona como siempre. */
+export const CASE_DAY = new Date(2026, 10, 18, 0, 0, 0, 0);
+
+export const caseSteps: CaseStep[] = [
   {
-    id: "d1",
-    unlockDate: d(2026, 10, 8),
-    dia: "DÍA 1 · 8 NOV",
-    icon: "📂",
-    tipo: "REAPERTURA",
-    txt: "Agente Ro.\n\nEl Caso 001 quedó **cerrado** el 15 de mayo: objetivo identificado, flores, carta. Archivo sellado.\n\nPero la historia no terminó ahí. La agencia abre el **Caso 002** — no para investigar el origen, sino para documentar **todo lo que vino después**.\n\nPrimera pista del expediente: ¿qué día se cerró oficialmente el Caso 001?",
-    mode: "q",
-    keys: ["15", "15 mayo", "mayo", "15 de mayo", "15/5", "15-5"],
-    unlock: "15 de mayo de 2026. Flores, carta, y el caso archivado. Hoy empezamos el siguiente capítulo.",
-    evidence: {
-      stamp: "APERTURA · CAS. 002",
-      title: "DESDE EL CIERRE DEL CASO 001",
-      lines: [
-        "Caso 001: CERRADO · 15 mayo 2026 · 20:00h",
-        "Cierre: flores + carta + «el objetivo eras tú»",
-        "Caso 002: ACTIVO · mayo → noviembre 2026",
-        "Destino del arco: 18 nov · 1 año · cápsula",
-      ],
-    },
+    id: "apertura",
+    title: "Apertura",
+    brief:
+      "Agente Ro. Hoy hace un año de algo que la agencia quiere aclarar.\n\nAntes del primer beso hubo dos intentos fallidos. Para abrir el expediente: ¿dónde fue **la primera cobra**?",
+    kind: "q",
+    keys: ["siglo 21", "siglo xxi", "siglo21", "el siglo"],
+    hint: "Campolivar. Sofía estaba por ahí.",
+    solved: "El Siglo 21. Primer intento, primera cobra. Con estilo.",
   },
   {
-    id: "d2",
-    unlockDate: d(2026, 10, 9),
-    dia: "DÍA 2 · 9 NOV",
-    icon: "💌",
-    tipo: "ARCHIVO 001",
-    txt: "Agente Ro. Noche del cierre del Caso 001.\n\nM apareció con flores y algo escrito. Esa noche no era un final: era el puente hacia este caso.\n\n¿Qué más llevaba aparte de las flores?",
-    mode: "q",
-    keys: ["carta", "letter", "sobre", "nota"],
-    unlock: "Una carta. Como entonces. Como la que te espera el 18 en Cartas.",
-    evidence: {
-      stamp: "REF. CASO 001",
-      title: "NOCHE DEL 15 DE MAYO",
-      lines: [
-        "Entrega: flores + carta",
-        "Mensaje: el objetivo siempre fuiste tú",
-        "Eco futuro: carta del aniversario · 18 nov",
-        "Estado del sujeto M: enamorado confirmado",
-      ],
-    },
+    id: "segunda",
+    title: "La segunda cobra",
+    brief: "El sujeto M no se rindió. Segundo intento, mismo resultado.\n\n¿Dónde fue **la segunda cobra**?",
+    kind: "q",
+    keys: ["mcdonalds", "mc donalds", "macdonalds", "mcdonald", "burger", "mac"],
+    hint: "Patatas, un menú y una cobra.",
+    solved: "En el McDonald's. Y ese mismo día, antes de despediros, llegó el beso.",
   },
   {
-    id: "d3",
-    unlockDate: d(2026, 10, 10),
-    dia: "DÍA 3 · 10 NOV",
-    icon: "📸",
-    tipo: "MISIÓN DE CAMPO",
-    txt: "Agente Ro. Regla del Caso 002: solo recuerdos **después del 15 de mayo**.\n\nEl libro digital y el mapa de recuerdos necesitan prueba visual del capítulo nuevo.\n\nEnvíale a M una foto vuestra de este verano u otoño — algo que no estuviera en el Caso 001.",
-    mode: "reto",
-    reto: "Mándale la foto. Cuando M confirme → 3 toques en el sello 🛡️",
-    unlock: "Evidencia archivada. Así se escribe el libro de nosotros.",
-    evidence: {
-      stamp: "PRUEBA 01",
-      title: "EVIDENCIA POST-CIERRE",
-      lines: [
-        "Periodo: junio–noviembre 2026",
-        "Destino en mapa: pendiente de marcar",
-        "Libro digital: nueva página añadida",
-        "Patrón: más días juntos, más planes",
-      ],
-      photo: "/photos/portada.jpeg",
-      photoLabel: "ARCHIVO RECIENTE",
-    },
+    id: "origen",
+    title: "Antes de todo",
+    brief:
+      "La agencia tiene constancia de un primer rechazo y de un método poco habitual para pedir un número de teléfono.\n\n¿Qué iba **dentro del cruasán**?",
+    kind: "q",
+    keys: ["servilleta", "una servilleta", "el numero", "numero"],
+    hint: "Se usa para limpiarse las manos.",
+    solved: "Una servilleta con un número. Original, diez de diez.",
   },
   {
-    id: "d4",
-    unlockDate: d(2026, 10, 11),
-    dia: "DÍA 4 · 11 NOV",
-    icon: "🎯",
-    tipo: "BINGO EN MARCHA",
-    txt: "Tras cerrar el Caso 001 seguisteis tachando el bingo. No era un juego: era una lista de promesas cumplidas.\n\n¿Qué plan dulce marcasteis hecho (🍩)?",
-    mode: "q",
-    keys: ["churros", "churro"],
-    unlock: "Churros. Otra casilla. Otro recuerdo para el Caso 002.",
-    evidence: {
-      stamp: "PRUEBA 02",
-      title: "BINGO · SEGUNDA MITAD 2026",
-      lines: [
-        "Hechos: churros · noches · fotos · cocina",
-        "Pendientes: bolera · autocine · peli & manta",
-        "Nota: cada casilla alimenta la cápsula del 18",
-      ],
-    },
+    id: "puerta",
+    title: "La puerta equivocada",
+    brief:
+      "Primera escapada. Media hora intentando abrir un apartamento que no era el vuestro.\n\n¿En qué **pueblo** pasó?",
+    kind: "q",
+    keys: ["altea"],
+    hint: "Casas blancas, cúpula azul.",
+    solved: "Altea. El código era bueno; la puerta, no.",
   },
   {
-    id: "d5",
-    unlockDate: d(2026, 10, 12),
-    dia: "DÍA 5 · 12 NOV",
-    icon: "👨‍🍳",
-    tipo: "DÍA A DÍA",
-    txt: "Informe doméstico — periodo post-Caso 001.\n\nNo solo los viajes importan. El libro también guarda el café, las risas y la pasta.\n\nM sigue cocinando. ¿Su plato estrella?",
-    mode: "q",
-    keys: ["pasta", "espagueti", "spaghetti", "macarrones"],
-    unlock: "Pasta. Siempre. Contigo sabe a casa.",
-    evidence: {
-      stamp: "PRUEBA 03",
-      title: "RUTINA M&R · MAYO–NOV",
-      lines: [
-        "Cocina · Skincare · Domingos de guapos",
-        "Toallitas · Risas · Llaves (a veces)",
-        "Nivel de hogar: consolidado",
-        "Clasificación: amor en lo pequeño",
-      ],
-    },
+    id: "llaves",
+    title: "Pista física",
+    brief:
+      "Ahora toca moverse. Ve a donde siempre acabamos buscando **las llaves del coche** (sí, esas). Hay un sobre con tu nombre.\n\nEscribe la palabra que hay dentro.",
+    kind: "code",
+    // ✏️ Cambia esta palabra por la que escribas en el papel
+    keys: ["pequeñita", "pequenita"],
+    hint: "Si no lo encuentras, pregúntale a M. Pero solo un poco.",
+    solved: "Encontrado. Esta vez sin perder media hora.",
   },
   {
-    id: "d6",
-    unlockDate: d(2026, 10, 13),
-    dia: "DÍA 6 · 13 NOV",
-    icon: "🎵",
-    tipo: "BANDA SONORA",
-    txt: "Agente Ro. Banda sonora del Caso 002.\n\nCada capítulo necesita música. En el expediente ya constan tres: **Me has invitado a bailar** (Dani Fernández), **Iris** (The Goo Goo Dolls) y **Wonderwall** (Oasis).\n\nEnvíale a M cuál de las tres poneréis en la cápsula — o las tres.",
-    mode: "reto",
-    reto: "Mándasela. Confirmación de M → 3 toques en el sello.",
-    unlock: "Guardada en el expediente. Dani · Iris · Wonderwall. Sonarán en la cápsula.",
-    evidence: {
-      stamp: "PRUEBA 04",
-      title: "AUDIOLOGÍA EMOCIONAL",
-      lines: [
-        "Dani Fernández — Me has invitado a bailar",
-        "The Goo Goo Dolls — Iris",
-        "Oasis — Wonderwall",
-        "Uso previsto: cápsula 18 nov",
-      ],
-    },
+    id: "noche",
+    title: "Hasta esta noche",
+    brief: "El último paso no se puede adelantar. Ponte guapa: la agencia te espera esta noche.",
+    kind: "wait",
+    at: "20:00",
+    solved: "Ya es la hora.",
   },
   {
-    id: "d7",
-    unlockDate: d(2026, 10, 14),
-    dia: "DÍA 7 · 14 NOV",
-    icon: "🗾",
-    tipo: "MAPA & PROMESAS",
-    txt: "Agente Ro. El mapa de recuerdos sigue creciendo. Valencia, Altea, París… y lo que falta.\n\nEn Año 2 hay promesas: viajes nuevos, auroras, y **la misma foto cada año** en el mismo sitio.\n\n¿Cuál es el gran viaje soñado en Asia?",
-    mode: "q",
-    keys: ["japon", "japón", "japan", "tokio", "tokyo"],
-    unlock: "Japón. Marcado en el mapa. Promesa del año dos.",
-    evidence: {
-      stamp: "PRUEBA 05",
-      title: "MAPA ACTUALIZADO",
-      lines: [
-        "Archivado: Valencia · Altea · París",
-        "Soñando: Japón · Auroras · Orlando",
-        "Tradición: misma foto · Torre · cada año",
-        "Estado: soñando en equipo",
-      ],
-    },
-  },
-  {
-    id: "d8",
-    unlockDate: d(2026, 10, 15),
-    dia: "DÍA 8 · 15 NOV",
-    icon: "💬",
-    tipo: "TESTIMONIO",
-    txt: "Agente Ro. Audio clasificado.\n\nLa cápsula del 18 necesita tu voz. Grábale 15 segundos: tu mejor recuerdo **desde el cierre del Caso 001**.",
-    mode: "reto",
-    reto: "Envía el audio. Confirmación → 3 toques.",
-    unlock: "Lo guardo para siempre. Entra en la cápsula. Te quiero.",
-    evidence: {
-      stamp: "PRUEBA 06",
-      title: "TESTIMONIO AGENTE RO",
-      lines: [
-        "Periodo: mayo–nov 2026",
-        "Destino: cápsula del primer año",
-        "Impacto en M: crítico ❤️",
-      ],
-    },
-  },
-  {
-    id: "d9",
-    unlockDate: d(2026, 10, 16),
-    dia: "DÍA 9 · 16 NOV",
-    icon: "🌹",
-    tipo: "INTERCEPTADO",
-    txt: "ATENCIÓN. Como en el cierre del Caso 001, la agencia detecta un pedido de flores.\n\nHistoria que se repite — a propósito. Dile a M de qué color las quieres esta vez.",
-    mode: "reto",
-    reto: "Envíale tu color. Cuando M responda → 3 toques.",
-    unlock: "Otra vez flores. Otra vez por ti. El eco del 15 de mayo.",
-    evidence: {
-      stamp: "⚠️ INTERCEPTADO",
-      title: "PEDIDO FLORAL — ANIVERSARIO",
-      lines: [
-        "Referencia: cierre Caso 001 (flores + carta)",
-        "Remitente: M · Destinatario: Agente Ro",
-        "Motivo: 1 año juntos · 18 nov",
-        "Acompañan: cápsula + carta en Cartas",
-      ],
-    },
-  },
-  {
-    id: "d10",
-    unlockDate: d(2026, 10, 17),
-    dia: "DÍA 10 · 17 NOV",
-    icon: "🍽️",
-    tipo: "VÍSPERA",
-    txt: "Agente Ro. Mañana hace un año del primer beso.\n\nM ha reservado mesa. Como aquella noche del Caso 001, pero más grande.\n\nLa cápsula está lista. La carta del aniversario espera en Cartas. Un emoji a M. Estate lista mañana.",
-    mode: "reto",
-    reto: "Manda el emoji. Confirmación → 3 toques.",
-    unlock: "Mañana cierra el Caso 002. Confía. Ábrelo todo.",
-    evidence: {
-      stamp: "URGENTE",
-      title: "VÍSPERA · 1 AÑO",
-      lines: [
-        "18 nov 2026 · 365 días",
-        "Cena + flores + carta + cápsula",
-        "Libro: pasa a Año Dos",
-        "Eco del cierre del Caso 001",
-      ],
-    },
-  },
-  {
-    id: "d11",
-    unlockDate: d(2026, 10, 18),
-    dia: "DÍA 11 · 18 NOV — 1 AÑO",
-    icon: "🥂",
-    tipo: "CASO CERRADO",
-    txt: "Agente Ro.\n\nCaso 001: cómo os conocisteis — cerrado en mayo con flores y carta.\nCaso 002: lo que vino después — cierra hoy.\n\nUn año desde el primer beso. Abre la cápsula. Lee la carta. M te espera esta noche.\n\nEl próximo expediente se llama Año Dos — y lo escribís juntos.",
-    mode: "final",
-    unlock: "Feliz aniversario. Gracias por jugar conmigo otra vez, pequeñita.",
-    evidence: {
-      stamp: "🎊 1 AÑO",
-      title: "CASO 002 — CERRADO",
-      lines: [
-        "Caso 001: origen → archivado 15 mayo",
-        "Caso 002: continuación → cerrado 18 nov",
-        "Entregables: cápsula · carta · cena · flores",
-        "Próximo capítulo: promesas · misma foto · Año Dos",
-      ],
-    },
+    id: "cierre",
+    title: "La última pregunta",
+    brief:
+      "Última pregunta, la más fácil y la más importante.\n\n¿Qué **día** empezó todo? (día, mes y año)",
+    kind: "q",
+    keys: ["18 11 25", "18 11 2025", "181125", "18 de noviembre de 2025", "18 noviembre 2025", "18112025"],
+    hint: "Es la clave de esta web.",
+    solved: "Caso cerrado.",
   },
 ];
 
-export function getCaso002Progress(): number {
-  if (typeof window === "undefined") return 0;
-  return Number(localStorage.getItem(STORAGE_KEYS.caso002Progress) ?? "-1");
+const PROGRESS_KEY = "caso002-step-v2";
+const SOLVED_KEY = "caso002-solved-v2";
+
+export function normalizeAnswer(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9ñ ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-export function setCaso002Progress(dayIndex: number) {
-  localStorage.setItem(STORAGE_KEYS.caso002Progress, String(dayIndex));
+export function checkStep(step: CaseStep, input: string) {
+  const n = normalizeAnswer(input);
+  if (!n) return false;
+  const compact = n.replace(/ /g, "");
+  return (step.keys ?? []).some((k) => {
+    const nk = normalizeAnswer(k);
+    return n === nk || n.includes(nk) || compact === nk.replace(/ /g, "");
+  });
 }
 
-export function getUnlockedDayIndex(now = new Date()): number {
-  if (getRuntimeSorpresa().devUnlockAll) return caso002Days.length - 1;
+/** Momento del día 18 a la hora "HH:MM". */
+export function stepOpensAt(step: CaseStep): Date | null {
+  if (step.kind !== "wait" || !step.at) return null;
+  const [h, m] = step.at.split(":").map(Number);
+  return new Date(CASE_DAY.getFullYear(), CASE_DAY.getMonth(), CASE_DAY.getDate(), h, m, 0, 0);
+}
 
-  const today = new Date(now);
-  today.setHours(0, 0, 0, 0);
-
-  let idx = -1;
-  for (let i = 0; i < caso002Days.length; i++) {
-    const unlock = new Date(caso002Days[i]!.unlockDate);
-    unlock.setHours(0, 0, 0, 0);
-    if (today >= unlock) idx = i;
+function testing() {
+  try {
+    return getRuntimeSorpresa().devUnlockAll || new URLSearchParams(window.location.search).has("pruebas");
+  } catch {
+    return false;
   }
-  return idx;
 }
 
-export function isFinaleRevealed(now = new Date()): boolean {
-  if (getRuntimeSorpresa().devUnlockAll) return true;
-  return now >= getRuntimeSorpresa().revealAt;
+/** ¿Está la web cerrada detrás del caso ahora mismo? */
+export function caseGateActive(now = new Date()) {
+  if (typeof window === "undefined") return false;
+  if (isCaseSolved()) return false;
+  if (new URLSearchParams(window.location.search).has("caso")) return true;
+  return now >= CASE_DAY;
 }
+
+export function isCaseOpenToday(now = new Date()) {
+  return testing() || now >= CASE_DAY;
+}
+
+export function getStepProgress(): number {
+  try {
+    return Math.max(0, Number(localStorage.getItem(PROGRESS_KEY) ?? "0") || 0);
+  } catch {
+    return 0;
+  }
+}
+
+export function setStepProgress(i: number) {
+  try {
+    localStorage.setItem(PROGRESS_KEY, String(i));
+  } catch {
+    /* sin almacenamiento */
+  }
+}
+
+export function isCaseSolved() {
+  try {
+    return localStorage.getItem(SOLVED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function markCaseSolved() {
+  try {
+    localStorage.setItem(SOLVED_KEY, "1");
+  } catch {
+    /* sin almacenamiento */
+  }
+}
+
+export function resetCase() {
+  try {
+    localStorage.removeItem(SOLVED_KEY);
+    localStorage.removeItem(PROGRESS_KEY);
+  } catch {
+    /* sin almacenamiento */
+  }
+}
+
+export { testing as caseTesting };

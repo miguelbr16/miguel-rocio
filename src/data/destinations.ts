@@ -33,7 +33,9 @@ export const photoAlbums: Record<string, string[]> = {
   "asturias": [],
   "mallorca": [],
   "mestalla": [],
-  "londres": []
+  "londres": [],
+  "denia": [],
+  "shakira": []
 };
 
 function albumPhotos(key: string, fallback: string[] = ["/photos/portada.jpeg"]): string[] {

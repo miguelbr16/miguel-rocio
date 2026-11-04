@@ -5,8 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { launchConfetti } from "@/lib/confetti";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { STORAGE_KEYS } from "@/lib/constants";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface LockScreenProps {
@@ -38,7 +36,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, filter: "blur(8px)" }}
       transition={{ duration: 0.5 }}
-      className="lock-screen"
+      className="lock-screen lock2-screen"
     >
       <AnimatePresence>
         {!blooming ? (
@@ -46,51 +44,44 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
             key="form"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
+            exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.45 }}
-            className="lock-panel"
+            className="lock2"
           >
-            <motion.div
-              className="lock-heart"
-              animate={reduced ? undefined : { scale: [1, 1.06, 1] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              ♥
-            </motion.div>
-            <h1 className="lock-title">
-              {config.couple.name1}
-              <span className="text-rose-deep"> & </span>
-              {config.couple.name2}
+            <h1 className="lock2-title">
+              {config.couple.name1} & {config.couple.name2}
             </h1>
-            <p className="mt-2 text-sm text-text-mid">Un espacio solo para vosotros</p>
-
-            <Card variant="elevated" padding="lg" className="mt-8 text-left">
-              <p className="mb-4 text-center text-xs font-medium uppercase tracking-[0.14em] text-text-light">
-                Introduce el código
-              </p>
+            <p className="lock2-sub">Solo para nosotros. La clave es el día que empezó todo.</p>
+            <form
+              className="lock2-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                submit();
+              }}
+            >
+              <label htmlFor="lock-code" className="sr-only">
+                Código
+              </label>
               <input
+                id="lock-code"
                 type="password"
                 inputMode="numeric"
+                autoComplete="off"
                 maxLength={Math.max(config.lockCode.length, 6)}
                 value={code}
-                placeholder="······"
+                placeholder="dd mm aa"
                 onChange={(e) => setCode(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && submit()}
-                className="lock-input mx-auto mb-4 block"
+                className="lock2-input"
               />
-              <Button fullWidth onClick={submit}>
+              <button type="submit" className="btn-solid">
                 Entrar
-              </Button>
-              {error ? (
-                <motion.p
-                  initial={{ opacity: 0, x: -4 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="mt-3 text-center text-sm text-rose-deep"
-                >
-                  {error}
-                </motion.p>
-              ) : null}
-            </Card>
+              </button>
+            </form>
+            {error ? (
+              <motion.p initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} className="lock2-error">
+                {error}
+              </motion.p>
+            ) : null}
           </motion.div>
         ) : (
           <motion.div
@@ -101,7 +92,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
             className="lock-bloom"
           >
             <span className="lock-bloom-heart">♥</span>
-            <p className="mt-4 font-serif text-2xl text-rose-deep">Bienvenida, {config.couple.name2}</p>
+            <p className="lock2-welcome">Bienvenida, {config.couple.name2}</p>
           </motion.div>
         )}
       </AnimatePresence>

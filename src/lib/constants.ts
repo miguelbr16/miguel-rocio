@@ -32,8 +32,8 @@ export const ANNIVERSARY_DATE = new Date(2026, 10, 18);
 /** Caso 002 visible como activo en la UI (la ruta /caso-002 sigue abierta para pruebas) */
 export const CASO002_UI_ACTIVE = false;
 
-/** Fecha en la que el Caso 002 se muestra como activo (8 nov 2026) */
-export const CASO002_OPENS = new Date(2026, 10, 8);
+/** El Caso 002 se juega entero el 18 nov 2026 */
+export const CASO002_OPENS = new Date(2026, 10, 18);
 
 /** Guía Londres — repo https://github.com/miguelbr16/london */
 export const LONDON_REPO_URL = "https://github.com/miguelbr16/london";
