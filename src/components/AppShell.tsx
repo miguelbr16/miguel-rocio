@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { Header } from "@/components/Header";
 import { LockScreen } from "@/components/LockScreen";
+import { StoryLock } from "@/components/StoryLock";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StoryHome } from "@/components/home/StoryHome";
 import { TimelineSection } from "@/components/sections/TimelineSection";
@@ -93,12 +94,13 @@ export function AppShell({ variant = "classic" }: { variant?: "classic" | "story
 
   if (!ready) return null;
 
+  const Lock = variant === "story" ? StoryLock : LockScreen;
   const ActiveSection = variant === "story" && active === "inicio" ? StoryHome : SECTIONS[active];
 
   return (
     <>
       <AnimatePresence>
-        {!unlocked ? <LockScreen
+        {!unlocked ? <Lock
             onUnlock={() => {
               setUnlocked(true);
               setMiguelMode(isMiguel());
