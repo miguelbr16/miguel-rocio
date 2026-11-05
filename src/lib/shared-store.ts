@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { defaultTrips, type Trip } from "@/data/journey";
 import { SHARED_EVENT, TEXTS_KEY, TRIPS_KEY, isMiguel, pushShared, type SharedContent } from "@/lib/miguel";
 
@@ -41,13 +41,15 @@ function useStored(key: string): string | null {
 /** Viajes: los editados por Miguel o los de serie. */
 export function useTrips(): Trip[] {
   const raw = useStored(TRIPS_KEY);
-  if (!raw) return defaultTrips;
-  try {
-    const list = JSON.parse(raw) as Trip[];
-    return Array.isArray(list) && list.length ? list : defaultTrips;
-  } catch {
-    return defaultTrips;
-  }
+  return useMemo(() => {
+    if (!raw) return defaultTrips;
+    try {
+      const list = JSON.parse(raw) as Trip[];
+      return Array.isArray(list) && list.length ? list : defaultTrips;
+    } catch {
+      return defaultTrips;
+    }
+  }, [raw]);
 }
 
 /** Texto editable: el editado o el de serie. */
