@@ -145,7 +145,7 @@ function TiltPhoto() {
       style={{ perspective: 900 }}
     >
       <div className="intro-photo-back" />
-      <motion.div className="intro-photo-frame" style={{ rotateX: srx, rotateY: sry, transformStyle: "preserve-3d" }}>
+      <motion.div className="intro-photo-frame" style={{ rotateX: srx, rotateY: sry }}>
         <div className="img">
           <Image src="/photos/portada.jpeg" alt="Miguel y Rocío en París" fill priority sizes="(max-width: 860px) 74vw, 440px" className="object-cover object-[center_75%]" />
           <motion.span className="intro-photo-shine" style={{ left: shine }} aria-hidden />

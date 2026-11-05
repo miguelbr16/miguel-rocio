@@ -703,7 +703,7 @@ html.story .mt {
   font-weight: 600;
   line-height: 1.1;
   rotate: 14deg;
-  transform: translateZ(40px);
+  z-index: 2;
   box-shadow: var(--shadow-card);
 }
 .petals {
@@ -1686,4 +1686,15 @@ html.story .modal-backdrop {
   border-radius: 14px;
   overflow: hidden;
   margin: -4px -8px;
+}
+
+/* Safari (iPhone): que las fotos dentro de marcos inclinados no desaparezcan */
+.intro-photo-frame,
+.intro-photo-frame .img {
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
+.intro-photo-frame .img {
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
