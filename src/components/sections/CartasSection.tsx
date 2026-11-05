@@ -11,7 +11,7 @@ import { cartas, type Carta } from "@/data/cartas";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-function isCartaUnlocked(carta: Carta): boolean {
+export function isCartaUnlocked(carta: Carta): boolean {
   if (carta.type !== "locked" || !carta.lockDateIso) return true;
   if (isMiguel()) return true;
   return new Date() >= new Date(`${carta.lockDateIso}T00:00:00`);
@@ -36,7 +36,7 @@ function renderCartaBody(carta: Carta, title?: string) {
   );
 }
 
-function CartaModalBody({
+export function CartaModalBody({
   carta,
   onClose,
 }: {

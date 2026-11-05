@@ -27,6 +27,7 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "funny",
     title: "El cruasán con servilleta",
     text: "Miguel no se rinde. Te pide el número con una servilleta dentro de un cruasán. Original 10/10.",
+    photo: "/photos/historia/cruasan.jpg",
   },
   {
     date: "Segundo rechazo",
@@ -51,6 +52,7 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "normal",
     title: "La multa personalizada",
     text: "Para pedirte salir: una multa personalizada. Sancionada por no ser su novia todavía.",
+    photo: "/photos/historia/multa.jpg",
   },
   {
     date: "Primera cita a solas",
@@ -83,7 +85,7 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "big",
     title: "El primer beso",
     text: "Desde aquí empieza a contar. Todo.",
-    photo: "/photos/historia/historia3.jpeg",
+    photo: "/photos/historia/beso.jpg",
   },
   {
     date: "9 diciembre 2025",
@@ -107,7 +109,7 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "funny",
     title: "Altea y el apartamento equivocado",
     text: "Primera escapada juntos. 30 minutos poniendo el código en la puerta de otra persona. Un clásico ya.",
-    photo: "/photos/historia/historia2.jpeg",
+    photo: "/photos/historia/selfie.jpg",
   },
   {
     date: "23 enero 2026",
@@ -116,7 +118,7 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "big",
     title: "Tu cumpleaños",
     text: "Te regalé el viaje a Disneyland París. El regalo que más ilusión me hizo hacer.",
-    photo: "/photos/historia/historia2.jpeg",
+    photo: "/photos/paris/paris-disney.jpg",
   },
   {
     date: "2–6 abril 2026",
@@ -125,7 +127,7 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "big",
     title: "París + Disneyland",
     text: "El regalo hecho realidad. Torre Eiffel, Disneyland, y los mejores días. 🗼",
-    photo: "/photos/historia/historia1.jpeg",
+    photo: "/photos/paris/paris-torre.jpg",
   },
   {
     date: "Mayo 2026",

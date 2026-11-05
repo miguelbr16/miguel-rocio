@@ -7,7 +7,7 @@ import type { CaseStep } from "@/data/caso002";
 import type { Trip } from "@/data/journey";
 import { STORAGE_KEYS } from "@/lib/constants";
 
-const MIGUEL_HASH = "198e1dcea2098423fb6bc75be4a6d61a2d65880af6792eb46ac6cc7c74dd2c95";
+const MIGUEL_HASH = "705bb4b9128125f3c935401016c93b3967bf6588f8d56904c82e9838ab08f2f8";
 const KEY = "modo-miguel";
 export const CASE_STEPS_KEY = "caso002-steps-shared";
 export const TRIPS_KEY = "trips-shared";

@@ -30,7 +30,10 @@ export const photoAlbums: Record<string, string[]> = {
   "valencia": [],
   "altea": [],
   "fallas": [],
-  "paris": [],
+  "paris": [
+    "/photos/paris/paris-disney.jpg",
+    "/photos/paris/paris-torre.jpg"
+  ],
   "denia": [],
   "asturias": [],
   "mallorca": [],
