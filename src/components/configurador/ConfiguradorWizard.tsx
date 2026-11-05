@@ -8,11 +8,14 @@ import { createDefaultSiteConfig } from "@/lib/site-config";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import type { SiteConfig } from "@/types/site-config";
 import type { FechaEspecial } from "@/data/fechas";
+import { defaultCaseSteps, getCaseSteps, type CaseStep } from "@/data/caso002";
+import { CASE_STEPS_KEY, isMiguel, isMiguelCode, pushShared, setMiguel } from "@/lib/miguel";
 
 const STEPS = [
   { id: "identidad", label: "Identidad", icon: "🪪" },
   { id: "carta", label: "Carta", icon: "💌" },
   { id: "sorpresa", label: "Gran noche", icon: "🥂" },
+  { id: "caso", label: "Caso 002", icon: "🔍" },
   { id: "fechas", label: "Fechas", icon: "📅" },
   { id: "historia", label: "Hito", icon: "📖" },
   { id: "cerrar", label: "Cerrar", icon: "✅" },
@@ -53,10 +56,24 @@ export function ConfiguradorWizard() {
   const [draft, setDraft] = useState<SiteConfig>(() => createDefaultSiteConfig());
   const [saved, setSaved] = useState(false);
   const [importText, setImportText] = useState("");
+  const [steps, setSteps] = useState<CaseStep[]>(defaultCaseSteps);
+  const [shareMsg, setShareMsg] = useState("");
 
   useEffect(() => {
     setDraft(loadSiteConfig());
   }, [liveConfig.updatedAt]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setSteps(getCaseSteps());
+      if (isMiguel()) setGateOk(true);
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  function updateStep(index: number, patch: Partial<CaseStep>) {
+    setSteps((prev) => prev.map((s, k) => (k === index ? { ...s, ...patch } : s)));
+  }
 
   const stepIndex = STEPS.findIndex((s) => s.id === step);
 
@@ -78,9 +95,9 @@ export function ConfiguradorWizard() {
     }));
   }, []);
 
-  function tryGate() {
-    const current = loadSiteConfig();
-    if (gateCode === current.lockCode) {
+  async function tryGate() {
+    if (await isMiguelCode(gateCode)) {
+      setMiguel(true);
       setGateOk(true);
       setGateError("");
       return;
@@ -97,10 +114,22 @@ export function ConfiguradorWizard() {
     });
   }
 
-  function handleSave() {
+  async function handleSave() {
     applyAndSave({ ...draft, timelineExtra: draft.timelineExtra });
+    const clean = steps.filter((s) => s.title.trim() && s.brief.trim());
+    localStorage.setItem(CASE_STEPS_KEY, JSON.stringify(clean));
     setSaved(true);
-    setDraft(loadSiteConfig());
+    const saved = loadSiteConfig();
+    setDraft(saved);
+    setShareMsg("Enviando al móvil de Rocío…");
+    const r = await pushShared({ siteConfig: saved, caseSteps: clean });
+    setShareMsg(
+      r === "ok"
+        ? "Enviado: le llegará a Rocío la próxima vez que abra la web."
+        : r === "local"
+          ? "Guardado solo en este móvil: falta activar la sincronización en Vercel."
+          : "No se pudo enviar. Revisa la conexión y vuelve a guardar.",
+    );
   }
 
   function handleExport() {
@@ -153,18 +182,17 @@ export function ConfiguradorWizard() {
           <p className="text-[10px] uppercase tracking-[0.3em] text-[#c8607a]">Acceso restringido</p>
           <h1 className="mt-4 font-serif text-3xl text-[#f5e6d3]">Configurador del expediente</h1>
           <p className="mt-3 text-sm text-[#a89080]">
-            Solo para el agente principal. Introduce el código de la web.
+            Solo para Miguel. Introduce tu código de Miguel (no el de la web).
           </p>
           <input
             type="password"
-            inputMode="numeric"
             value={gateCode}
             onChange={(e) => setGateCode(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && tryGate()}
+            onKeyDown={(e) => e.key === "Enter" && void tryGate()}
             placeholder="······"
             className={`${inputClass()} mt-6 text-center`}
           />
-          <button type="button" onClick={tryGate} className="exp-btn mt-4 w-full">
+          <button type="button" onClick={() => void tryGate()} className="exp-btn mt-4 w-full">
             Entrar al configurador
           </button>
           {gateError ? <p className="mt-3 text-sm text-[#c8607a]">{gateError}</p> : null}
@@ -514,6 +542,98 @@ export function ConfiguradorWizard() {
               </section>
             ) : null}
 
+            {step === "caso" ? (
+              <section className="space-y-4">
+                <div className="exp-briefing">
+                  <strong>Caso 002 — preguntas del 18.</strong> Cada prueba: título, el texto que lee
+                  Rocío (usa **así** para negrita), las respuestas válidas separadas por comas, una pista
+                  si falla dos veces y la frase al acertar. Se guarda en el último paso.
+                </div>
+                {steps.map((st, k) => (
+                  <div key={st.id} className="exp-card space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="exp-card-stamp">Prueba {k + 1}</p>
+                      <div className="flex gap-3 text-xs text-[#a89080]">
+                        <button
+                          type="button"
+                          disabled={k === 0}
+                          onClick={() =>
+                            setSteps((p) => {
+                              const n = [...p];
+                              [n[k - 1], n[k]] = [n[k], n[k - 1]];
+                              return n;
+                            })
+                          }
+                        >
+                          Subir
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (confirm("¿Borrar esta prueba?")) setSteps((p) => p.filter((_, j) => j !== k));
+                          }}
+                        >
+                          Borrar
+                        </button>
+                      </div>
+                    </div>
+                    <Field label="Título">
+                      <input className={inputClass()} value={st.title} onChange={(e) => updateStep(k, { title: e.target.value })} />
+                    </Field>
+                    <Field label="Texto de la prueba">
+                      <textarea
+                        className={`${inputClass()} min-h-[120px]`}
+                        value={st.brief}
+                        onChange={(e) => updateStep(k, { brief: e.target.value })}
+                      />
+                    </Field>
+                    <Field label="Respuestas válidas" hint="Separadas por comas. Da igual mayúsculas y tildes.">
+                      <input
+                        className={inputClass()}
+                        value={(st.keys ?? []).join(", ")}
+                        onChange={(e) =>
+                          updateStep(k, {
+                            keys: e.target.value
+                              .split(",")
+                              .map((x) => x.trim())
+                              .filter(Boolean),
+                          })
+                        }
+                      />
+                    </Field>
+                    <Field label="Pista (tras 2 fallos)">
+                      <input className={inputClass()} value={st.hint ?? ""} onChange={(e) => updateStep(k, { hint: e.target.value })} />
+                    </Field>
+                    <Field label="Frase al acertar">
+                      <input className={inputClass()} value={st.solved} onChange={(e) => updateStep(k, { solved: e.target.value })} />
+                    </Field>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="exp-btn w-full"
+                  onClick={() =>
+                    setSteps((p) => [
+                      ...p.slice(0, -1),
+                      { id: `s-${Date.now().toString(36)}`, title: "Nueva prueba", brief: "", kind: "q", keys: [], solved: "" },
+                      ...p.slice(-1),
+                    ])
+                  }
+                >
+                  Añadir prueba (antes del cierre)
+                </button>
+                <button
+                  type="button"
+                  className="w-full py-2 text-xs text-[#666] underline"
+                  onClick={() => {
+                    if (confirm("¿Volver a las preguntas de serie?")) setSteps(defaultCaseSteps);
+                  }}
+                >
+                  Volver a las de serie
+                </button>
+              </section>
+            ) : null}
+
             {step === "fechas" ? (
               <section className="space-y-4">
                 <div className="exp-briefing">
@@ -652,10 +772,11 @@ export function ConfiguradorWizard() {
                   ) : null}
                 </div>
 
-                <button type="button" onClick={handleSave} className="exp-btn w-full">
+                <button type="button" onClick={() => void handleSave()} className="exp-btn w-full">
                   ✅ Aplicar cambios a la web
                 </button>
 
+                {shareMsg ? <p className="text-center text-sm text-[#e8d5a3]">{shareMsg}</p> : null}
                 {saved ? (
                   <p className="text-center text-sm text-[#e8d5a3]">
                     ¡Guardado!{" "}

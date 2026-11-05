@@ -68,6 +68,7 @@ export function mergeCoupleSync(partial: Partial<CoupleSyncData> | null): Couple
     bingo: partial.bingo ?? base.bingo,
     passport: partial.passport ?? [],
     passportPhotos: partial.passportPhotos ?? {},
+    shared: partial.shared,
   };
 }
 

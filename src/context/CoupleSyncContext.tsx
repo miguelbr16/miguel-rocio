@@ -13,6 +13,7 @@ import {
 import { createDefaultCoupleSync, mergeCoupleSync, pickNewerSync } from "@/lib/couple-sync-defaults";
 import { STORAGE_KEYS } from "@/lib/constants";
 import type { CoupleSyncData, PassportPlace, SyncStatus } from "@/types/couple-sync";
+import { applyShared } from "@/lib/miguel";
 import type { Destination } from "@/data/destinations";
 import type { FechaEspecial } from "@/data/fechas";
 
@@ -148,6 +149,7 @@ export function CoupleSyncProvider({ children }: { children: ReactNode }) {
       }
 
       const remote = mergeCoupleSync(json.data);
+      applyShared(remote.shared);
       const merged = pickNewerSync(dataRef.current, remote);
       persistLocal(merged);
       setData(merged);

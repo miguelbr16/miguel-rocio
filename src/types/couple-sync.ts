@@ -27,6 +27,8 @@ export interface CoupleSyncData {
   passport?: PassportPlace[];
   /** Fotos subidas por página del pasaporte (id del viaje o del sitio) → data URLs */
   passportPhotos?: Record<string, string[]>;
+  /** Textos que edita Miguel (caso, gran noche…) y deben llegar a los dos móviles */
+  shared?: import("@/lib/miguel").SharedContent;
 }
 
 export type SyncStatus = "loading" | "local" | "synced" | "error";

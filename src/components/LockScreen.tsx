@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { launchConfetti } from "@/lib/confetti";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { STORAGE_KEYS } from "@/lib/constants";
+import { isMiguel, isMiguelCode, setMiguel } from "@/lib/miguel";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -20,8 +21,11 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
   const [error, setError] = useState("");
   const [blooming, setBlooming] = useState(false);
 
-  function submit() {
-    if (code === config.lockCode) {
+  async function submit() {
+    if (code !== config.lockCode && (await isMiguelCode(code))) {
+      setMiguel(true);
+    }
+    if (code === config.lockCode || isMiguel()) {
       setBlooming(true);
       if (!reduced) launchConfetti(30);
       sessionStorage.setItem(STORAGE_KEYS.unlocked, "1");
@@ -70,15 +74,14 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
               </p>
               <input
                 type="password"
-                inputMode="numeric"
-                maxLength={Math.max(config.lockCode.length, 6)}
+                                maxLength={24}
                 value={code}
                 placeholder="······"
                 onChange={(e) => setCode(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && submit()}
+                onKeyDown={(e) => e.key === "Enter" && void submit()}
                 className="lock-input mx-auto mb-4 block"
               />
-              <Button fullWidth onClick={submit}>
+              <Button fullWidth onClick={() => void submit()}>
                 Entrar
               </Button>
               {error ? (

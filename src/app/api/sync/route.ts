@@ -30,6 +30,15 @@ export async function PUT(request: Request) {
   }
   try {
     const payload = mergeCoupleSync(body);
+    // Lo compartido (textos de Miguel) solo lo cambia quien lo sube a propósito:
+    // una copia vieja de otro móvil no lo pisa.
+    const explicit = (body as { sharedPush?: boolean }).sharedPush === true;
+    delete (payload as { sharedPush?: boolean }).sharedPush;
+    if (!explicit) {
+      const current = await readCouple().catch(() => null);
+      const kept = (current?.payload as Partial<CoupleSyncData> | undefined)?.shared;
+      if (kept) payload.shared = kept;
+    }
     payload.updatedAt = await writeCouple(payload);
     return NextResponse.json({ ok: true, data: payload });
   } catch (e) {
