@@ -5,6 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { launchConfetti } from "@/lib/confetti";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { STORAGE_KEYS } from "@/lib/constants";
+import { isMiguel, isMiguelCode, setMiguel } from "@/lib/miguel";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface LockScreenProps {
@@ -18,8 +21,11 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
   const [error, setError] = useState("");
   const [blooming, setBlooming] = useState(false);
 
-  function submit() {
-    if (code === config.lockCode) {
+  async function submit() {
+    if (code !== config.lockCode && (await isMiguelCode(code))) {
+      setMiguel(true);
+    }
+    if (code === config.lockCode || isMiguel()) {
       setBlooming(true);
       if (!reduced) launchConfetti(30);
       sessionStorage.setItem(STORAGE_KEYS.unlocked, "1");
@@ -36,7 +42,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, filter: "blur(8px)" }}
       transition={{ duration: 0.5 }}
-      className="lock-screen lock2-screen"
+      className="lock-screen"
     >
       <AnimatePresence>
         {!blooming ? (
@@ -44,44 +50,50 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
             key="form"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96 }}
+            exit={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
             transition={{ duration: 0.45 }}
-            className="lock2"
+            className="lock-panel"
           >
-            <h1 className="lock2-title">
-              {config.couple.name1} & {config.couple.name2}
-            </h1>
-            <p className="lock2-sub">Solo para nosotros. La clave es el día que empezó todo.</p>
-            <form
-              className="lock2-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                submit();
-              }}
+            <motion.div
+              className="lock-heart"
+              animate={reduced ? undefined : { scale: [1, 1.06, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <label htmlFor="lock-code" className="sr-only">
-                Código
-              </label>
+              ♥
+            </motion.div>
+            <h1 className="lock-title">
+              {config.couple.name1}
+              <span className="text-rose-deep"> & </span>
+              {config.couple.name2}
+            </h1>
+            <p className="mt-2 text-sm text-text-mid">Un espacio solo para vosotros</p>
+
+            <Card variant="elevated" padding="lg" className="mt-8 text-left">
+              <p className="mb-4 text-center text-xs font-medium uppercase tracking-[0.14em] text-text-light">
+                Introduce el código
+              </p>
               <input
-                id="lock-code"
                 type="password"
-                inputMode="numeric"
-                autoComplete="off"
-                maxLength={Math.max(config.lockCode.length, 6)}
+                                maxLength={24}
                 value={code}
-                placeholder="dd mm aa"
+                placeholder="······"
                 onChange={(e) => setCode(e.target.value)}
-                className="lock2-input"
+                onKeyDown={(e) => e.key === "Enter" && void submit()}
+                className="lock-input mx-auto mb-4 block"
               />
-              <button type="submit" className="btn-solid">
+              <Button fullWidth onClick={() => void submit()}>
                 Entrar
-              </button>
-            </form>
-            {error ? (
-              <motion.p initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} className="lock2-error">
-                {error}
-              </motion.p>
-            ) : null}
+              </Button>
+              {error ? (
+                <motion.p
+                  initial={{ opacity: 0, x: -4 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="mt-3 text-center text-sm text-rose-deep"
+                >
+                  {error}
+                </motion.p>
+              ) : null}
+            </Card>
           </motion.div>
         ) : (
           <motion.div
@@ -92,7 +104,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
             className="lock-bloom"
           >
             <span className="lock-bloom-heart">♥</span>
-            <p className="lock2-welcome">Bienvenida, {config.couple.name2}</p>
+            <p className="mt-4 font-serif text-2xl text-rose-deep">Bienvenida, {config.couple.name2}</p>
           </motion.div>
         )}
       </AnimatePresence>

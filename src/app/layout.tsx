@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-import { Albert_Sans } from "next/font/google";
+import { Fraunces, Outfit } from "next/font/google";
 import "./globals.css";
 import "./home.css";
 
-const albert = Albert_Sans({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-albert",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -16,7 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://miguel-rocio.vercel.app"),
   openGraph: {
     title: "Miguel & Rocío",
-    description: "Un año contigo",
+    description: "Camino a nuestro primer año ♥",
     images: ["/photos/portada.jpeg"],
   },
 };
@@ -30,7 +37,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={albert.variable}>
+    <html lang="es" className={`${fraunces.variable} ${outfit.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );

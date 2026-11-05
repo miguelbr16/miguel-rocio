@@ -1,5 +1,6 @@
 "use client";
 
+import { isMiguel } from "@/lib/miguel";
 import { useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
@@ -11,6 +12,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 function isCartaUnlocked(carta: Carta): boolean {
   if (carta.type !== "locked" || !carta.lockDateIso) return true;
+  if (isMiguel()) return true;
   return new Date() >= new Date(`${carta.lockDateIso}T00:00:00`);
 }
 

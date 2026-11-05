@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { capsuleContent, daysUntilCapsule, isCapsuleOpen } from "@/data/capsule";
 import { STORAGE_KEYS } from "@/lib/constants";
+import { isMiguel } from "@/lib/miguel";
 
 export function CapsuleCard() {
   const [now, setNow] = useState(() => new Date());
@@ -17,7 +18,7 @@ export function CapsuleCard() {
 
   useEffect(() => {
     setForcePreview(sessionStorage.getItem(STORAGE_KEYS.capsulePreview) === "1");
-    setTester(new URLSearchParams(window.location.search).has("pruebas"));
+    setTester(new URLSearchParams(window.location.search).has("pruebas") || isMiguel());
     const id = setInterval(() => setNow(new Date()), 60_000);
     return () => clearInterval(id);
   }, []);

@@ -32,6 +32,7 @@ interface SiteConfigContextValue {
   updateConfig: (next: SiteConfig) => void;
   applyAndSave: (next: SiteConfig) => void;
   resetConfig: () => void;
+  reload: () => void;
 }
 
 const SiteConfigContext = createContext<SiteConfigContextValue | null>(null);
@@ -61,6 +62,8 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
     setConfig(loadSiteConfig());
   }, []);
 
+  const reload = useCallback(() => setConfig(loadSiteConfig()), []);
+
   const value = useMemo<SiteConfigContextValue>(
     () => ({
       config,
@@ -71,8 +74,9 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
       updateConfig,
       applyAndSave,
       resetConfig,
+      reload,
     }),
-    [config, ready, updateConfig, applyAndSave, resetConfig],
+    [config, ready, updateConfig, applyAndSave, resetConfig, reload],
   );
 
   return <SiteConfigContext.Provider value={value}>{children}</SiteConfigContext.Provider>;

@@ -10,6 +10,8 @@ export function createDefaultCoupleSync(): CoupleSyncData {
     destinations: destinations.map((d) => ({ ...d })),
     fechas: fechasEspeciales.map((f) => ({ ...f })),
     bingo: {},
+    passport: [],
+    passportPhotos: {},
   };
 }
 
@@ -64,6 +66,9 @@ export function mergeCoupleSync(partial: Partial<CoupleSyncData> | null): Couple
     destinations: enrichDestinations(partial.destinations ?? base.destinations),
     fechas: partial.fechas ?? base.fechas,
     bingo: partial.bingo ?? base.bingo,
+    passport: partial.passport ?? [],
+    passportPhotos: partial.passportPhotos ?? {},
+    shared: partial.shared,
   };
 }
 

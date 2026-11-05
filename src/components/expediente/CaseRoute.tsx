@@ -22,19 +22,23 @@ export function CaseRoute() {
   if (state.open) return <CaseGate onDone={() => router.push("/")} />;
 
   return (
-    <div className="case">
-      <section className="case-screen case-intro">
-        <h1 className="case-huge">
-          Caso
+    <div className="case2">
+      <header className="case2-head">
+        <span>Agencia de Inteligencia Sentimental</span>
+        <span>Caso Nº 002 · Clasificado</span>
+      </header>
+      <section className="case2-screen">
+        <h1 className="case2-title">
+          Caso 002
           <br />
-          002
+          <em>El primer año</em>
         </h1>
-        <div className="case-intro-foot">
-          <p className="case-lead">
+        <div>
+          <p className="case2-brief">
             El expediente se abre el 18 de noviembre a las 00:00.{" "}
             {state.days === 1 ? "Falta 1 día." : `Faltan ${state.days} días.`}
           </p>
-          <Link className="btn-solid case-btn" href="/">
+          <Link className="exp-btn case2-cta mt-6 inline-flex items-center justify-center" href="/">
             Volver
           </Link>
         </div>

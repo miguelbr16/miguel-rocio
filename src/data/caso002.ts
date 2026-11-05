@@ -1,4 +1,5 @@
 import { getRuntimeSorpresa } from "@/lib/site-config-runtime";
+import { CASE_STEPS_KEY, isMiguel } from "@/lib/miguel";
 
 /**
  * CASO 002 — se juega entero el 18 de noviembre de 2026.
@@ -7,8 +8,7 @@ import { getRuntimeSorpresa } from "@/lib/site-config-runtime";
  * el código, Rocío ve el expediente en vez del inicio. Cada paso desbloquea
  * el siguiente; al resolver el último se abre la web con el momento final.
  *
- * ✏️ Miguel: revisa las respuestas (keys) y, sobre todo, los pasos marcados
- * con «PISTA FÍSICA»: la palabra la escribes tú en un papel y lo escondes.
+ * ✏️ Miguel: los textos y respuestas se editan desde /configurador.
  *
  * Tipos de paso:
  *  - "q":    pregunta con respuesta escrita (vale cualquiera de las keys)
@@ -35,76 +35,99 @@ export interface CaseStep {
 /** Día del caso (00:00). Antes de esta fecha la web funciona como siempre. */
 export const CASE_DAY = new Date(2026, 10, 18, 0, 0, 0, 0);
 
-export const caseSteps: CaseStep[] = [
+/**
+ * Preguntas del año (lo vivido desde que cerró el Caso 001, el 15 de mayo).
+ * ✏️ Miguel: se editan desde /configurador (modo Miguel) sin tocar código.
+ */
+export const defaultCaseSteps: CaseStep[] = [
   {
-    id: "apertura",
-    title: "Apertura",
+    id: "norte",
+    title: "Junio",
     brief:
-      "Agente Ro. Hoy hace un año de algo que la agencia quiere aclarar.\n\nAntes del primer beso hubo dos intentos fallidos. Para abrir el expediente: ¿dónde fue **la primera cobra**?",
+      "Agente Ro. El Caso 001 se cerró el 15 de mayo. Este expediente documenta **todo lo que vino después**.\n\nPrimera prueba: en junio, el sujeto M y su objetivo se fueron al norte. ¿A qué **comunidad**?",
     kind: "q",
-    keys: ["siglo 21", "siglo xxi", "siglo21", "el siglo"],
-    hint: "Campolivar. Sofía estaba por ahí.",
-    solved: "El Siglo 21. Primer intento, primera cobra. Con estilo.",
+    keys: ["asturias", "oviedo"],
+    hint: "Verde, mar, sidra.",
+    solved: "Asturias. El norte nos salió redondo.",
   },
   {
-    id: "segunda",
-    title: "La segunda cobra",
-    brief: "El sujeto M no se rindió. Segundo intento, mismo resultado.\n\n¿Dónde fue **la segunda cobra**?",
+    id: "isla",
+    title: "Agosto, primera parte",
+    brief: "Se interceptan billetes de avión a una isla. Calma, agua transparente y mucho calor.\n\n¿Qué **isla**?",
     kind: "q",
-    keys: ["mcdonalds", "mc donalds", "macdonalds", "mcdonald", "burger", "mac"],
-    hint: "Patatas, un menú y una cobra.",
-    solved: "En el McDonald's. Y ese mismo día, antes de despediros, llegó el beso.",
+    keys: ["mallorca", "palma"],
+    hint: "La más grande de las Baleares.",
+    solved: "Mallorca. Prueba archivada.",
   },
   {
-    id: "origen",
-    title: "Antes de todo",
-    brief:
-      "La agencia tiene constancia de un primer rechazo y de un método poco habitual para pedir un número de teléfono.\n\n¿Qué iba **dentro del cruasán**?",
+    id: "londres",
+    title: "Agosto, segunda parte",
+    brief: "Cinco días fuera del país, del 9 al 14 de agosto. En la foto de vigilancia sale un reloj enorme.\n\n¿Cómo se llama **el reloj**?",
     kind: "q",
-    keys: ["servilleta", "una servilleta", "el numero", "numero"],
-    hint: "Se usa para limpiarse las manos.",
-    solved: "Una servilleta con un número. Original, diez de diez.",
+    keys: ["big ben", "bigben", "elizabeth"],
+    hint: "Londres. Dos palabras.",
+    solved: "El Big Ben. Londres, contigo.",
   },
   {
-    id: "puerta",
-    title: "La puerta equivocada",
-    brief:
-      "Primera escapada. Media hora intentando abrir un apartamento que no era el vuestro.\n\n¿En qué **pueblo** pasó?",
+    id: "mestalla",
+    title: "En casa",
+    brief: "Noche de partido. Los dos en la grada, en Valencia.\n\n¿En qué **estadio**?",
     kind: "q",
-    keys: ["altea"],
-    hint: "Casas blancas, cúpula azul.",
-    solved: "Altea. El código era bueno; la puerta, no.",
+    keys: ["mestalla"],
+    hint: "El de siempre del Valencia.",
+    solved: "Mestalla. Amunt.",
   },
   {
-    id: "llaves",
-    title: "Pista física",
-    brief:
-      "Ahora toca moverse. Ve a donde siempre acabamos buscando **las llaves del coche** (sí, esas). Hay un sobre con tu nombre.\n\nEscribe la palabra que hay dentro.",
-    kind: "code",
-    // ✏️ Cambia esta palabra por la que escribas en el papel
-    keys: ["pequeñita", "pequenita"],
-    hint: "Si no lo encuentras, pregúntale a M. Pero solo un poco.",
-    solved: "Encontrado. Esta vez sin perder media hora.",
+    id: "concierto",
+    title: "Sin voz",
+    brief: "La agencia tiene constancia de un concierto en el que alguien acabó afónico.\n\n¿De **quién** era el concierto?",
+    kind: "q",
+    keys: ["shakira"],
+    hint: "Las caderas no mienten.",
+    solved: "Shakira. Y las dos voces, perdidas.",
   },
   {
-    id: "noche",
-    title: "Hasta esta noche",
-    brief: "El último paso no se puede adelantar. Ponte guapa: la agencia te espera esta noche.",
-    kind: "wait",
-    at: "20:00",
-    solved: "Ya es la hora.",
+    id: "cancion",
+    title: "Banda sonora",
+    brief: "En el expediente consta una canción de **Dani Fernández** que ya es nuestra.\n\n¿Cómo se llama?",
+    kind: "q",
+    keys: ["me has invitado a bailar", "invitado a bailar", "bailar"],
+    hint: "Va de una invitación.",
+    solved: "Me has invitado a bailar. Y sigo bailando.",
+  },
+  {
+    id: "suenio",
+    title: "Año dos",
+    brief: "Última pista antes del cierre. Hay un viaje soñado que todavía no tiene sello en el pasaporte.\n\n¿Cuál es el gran viaje soñado en **Asia**?",
+    kind: "q",
+    keys: ["japon", "japan", "tokio", "tokyo"],
+    hint: "Sushi, templos y cerezos.",
+    solved: "Japón. Página reservada.",
   },
   {
     id: "cierre",
-    title: "La última pregunta",
-    brief:
-      "Última pregunta, la más fácil y la más importante.\n\n¿Qué **día** empezó todo? (día, mes y año)",
+    title: "Cierre del caso",
+    brief: "Última pregunta, la más fácil y la más importante.\n\n¿Qué **día** empezó todo? (día, mes y año)",
     kind: "q",
     keys: ["18 11 25", "18 11 2025", "181125", "18 de noviembre de 2025", "18 noviembre 2025", "18112025"],
     hint: "Es la clave de esta web.",
     solved: "Caso cerrado.",
   },
 ];
+
+/** Pasos del caso: los editados por Miguel (si los hay) o los de serie. */
+export function getCaseSteps(): CaseStep[] {
+  try {
+    const raw = localStorage.getItem(CASE_STEPS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw) as CaseStep[];
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {
+    /* de serie */
+  }
+  return defaultCaseSteps;
+}
 
 const PROGRESS_KEY = "caso002-step-v2";
 const SOLVED_KEY = "caso002-solved-v2";
@@ -138,7 +161,9 @@ export function stepOpensAt(step: CaseStep): Date | null {
 
 function testing() {
   try {
-    return getRuntimeSorpresa().devUnlockAll || new URLSearchParams(window.location.search).has("pruebas");
+    return (
+      isMiguel() || getRuntimeSorpresa().devUnlockAll || new URLSearchParams(window.location.search).has("pruebas")
+    );
   } catch {
     return false;
   }
@@ -147,8 +172,8 @@ function testing() {
 /** ¿Está la web cerrada detrás del caso ahora mismo? */
 export function caseGateActive(now = new Date()) {
   if (typeof window === "undefined") return false;
-  if (isCaseSolved()) return false;
   if (new URLSearchParams(window.location.search).has("caso")) return true;
+  if (isCaseSolved() || isMiguel()) return false;
   return now >= CASE_DAY;
 }
 
