@@ -29,12 +29,14 @@ export interface Destination {
 export const photoAlbums: Record<string, string[]> = {
   "valencia": [],
   "altea": [],
+  "fallas": [],
   "paris": [],
+  "denia": [],
   "asturias": [],
   "mallorca": [],
-  "mestalla": [],
   "londres": [],
-  "denia": [],
+  "dolomitas": [],
+  "mestalla": [],
   "shakira": []
 };
 

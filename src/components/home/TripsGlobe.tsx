@@ -7,7 +7,9 @@ import { geoDistance, geoInterpolate, geoOrthographic, geoPath, geoGraticule10, 
 import { feature } from "topojson-client";
 import type { Topology, GeometryCollection } from "topojson-specification";
 import type { FeatureCollection, Geometry } from "geojson";
-import { HOME, photosOf, trips, type Trip } from "@/data/journey";
+import { HOME, photosOf, type Trip } from "@/data/journey";
+import { useEditMode, useTrips } from "@/lib/shared-store";
+import { TripsEditor } from "@/components/edit/TripsEditor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Countries = FeatureCollection<Geometry, { name: string }>;
@@ -28,6 +30,9 @@ function clamp01(t: number) {
  */
 export function TripsGlobe() {
   const reduced = useReducedMotion();
+  const trips = useTrips();
+  const editing = useEditMode();
+  const [editorOpen, setEditorOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [countries, setCountries] = useState<Countries | null>(null);
   const [detail, setDetail] = useState<Countries | null>(null);
@@ -71,7 +76,7 @@ export function TripsGlobe() {
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [trips.length]);
 
   const k = Math.min(trips.length - 1, Math.floor(t));
   const f = t - k;
@@ -88,6 +93,11 @@ export function TripsGlobe() {
             <h2 id="trips-h" className="trips-eyebrow">
               Nuestros viajes desde Valencia
             </h2>
+            {editing ? (
+              <button type="button" className="edit-chip" onClick={() => setEditorOpen(true)}>
+                Editar viajes
+              </button>
+            ) : null}
             <AnimatePresence mode="wait" initial={false}>
               <TripText key={trip.id} trip={trip} reduced={reduced} />
             </AnimatePresence>
@@ -100,10 +110,11 @@ export function TripsGlobe() {
             </ol>
           </div>
           <div className="trips-globe">
-            <Globe countries={countries} detail={detail} trip={trip} k={k} f={f} travel={travel} arrived={arrived} />
+            <Globe trips={trips} countries={countries} detail={detail} trip={trip} k={k} f={f} travel={travel} arrived={arrived} />
           </div>
         </div>
       </div>
+      {editorOpen ? <TripsEditor onClose={() => setEditorOpen(false)} /> : null}
     </section>
   );
 }
@@ -119,7 +130,8 @@ function TripText({ trip, reduced }: { trip: Trip; reduced: boolean }) {
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
       <p className="trips-meta">
-        {trip.when} · {trip.by === "plane" ? "en avión" : "en coche"}
+        {trip.upcoming ? "Próximo viaje · " : ""}
+        {trip.when} · {trip.by === "plane" ? "en avión" : trip.by === "car" ? "en coche" : "en casa, en Valencia"}
       </p>
       <h3 className="trips-place">{trip.place}</h3>
       <p className="trips-line">{trip.line}</p>
@@ -141,6 +153,7 @@ function TripText({ trip, reduced }: { trip: Trip; reduced: boolean }) {
 }
 
 function Globe({
+  trips,
   countries,
   detail,
   trip,
@@ -149,6 +162,7 @@ function Globe({
   travel,
   arrived,
 }: {
+  trips: Trip[];
   countries: Countries | null;
   detail: Countries | null;
   trip: Trip;
@@ -180,7 +194,12 @@ function Globe({
     .rotate([-center[0], -center[1]]);
   const path = geoPath(projection);
 
-  const visited = new Set(trips.slice(0, k + (arrived ? 1 : 0)).map((x) => x.countryId));
+  const visited = new Set(
+    trips
+      .slice(0, k + (arrived ? 1 : 0))
+      .filter((x) => !x.upcoming)
+      .map((x) => x.countryId),
+  );
   visited.add("724");
 
   const land = zoom > 2.2 && detail ? detail : countries;
@@ -250,7 +269,7 @@ function Globe({
           return xy ? <circle key={x.id} cx={xy[0]} cy={xy[1]} r="4" className="globe-pin-old" /> : null;
         })}
         <path d={path(route) ?? ""} className="globe-route" />
-        <path d={path(done) ?? ""} className="globe-done" />
+        {trip.by !== "home" ? <path d={path(done) ?? ""} className={trip.upcoming ? "globe-done is-upcoming" : "globe-done"} /> : null}
         {homeXY ? (
           <g transform={`translate(${homeXY[0]} ${homeXY[1]}) scale(1.3)`}>
             <path d="M0 6 S-9 0 -9 -5 C-9 -9 -5 -11 -2.5 -11 C-1 -11 0 -10 0 -8.5 C0 -10 1 -11 2.5 -11 C5 -11 9 -9 9 -5 C9 0 0 6 0 6 Z" className="globe-home" />
@@ -262,7 +281,7 @@ function Globe({
           </text>
         ) : null}
         {destXY ? <circle cx={destXY[0]} cy={destXY[1]} r={arrived ? 9 : 5} className="globe-dest" /> : null}
-        {a && f > 0.18 && !arrived ? (
+        {a && f > 0.18 && !arrived && trip.by !== "home" ? (
           <g transform={`translate(${a[0]} ${a[1]}) rotate(${flip ? angle - 180 : angle}) ${flip ? "scale(-1 1)" : ""}`}>
             <circle r="19" className="globe-vehicle-pad" />
             {trip.by === "plane" ? <Plane /> : <Car />}
@@ -270,7 +289,7 @@ function Globe({
         ) : null}
         {destXY && arrived ? (
           <text x={destXY[0]} y={destXY[1] - 18} textAnchor="middle" className="globe-label">
-            {trip.place}
+            {trip.upcoming ? `${trip.place} · pronto` : trip.place}
           </text>
         ) : null}
       </svg>

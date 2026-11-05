@@ -6,10 +6,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { resetCase } from "@/data/caso002";
 import { STORAGE_KEYS } from "@/lib/constants";
 import { setMiguel } from "@/lib/miguel";
+import { setEditMode, useEditMode, useSaveState } from "@/lib/shared-store";
 
 /** Barra solo para Miguel: probar y ver todo antes de tiempo. */
 export function MiguelBar() {
   const [open, setOpen] = useState(false);
+  const editing = useEditMode();
+  const save = useSaveState();
 
   function capsule() {
     sessionStorage.setItem(STORAGE_KEYS.capsulePreview, "1");
@@ -30,6 +33,9 @@ export function MiguelBar() {
           >
             <p className="mbar-title">Modo Miguel</p>
             <p className="mbar-text">Ves todo abierto: cartas, cápsula y caso. Rocío no ve esto.</p>
+            <button type="button" className={editing ? "is-on" : ""} onClick={() => setEditMode(!editing)}>
+              {editing ? "Edición activada: toca un texto para cambiarlo" : "Editar la web"}
+            </button>
             <button
               type="button"
               onClick={() => {
@@ -59,7 +65,15 @@ export function MiguelBar() {
         ) : null}
       </AnimatePresence>
       <button type="button" className="mbar-pill" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
-        {open ? "Cerrar" : "Modo Miguel"}
+        {open
+          ? "Cerrar"
+          : editing
+            ? save === "saving"
+              ? "Guardando…"
+              : save === "error"
+                ? "Error al guardar"
+                : "Editando"
+            : "Modo Miguel"}
       </button>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { isMiguel } from "@/lib/miguel";
+import { Editable } from "@/components/edit/Editable";
 import { useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
@@ -21,12 +22,16 @@ function renderCartaBody(carta: Carta, title?: string) {
     <>
       <h3 className="font-serif text-2xl">{title ?? carta.titulo}</h3>
       <p className="mb-4 text-xs font-medium tracking-wide text-rose-deep">{carta.fecha}</p>
-      {carta.content?.split("\n\n").map((p, i) => (
-        <p key={i} className="mb-3 text-sm leading-relaxed text-text-mid">
-          {p}
-        </p>
-      ))}
-      {carta.firma ? <p className="mt-4 font-serif italic text-rose-deep">{carta.firma}</p> : null}
+      {carta.content ? (
+        <Editable k={`carta.${carta.titulo}.content`} as="div" className="carta-text text-sm leading-relaxed text-text-mid">
+          {carta.content}
+        </Editable>
+      ) : null}
+      {carta.firma ? (
+        <Editable k={`carta.${carta.titulo}.firma`} as="p" className="mt-4 font-serif italic text-rose-deep">
+          {carta.firma}
+        </Editable>
+      ) : null}
     </>
   );
 }

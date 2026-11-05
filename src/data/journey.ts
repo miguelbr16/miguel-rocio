@@ -4,10 +4,10 @@ import { photoAlbums } from "@/data/destinations";
  * Nuestros viajes desde casa (Valencia), en orden. Alimenta el globo del
  * Inicio y las páginas del Pasaporte.
  *
- * ✏️ Para cambiar orden, fechas o el medio (coche / avión), edita esta lista.
+ * ✏️ Se edita desde la propia web en modo Miguel; esto son los valores de serie.
  * Las fotos salen de public/photos/<album>/ (luego: node scripts/sync-photo-albums.mjs).
  */
-export type Vehicle = "plane" | "car";
+export type Vehicle = "plane" | "car" | "home";
 
 /** Dibujo del sello: lo que mejor representa el sitio. */
 export type StampArt =
@@ -38,11 +38,14 @@ export interface Trip {
   lng: number;
   album: string;
   art: StampArt;
+  url?: string;
+  /** Viaje que aún no hemos hecho (sale como «próximo») */
+  upcoming?: boolean;
 }
 
 export const HOME = { place: "Valencia", lat: 39.47, lng: -0.376 };
 
-export const trips: Trip[] = [
+export const defaultTrips: Trip[] = [
   {
     id: "altea",
     place: "Altea",
@@ -57,17 +60,43 @@ export const trips: Trip[] = [
     art: "village",
   },
   {
+    id: "fallas",
+    place: "Fallas",
+    country: "España",
+    countryId: "724",
+    when: "Marzo 2026",
+    line: "Nuestras primeras Fallas juntos: mascletà, pólvora y la ciudad patas arriba. Sin salir de casa.",
+    by: "home",
+    lat: 39.47,
+    lng: -0.376,
+    album: "fallas",
+    art: "heart",
+  },
+  {
     id: "paris",
-    place: "París",
+    place: "París y Disney",
     country: "Francia",
     countryId: "250",
     when: "2–6 abr 2026",
-    line: "Tu regalo de cumpleaños hecho viaje: la Torre, Disneyland y la foto que ya es nuestra portada.",
+    line: "Tu regalo de cumpleaños hecho viaje: la Torre Eiffel, Disneyland y la foto que ya es nuestra portada.",
     by: "plane",
     lat: 48.857,
     lng: 2.352,
     album: "paris",
     art: "tower",
+  },
+  {
+    id: "denia",
+    place: "Dénia",
+    country: "España",
+    countryId: "724",
+    when: "2026",
+    line: "El Montgó de fondo y el mar delante.",
+    by: "car",
+    lat: 38.84,
+    lng: 0.107,
+    album: "denia",
+    art: "castle",
   },
   {
     id: "asturias",
@@ -107,48 +136,29 @@ export const trips: Trip[] = [
     lng: -0.128,
     album: "londres",
     art: "clock",
+    url: "https://london-miguelbr16s-projects.vercel.app",
   },
   {
-    id: "mestalla",
-    place: "Mestalla",
-    country: "España",
-    countryId: "724",
-    when: "Agosto 2026",
-    line: "Noche de partido en casa, los dos en la grada.",
-    by: "car",
-    lat: 39.474,
-    lng: -0.358,
-    album: "mestalla",
-    art: "stadium",
-  },
-  {
-    id: "denia",
-    place: "Dénia",
-    country: "España",
-    countryId: "724",
-    when: "Verano 2026",
-    line: "El Montgó de fondo y el mar delante.",
-    by: "car",
-    lat: 38.84,
-    lng: 0.107,
-    album: "denia",
-    art: "castle",
-  },
-  {
-    id: "shakira",
-    place: "Concierto de Shakira",
-    country: "España",
-    countryId: "724",
-    when: "2026",
-    line: "Gritando las canciones juntos hasta quedarnos sin voz.",
-    by: "car",
-    // ✏️ Pon la ciudad real del concierto
-    lat: 40.416,
-    lng: -3.703,
-    album: "shakira",
-    art: "music",
+    id: "dolomitas",
+    place: "Dolomitas",
+    country: "Italia",
+    countryId: "380",
+    when: "Diciembre 2026",
+    line: "El siguiente sello. Montañas, nieve y nosotros dos.",
+    by: "plane",
+    lat: 46.41,
+    lng: 11.84,
+    album: "dolomitas",
+    art: "snow",
+    upcoming: true,
   },
 ];
+
+/** @deprecated usa useTrips(): los viajes se pueden editar desde la web */
+export const trips = defaultTrips;
+
+/** Lo que queda por sellar (páginas en blanco del pasaporte) */
+export const wishlist = ["Roma", "Núremberg", "Japón", "Suiza", "Auroras boreales", "Boston", "San Diego", "Orlando"];
 
 export function photosOf(album: string): string[] {
   return photoAlbums[album] ?? [];
