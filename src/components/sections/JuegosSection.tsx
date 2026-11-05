@@ -9,7 +9,7 @@ import { pictWords } from "@/data/pictWords";
 import { PICT_COLORS } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 
-function QuizPanel() {
+export function QuizPanel() {
   const [started, setStarted] = useState(false);
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
@@ -131,7 +131,7 @@ function QuizPanel() {
   );
 }
 
-function PictionaryPanel() {
+export function PictionaryPanel() {
   const { config } = useSiteConfig();
   const name1 = config.couple.name1;
   const name2 = config.couple.name2;
