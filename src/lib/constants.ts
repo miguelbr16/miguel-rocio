@@ -48,8 +48,6 @@ export const NAV_ITEMS = [
   { id: "cartas", label: "Cartas", icon: "💌" },
   { id: "casos", label: "Casos", icon: "🔍" },
   { id: "promesas", label: "Año 2", icon: "🤍" },
-  { id: "musica", label: "Música", icon: "🎵" },
-  { id: "fechas", label: "Fechas", icon: "📅" },
   { id: "juegos", label: "Juegos", icon: "🎮" },
 ] as const;
 
@@ -69,8 +67,6 @@ export const MORE_SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: "pasaporte", label: "Pasaporte", icon: "🛂" },
   { id: "libro", label: "Libro", icon: "📔" },
   { id: "promesas", label: "Año 2", icon: "🤍" },
-  { id: "musica", label: "Música", icon: "🎵" },
-  { id: "fechas", label: "Fechas", icon: "📅" },
   { id: "juegos", label: "Juegos", icon: "🎮" },
 ];
 

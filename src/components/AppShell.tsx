@@ -9,14 +9,16 @@ import { StoryLock } from "@/components/StoryLock";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StoryHome } from "@/components/home/StoryHome";
 import { HistoriaChat } from "@/components/sections/HistoriaChat";
+import { StoryHeader } from "@/components/story/StoryHeader";
+import { CartasStory } from "@/components/story/CartasStory";
+import { CasosStory } from "@/components/story/CasosStory";
+import { Year2Story } from "@/components/story/Year2Story";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { BookSection } from "@/components/sections/BookSection";
 import { BingoSection } from "@/components/sections/BingoSection";
 import { CartasSection } from "@/components/sections/CartasSection";
 import { CasosSection } from "@/components/sections/CasosSection";
 import { PromisesSection } from "@/components/sections/PromisesSection";
-import { SoundtrackSection } from "@/components/sections/SoundtrackSection";
-import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
 import { PasaporteSection } from "@/components/sections/PasaporteSection";
 import { CoupleSyncProvider } from "@/context/CoupleSyncContext";
@@ -36,8 +38,6 @@ const SECTIONS: Record<SectionId, ComponentType> = {
   cartas: CartasSection,
   casos: CasosSection,
   promesas: PromisesSection,
-  musica: SoundtrackSection,
-  fechas: FechasSection,
   juegos: JuegosSection,
 };
 
@@ -96,7 +96,7 @@ export function AppShell({ variant = "classic" }: { variant?: "classic" | "story
   if (!ready) return null;
 
   const Lock = variant === "story" ? StoryLock : LockScreen;
-  const STORY: Partial<Record<SectionId, ComponentType>> = { inicio: StoryHome, historia: HistoriaChat };
+  const STORY: Partial<Record<SectionId, ComponentType>> = { inicio: StoryHome, historia: HistoriaChat, cartas: CartasStory, casos: CasosStory, promesas: Year2Story };
   const ActiveSection = (variant === "story" && STORY[active]) || SECTIONS[active];
 
   return (
@@ -124,12 +124,16 @@ export function AppShell({ variant = "classic" }: { variant?: "classic" | "story
         <CoupleSyncProvider>
           <div className="app-root">
             <AmbientBackground />
-            <Header
-              active={active}
-              menuOpen={menuOpen}
-              onNavigate={switchTab}
-              onMenuToggle={() => setMenuOpen((o) => !o)}
-            />
+            {variant === "story" ? (
+              <StoryHeader active={active} onNavigate={switchTab} />
+            ) : (
+              <Header
+                active={active}
+                menuOpen={menuOpen}
+                onNavigate={switchTab}
+                onMenuToggle={() => setMenuOpen((o) => !o)}
+              />
+            )}
             <main className="main-shell">
               <AnimatePresence mode="wait">
                 <motion.div

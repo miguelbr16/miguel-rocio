@@ -28,7 +28,9 @@ async function polaroid(m: Memory, font: string): Promise<THREE.CanvasTexture> {
   ctx.fillRect(0, 0, W, H);
   const pad = 34;
   const ph = W - pad * 2;
-  const img = m.photo ? await loadImage(m.photo) : null;
+  // en el móvil, una versión ligera de la foto (las originales pesan varios MB)
+  const src = m.photo && m.photo.startsWith("/") ? `/_next/image?url=${encodeURIComponent(m.photo)}&w=828&q=75` : m.photo;
+  const img = src ? (await loadImage(src)) ?? (m.photo ? await loadImage(m.photo) : null) : null;
   if (img) {
     const s = Math.max(ph / img.width, ph / img.height);
     const w = img.width * s;

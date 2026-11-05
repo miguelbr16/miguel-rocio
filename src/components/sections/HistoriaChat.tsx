@@ -100,10 +100,23 @@ function Moment({ item }: { item: TimelineEvent }) {
 
 /** «Cómo empezó» contado como una conversación de Instagram. */
 export function HistoriaChat() {
-  const { value: events } = useLocalStorage<TimelineEvent[]>(STORAGE_KEYS.timeline, timelineEvents);
+  const { value: stored } = useLocalStorage<TimelineEvent[]>(STORAGE_KEYS.timeline, timelineEvents);
+  // las fotos siempre salen de los datos de serie (las guardadas antes apuntaban a archivos que ya no existen)
+  const byTitle = new Map(timelineEvents.map((e) => [e.title, e.photo]));
+  const events = stored.map((e) => ({ ...e, photo: byTitle.get(e.title) ?? undefined }));
 
   return (
-    <section className="hc" id="historia">
+    <section className="hc-layout" id="historia">
+      <div className="hc-aside">
+        <p className="sp-kicker">Historia</p>
+        <h1 className="sp-title">
+          Todo empezó <em>con un mensaje</em>
+        </h1>
+        <p className="sp-lead">
+          Agosto de 2025. Un mensaje por Instagram, dos rechazos, un cruasán, una tableta de chocolate y una multa. Esta es la
+          conversación de cómo llegamos aquí.
+        </p>
+      </div>
       <div className="hc-phone">
         <header className="hc-head">
           <div className="hc-avatars" aria-hidden>
@@ -128,6 +141,13 @@ export function HistoriaChat() {
                 <Bubble side="you" delay={250} reaction={e.tag}>
                   {e.text}
                 </Bubble>
+                {e.photo ? (
+                  <Bubble side="you" delay={450}>
+                    <span className="hc-photo">
+                      <Image src={e.photo} alt={e.title} fill sizes="260px" className="object-cover" />
+                    </span>
+                  </Bubble>
+                ) : null}
               </div>
             ),
           )}

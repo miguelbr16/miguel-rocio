@@ -84,13 +84,13 @@ export function StoryLock({ onUnlock }: { onUnlock: () => void }) {
                 value={code}
                 autoFocus
                 autoComplete="off"
-                inputMode={code.length < 6 && /^\d*$/.test(code) ? "numeric" : "text"}
+                inputMode="numeric"
                 maxLength={24}
                 onChange={(e) => {
                   const v = e.target.value;
                   if (v.length > code.length) scene.current?.pulse();
                   setCode(v);
-                  if (v === config.lockCode) void submit(v);
+                  if (v === config.lockCode || (v.length === 6 && /^\d+$/.test(v))) void submit(v);
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") void submit(code);

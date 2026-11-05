@@ -10,7 +10,7 @@ import { Stamp } from "@/components/passport/Stamp";
 import { useCoupleSync } from "@/context/CoupleSyncContext";
 import { photosOf, wishlist, type StampArt } from "@/data/journey";
 import { useTrips } from "@/lib/shared-store";
-import { ART_LABELS, compressImage, findPlace, guessArt } from "@/lib/passport";
+import { ART_LABELS, PHOTO_ERROR, compressImage, findPlace, guessArt } from "@/lib/passport";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { PassportPlace } from "@/types/couple-sync";
 
@@ -92,7 +92,10 @@ export function PasaporteSection() {
         /* foto ilegible: se ignora */
       }
     }
-    if (!urls.length) return;
+    if (!urls.length) {
+      window.alert(PHOTO_ERROR);
+      return;
+    }
     savePassport(added, { ...uploaded, [p.id]: [...(uploaded[p.id] ?? []), ...urls] });
   }
 
@@ -272,7 +275,7 @@ function PhotoRow({
           <input
             ref={input}
             type="file"
-            accept="image/*"
+            accept="image/*,.heic,.heif"
             multiple
             hidden
             onChange={(e) => {
@@ -423,7 +426,7 @@ function AddPlace({
         <span>Fotos (hasta 3)</span>
         <input
           type="file"
-          accept="image/*"
+          accept="image/*,.heic,.heif"
           multiple
           onChange={async (e) => {
             const files = Array.from(e.target.files ?? []).slice(0, MAX_PHOTOS);
@@ -435,6 +438,7 @@ function AddPlace({
                 /* ignorada */
               }
             }
+            if (files.length && !out.length) window.alert(PHOTO_ERROR);
             setPhotos(out);
           }}
         />
