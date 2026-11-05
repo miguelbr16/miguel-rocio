@@ -760,3 +760,315 @@ html.story .mt {
     font-size: 0.85rem;
   }
 }
+
+/* ── Historia como chat ── */
+.hc {
+  padding: 8px 12px 80px;
+}
+.hc-phone {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  border-radius: 34px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-float);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+.hc-head {
+  position: sticky;
+  top: calc(4.5rem + env(safe-area-inset-top));
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 18px;
+  background: rgba(251, 247, 240, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+.hc-avatars {
+  display: flex;
+}
+.hc-avatars span {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #b4506f, #e39ab0);
+  border: 2px solid var(--color-surface);
+}
+.hc-avatars span + span {
+  margin-left: -12px;
+  background: linear-gradient(135deg, #a0611c, #e8b86a);
+}
+.hc-name {
+  font-weight: 600;
+}
+.hc-status {
+  font-size: 0.8125rem;
+  color: var(--color-text-light);
+}
+.hc-body {
+  padding: 18px 14px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hc-intro {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+  margin-bottom: 8px;
+}
+.hc-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.hc-sep {
+  align-self: center;
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  background: var(--color-cream);
+  padding: 4px 10px;
+  border-radius: 99px;
+  margin: 10px 0 4px;
+}
+.hc-row {
+  display: flex;
+  min-height: 34px;
+}
+.hc-me {
+  justify-content: flex-end;
+}
+.hc-you {
+  justify-content: flex-start;
+}
+.hc-bubble {
+  position: relative;
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.hc-me .hc-bubble {
+  background: linear-gradient(135deg, #b4506f, #d46d8e);
+  color: #fff;
+  border-bottom-right-radius: 6px;
+  font-weight: 600;
+}
+.hc-you .hc-bubble {
+  background: var(--color-cream);
+  color: var(--color-text);
+  border-bottom-left-radius: 6px;
+}
+.hc-reaction {
+  position: absolute;
+  right: -6px;
+  bottom: -14px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 0.6875rem;
+  color: var(--color-rose-deep);
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+}
+.hc-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 20px;
+  background: var(--color-cream);
+}
+.hc-me .hc-typing {
+  background: var(--color-rose-muted);
+}
+.hc-typing i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-light);
+  animation: hc-dot 1s infinite;
+}
+.hc-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.hc-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes hc-dot {
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+  0%,
+  60%,
+  100% {
+    opacity: 0.4;
+  }
+}
+.hc-moment-wrap {
+  padding: 22px 4px;
+}
+.hc-moment {
+  position: relative;
+  text-align: center;
+  padding: 26px 20px;
+  border-radius: 24px;
+  background: var(--color-text);
+  color: #fbf7f0;
+}
+.hc-moment-date {
+  font-size: 0.8125rem;
+  color: #e39ab0;
+}
+.hc-moment h3 {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+.hc-moment p:not(.hc-moment-date) {
+  margin-top: 10px;
+  color: rgba(251, 247, 240, 0.78);
+  line-height: 1.5;
+}
+.hc-moment-photo {
+  position: relative;
+  margin: 16px auto 0;
+  width: min(100%, 320px);
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.hc-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+}
+.hc-burst i {
+  position: absolute;
+  font-style: normal;
+  color: #ff7aa2;
+  font-size: 22px;
+}
+.hc-end {
+  margin-top: 12px;
+}
+.hc-seen {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+}
+.hc-composer {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-light);
+}
+.hc-composer b {
+  color: var(--color-rose-deep);
+  font-size: 1.2rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hc-typing i {
+    animation: none;
+  }
+}
+
+/* ── Canciones entre capítulos ── */
+.song {
+  padding: clamp(56px, 10vh, 110px) 16px;
+}
+.song-inner {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 44px);
+  align-items: center;
+}
+.song-vinyl {
+  width: clamp(130px, 22vw, 200px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #e39ab0 0 17%, #1a1012 17.5% 19%, transparent 19.5%),
+    repeating-radial-gradient(circle, #1a1012 0 2px, #2a1c20 2px 4px);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-float);
+  animation: vinyl 6s linear infinite;
+}
+.song-label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2b1d1f;
+}
+@keyframes vinyl {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.song-kicker {
+  font-size: 0.9375rem;
+  color: var(--color-rose-deep);
+}
+.song-title {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-weight: 500;
+  line-height: 1.02;
+}
+.song-artist {
+  margin-top: 4px;
+  font-size: 1.0625rem;
+  color: var(--color-text-mid);
+}
+.song-note {
+  margin-top: 10px;
+  font-style: italic;
+  color: var(--color-text-light);
+}
+.song-play {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 99px;
+  border: 1px solid var(--color-border-strong);
+  font-weight: 600;
+  color: var(--color-text);
+  transition: background-color 200ms;
+}
+.song-play:hover {
+  background: var(--color-rose-muted);
+}
+@media (max-width: 560px) {
+  .song-inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .song-vinyl {
+    animation: none;
+  }
+}
