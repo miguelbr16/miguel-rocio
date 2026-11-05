@@ -8,6 +8,7 @@ import { LockScreen } from "@/components/LockScreen";
 import { StoryLock } from "@/components/StoryLock";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StoryHome } from "@/components/home/StoryHome";
+import { HistoriaChat } from "@/components/sections/HistoriaChat";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { BookSection } from "@/components/sections/BookSection";
 import { BingoSection } from "@/components/sections/BingoSection";
@@ -95,7 +96,8 @@ export function AppShell({ variant = "classic" }: { variant?: "classic" | "story
   if (!ready) return null;
 
   const Lock = variant === "story" ? StoryLock : LockScreen;
-  const ActiveSection = variant === "story" && active === "inicio" ? StoryHome : SECTIONS[active];
+  const STORY: Partial<Record<SectionId, ComponentType>> = { inicio: StoryHome, historia: HistoriaChat };
+  const ActiveSection = (variant === "story" && STORY[active]) || SECTIONS[active];
 
   return (
     <>

@@ -13,6 +13,7 @@ import { timelineEvents } from "@/data/timeline";
 import { defaultPromises } from "@/data/promises";
 import { cartas } from "@/data/cartas";
 import { capsuleContent } from "@/data/capsule";
+import { coupleSongs } from "@/data/songs";
 import { useTrips, useText } from "@/lib/shared-store";
 import { isMiguel } from "@/lib/miguel";
 import { launchConfetti } from "@/lib/confetti";
@@ -372,6 +373,37 @@ function GiftButton() {
   );
 }
 
+/** Canción entre capítulos: un vinilo que gira mientras está a la vista. */
+function SongInterlude({ index }: { index: number }) {
+  const song = coupleSongs[index % coupleSongs.length];
+  const reduced = useReducedMotion();
+  if (!song) return null;
+  return (
+    <section className="song" aria-label={`Canción: ${song.title}`}>
+      <motion.div
+        className="song-inner"
+        initial={reduced ? false : { opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="song-vinyl" aria-hidden>
+          <span className="song-label">M&R</span>
+        </div>
+        <div>
+          <p className="song-kicker">Nuestra banda sonora</p>
+          <h3 className="song-title">{song.title}</h3>
+          <p className="song-artist">{song.artist}</p>
+          {song.note ? <p className="song-note">{song.note}</p> : null}
+          <a className="song-play" href={song.url ?? `https://www.youtube.com/results?search_query=${encodeURIComponent(`${song.artist} ${song.title}`)}`} target="_blank" rel="noreferrer">
+            ▶ Escucharla
+          </a>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 /** Inicio como recorrido: seis capítulos que acaban en el regalo. */
 export function StoryHome() {
   const trips = useTrips();
@@ -409,6 +441,8 @@ export function StoryHome() {
       <Intro />
       <BeforeTheKiss />
 
+      <SongInterlude index={0} />
+
       <div data-ch={2}>
         <ParticleStory id="ch-2" chapters={kissChapters} shapes={kissShapes} heightPerChapter={100} />
       </div>
@@ -428,6 +462,8 @@ export function StoryHome() {
         </div>
         <TripsGlobe />
       </div>
+
+      <SongInterlude index={1} />
 
       <div data-ch={4}>
         <div className="story-wrap ch-head">
@@ -458,6 +494,8 @@ export function StoryHome() {
           </div>
         </div>
       </section>
+
+      <SongInterlude index={2} />
 
       <div data-ch={6}>
         <ParticleStory id="ch-6" chapters={finalChapters} shapes={finalShapes} extras={{ 1: <GiftButton /> }} heightPerChapter={110} />
