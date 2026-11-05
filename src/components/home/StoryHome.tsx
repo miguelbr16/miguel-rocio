@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ParticleStory, type Chapter, type ShapeSpec } from "@/components/three/ParticleStory";
 import { MemoryTunnel, type Memory } from "@/components/three/MemoryTunnel";
 import { TripsGlobe } from "@/components/home/TripsGlobe";
@@ -92,65 +92,134 @@ function ChapterBar() {
   );
 }
 
+function Petals() {
+  // pétalos que caen despacio detrás de la portada (posiciones fijas para que no cambien al pintar)
+  const petals = Array.from({ length: 14 }, (_, i) => {
+    const r = Math.sin(i * 91.7) * 43758.5453;
+    const j = r - Math.floor(r);
+    return { left: `${(i * 7.3 + j * 9) % 100}%`, delay: `${(i * 1.7) % 12}s`, dur: `${11 + j * 8}s`, size: 10 + j * 14 };
+  });
+  return (
+    <div className="petals" aria-hidden>
+      {petals.map((p, i) => (
+        <span key={i} style={{ left: p.left, animationDelay: p.delay, animationDuration: p.dur, width: p.size, height: p.size * 0.8 }} />
+      ))}
+    </div>
+  );
+}
+
+function TiltPhoto() {
+  const reduced = useReducedMotion();
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const srx = useSpring(rx, { stiffness: 120, damping: 14 });
+  const sry = useSpring(ry, { stiffness: 120, damping: 14 });
+  const shine = useTransform(sry, [-14, 14], ["20%", "80%"]);
+
+  useEffect(() => {
+    if (reduced) return;
+    function onMove(e: PointerEvent) {
+      ry.set(((e.clientX / window.innerWidth) * 2 - 1) * 12);
+      rx.set(-((e.clientY / window.innerHeight) * 2 - 1) * 10);
+    }
+    function onTilt(e: DeviceOrientationEvent) {
+      if (e.gamma == null || e.beta == null) return;
+      ry.set(Math.max(-14, Math.min(14, e.gamma / 2.5)));
+      rx.set(Math.max(-12, Math.min(12, (e.beta - 45) / 3)));
+    }
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("deviceorientation", onTilt);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("deviceorientation", onTilt);
+    };
+  }, [reduced, rx, ry]);
+
+  return (
+    <motion.div
+      className="intro-photo"
+      initial={reduced ? false : { opacity: 0, y: 80, rotate: 12, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, rotate: 3, scale: 1 }}
+      transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      style={{ perspective: 900 }}
+    >
+      <div className="intro-photo-back" />
+      <motion.div className="intro-photo-frame" style={{ rotateX: srx, rotateY: sry, transformStyle: "preserve-3d" }}>
+        <div className="img">
+          <Image src="/photos/portada.jpeg" alt="Miguel y Rocío en París" fill priority sizes="(max-width: 860px) 74vw, 440px" className="object-cover object-[center_75%]" />
+          <motion.span className="intro-photo-shine" style={{ left: shine }} aria-hidden />
+        </div>
+        <p className="intro-photo-cap">París, abril de 2026</p>
+        <span className="intro-stamp" aria-hidden>
+          18 · 11
+          <br />
+          2025
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function Intro() {
   const now = useNow();
   const reduced = useReducedMotion();
   const days = now ? daysTogether(now, RELATIONSHIP_START) : null;
   const cd = now ? countdownParts(ANNIVERSARY_DATE, now) : null;
   const after = now != null && now >= ANNIVERSARY_DATE;
+  const words = ["Esto", "es", "nuestro"];
+  const word = (i: number) => ({
+    initial: reduced ? false : { opacity: 0, y: "0.6em", filter: "blur(8px)" },
+    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    transition: { duration: 0.8, delay: 0.25 + i * 0.12, ease: [0.22, 1, 0.36, 1] as const },
+  });
   return (
     <section className="intro" data-ch={0}>
-      <motion.div
-        initial={reduced ? false : { opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Editable k="story.hi" as="p" className="intro-hi">
-          Rocío,
-        </Editable>
+      <Petals />
+      <div className="intro-text">
+        <motion.div {...word(0)}>
+          <Editable k="story.hi" as="p" className="intro-hi">
+            Hola, Rocío.
+          </Editable>
+        </motion.div>
         <h1 className="intro-title">
-          esto es nuestro <em>primer año</em>
+          {words.map((w, i) => (
+            <motion.span key={w} className="intro-word" {...word(i + 1)}>
+              {w}{" "}
+            </motion.span>
+          ))}
+          <motion.em className="intro-word" {...word(4)}>
+            primer año
+          </motion.em>
         </h1>
-        <Editable k="story.intro" as="p" className="ch-lead">
-          Te he preparado un pequeño viaje. Ve bajando despacio: hay seis capítulos y al final te espera algo.
-        </Editable>
-        <div className="intro-meta">
-          <div>
-            <b>{days ?? "—"}</b>
-            <span>días juntos</span>
-          </div>
-          {!after && cd ? (
+        <motion.div {...word(6)}>
+          <Editable k="story.intro" as="p" className="ch-lead">
+            Te he preparado un pequeño viaje. Ve bajando despacio: hay seis capítulos y, al final, te espera algo.
+          </Editable>
+          <div className="intro-meta">
             <div>
-              <b>
-                {cd.days}d {String(cd.hours).padStart(2, "0")}:{String(cd.minutes).padStart(2, "0")}
-              </b>
-              <span>para el 18 de noviembre</span>
+              <b>{days ?? "—"}</b>
+              <span>Días juntos</span>
             </div>
-          ) : (
-            <div>
-              <b>1 año</b>
-              <span>desde el 18·11·2025</span>
-            </div>
-          )}
-        </div>
-        <a href="#ch-1" className="ch-next">
-          Empezar <span aria-hidden>↓</span>
-        </a>
-      </motion.div>
-      <motion.div
-        className="intro-photo"
-        initial={reduced ? false : { opacity: 0, rotate: 10, y: 60 }}
-        animate={{ opacity: 1, rotate: 3, y: 0 }}
-        transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="intro-photo-back" />
-        <div className="intro-photo-frame">
-          <div className="img">
-            <Image src="/photos/portada.jpeg" alt="Miguel y Rocío en París" fill priority sizes="(max-width: 860px) 74vw, 440px" className="object-cover object-[center_75%]" />
+            {!after && cd ? (
+              <div>
+                <b>
+                  {cd.days}d {String(cd.hours).padStart(2, "0")}:{String(cd.minutes).padStart(2, "0")}
+                </b>
+                <span>Para el 18 de noviembre</span>
+              </div>
+            ) : (
+              <div>
+                <b>1 año</b>
+                <span>Desde el 18·11·2025</span>
+              </div>
+            )}
           </div>
-          <p className="intro-photo-cap">París, abril de 2026</p>
-        </div>
-      </motion.div>
+          <a href="#ch-1" className="ch-next">
+            Empezar el viaje <span aria-hidden>↓</span>
+          </a>
+        </motion.div>
+      </div>
+      <TiltPhoto />
     </section>
   );
 }
