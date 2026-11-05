@@ -86,7 +86,7 @@ export function MemoryTunnel({ memories }: { memories: Memory[] }) {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
     renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    const bg = new THREE.Color("#fbf1ea");
+    const bg = new THREE.Color(getComputedStyle(wrap).getPropertyValue("--tunnel-bg").trim() || "#fbf1ea");
     renderer.setClearColor(bg);
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(bg, 4, 15);
@@ -129,12 +129,14 @@ export function MemoryTunnel({ memories }: { memories: Memory[] }) {
     );
     scene.add(petals);
 
+    let DIST = 4.4;
     function resize() {
       const w = canvas!.clientWidth;
       const h = canvas!.clientHeight;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
-      camera.fov = w < 700 ? 66 : 50;
+      camera.fov = w < 700 ? 62 : 50;
+      DIST = w < 700 ? 6.4 : 4.4;
       camera.updateProjectionMatrix();
     }
     resize();
@@ -154,14 +156,14 @@ export function MemoryTunnel({ memories }: { memories: Memory[] }) {
       const r = wrap!.getBoundingClientRect();
       const total = wrap!.offsetHeight - window.innerHeight;
       const p = Math.max(0, Math.min(1, -r.top / Math.max(1, total)));
-      const target = 4.4 - p * ((memories.length - 1) * GAP + 0.2);
+      const target = DIST - p * ((memories.length - 1) * GAP + 0.2);
       z += (target - z) * (reduced ? 1 : 0.08);
       camera.position.set(Math.sin(t * 0.3) * 0.08, 0.05, z);
       camera.lookAt(0, 0, z - 6);
       for (const m of cards) {
         const { side, base } = m.userData as { side: number; base: THREE.Vector3 };
         // la foto que tienes delante se acerca al centro y se pone de frente
-        const d = Math.abs(m.position.z - (z - 4.4));
+        const d = Math.abs(m.position.z - (z - DIST));
         const focus = Math.max(0, 1 - d / GAP);
         m.position.x = base.x * (1 - focus * 0.75);
         m.position.y = base.y + Math.sin(t * 0.8 + base.z) * 0.05;
@@ -169,7 +171,7 @@ export function MemoryTunnel({ memories }: { memories: Memory[] }) {
         m.rotation.z = 0.06 * side * (1 - focus);
       }
       petals.rotation.z = t * 0.02;
-      const idx = Math.max(0, Math.min(memories.length - 1, Math.round((4.4 - z) / GAP)));
+      const idx = Math.max(0, Math.min(memories.length - 1, Math.round((DIST - z) / GAP)));
       if (idx !== shown) {
         shown = idx;
         setCurrent(idx);

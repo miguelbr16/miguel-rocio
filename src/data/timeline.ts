@@ -136,7 +136,7 @@ export const timelineEvents: TimelineEvent[] = [
     text: "30–60 minutos buscándolas. Spoiler: aparecieron.",
   },
   {
-    date: "9–14 agosto 2026",
+    date: "9–14 octubre 2026",
     tag: "Gran viaje",
     tagColor: "rosa",
     dot: "big",

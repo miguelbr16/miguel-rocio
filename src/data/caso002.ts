@@ -52,7 +52,7 @@ export const defaultCaseSteps: CaseStep[] = [
   },
   {
     id: "isla",
-    title: "Agosto, primera parte",
+    title: "Agosto",
     brief: "Se interceptan billetes de avión a una isla. Calma, agua transparente y mucho calor.\n\n¿Qué **isla**?",
     kind: "q",
     keys: ["mallorca", "palma"],
@@ -61,8 +61,8 @@ export const defaultCaseSteps: CaseStep[] = [
   },
   {
     id: "londres",
-    title: "Agosto, segunda parte",
-    brief: "Cinco días fuera del país, del 9 al 14 de agosto. En la foto de vigilancia sale un reloj enorme.\n\n¿Cómo se llama **el reloj**?",
+    title: "Octubre",
+    brief: "Cinco días fuera del país, del 9 al 14 de octubre. En la foto de vigilancia sale un reloj enorme.\n\n¿Cómo se llama **el reloj**?",
     kind: "q",
     keys: ["big ben", "bigben", "elizabeth"],
     hint: "Londres. Dos palabras.",

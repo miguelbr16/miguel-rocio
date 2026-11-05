@@ -129,7 +129,7 @@ export const defaultTrips: Trip[] = [
     place: "Londres",
     country: "Reino Unido",
     countryId: "826",
-    when: "9–14 ago 2026",
+    when: "9–14 oct 2026",
     line: "Cinco días con el plan hecho a nuestra medida: Big Ben, el Támesis y nosotros.",
     by: "plane",
     lat: 51.507,

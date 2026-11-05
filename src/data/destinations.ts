@@ -135,7 +135,7 @@ export const destinations: Destination[] = [
     name: "Londres",
     flag: "🇬🇧",
     status: "done",
-    label: "9–14 agosto 2026",
+    label: "9–14 octubre 2026",
     lat: 51.5074,
     lng: -0.1278,
     /** Guía: repo github.com/miguelbr16/london → Vercel */
@@ -144,7 +144,7 @@ export const destinations: Destination[] = [
     memory: {
       photos: albumPhotos("londres"),
       blurb: "Cinco días en Londres: Big Ben, el Támesis y el plan hecho a vuestra medida. La guía del viaje va aparte — ábrela desde aquí.",
-      year: "9–14 agosto 2026",
+      year: "9–14 octubre 2026",
     },
   },
   {
