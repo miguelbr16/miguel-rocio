@@ -13,6 +13,8 @@ import { StoryHeader } from "@/components/story/StoryHeader";
 import { CartasStory } from "@/components/story/CartasStory";
 import { CasosStory } from "@/components/story/CasosStory";
 import { Year2Story } from "@/components/story/Year2Story";
+import { BingoStory } from "@/components/story/BingoStory";
+import { JuegosStory } from "@/components/story/JuegosStory";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { BookSection } from "@/components/sections/BookSection";
 import { BingoSection } from "@/components/sections/BingoSection";
@@ -96,7 +98,7 @@ export function AppShell({ variant = "classic" }: { variant?: "classic" | "story
   if (!ready) return null;
 
   const Lock = variant === "story" ? StoryLock : LockScreen;
-  const STORY: Partial<Record<SectionId, ComponentType>> = { inicio: StoryHome, historia: HistoriaChat, cartas: CartasStory, casos: CasosStory, promesas: Year2Story };
+  const STORY: Partial<Record<SectionId, ComponentType>> = { inicio: StoryHome, historia: HistoriaChat, cartas: CartasStory, casos: CasosStory, promesas: Year2Story, bingo: BingoStory, juegos: JuegosStory };
   const ActiveSection = (variant === "story" && STORY[active]) || SECTIONS[active];
 
   return (
