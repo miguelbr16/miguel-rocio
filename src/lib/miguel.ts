@@ -4,11 +4,15 @@
  */
 import type { SiteConfig } from "@/types/site-config";
 import type { CaseStep } from "@/data/caso002";
+import type { Trip } from "@/data/journey";
 import { STORAGE_KEYS } from "@/lib/constants";
 
 const MIGUEL_HASH = "198e1dcea2098423fb6bc75be4a6d61a2d65880af6792eb46ac6cc7c74dd2c95";
 const KEY = "modo-miguel";
 export const CASE_STEPS_KEY = "caso002-steps-shared";
+export const TRIPS_KEY = "trips-shared";
+export const TEXTS_KEY = "texts-shared";
+export const SHARED_EVENT = "mr-shared-updated";
 
 async function sha256(s: string) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s.trim().toLowerCase()));
@@ -45,6 +49,9 @@ export type SharedContent = {
   updatedAt: string;
   siteConfig?: SiteConfig;
   caseSteps?: CaseStep[];
+  trips?: Trip[];
+  /** Textos sueltos editados en la web: clave → texto */
+  texts?: Record<string, string>;
 };
 
 /** Guarda en este dispositivo lo compartido si es más nuevo. Devuelve true si cambió algo. */
@@ -68,9 +75,24 @@ export function applyShared(shared: SharedContent | undefined | null): boolean {
         changed = true;
       }
     }
+    if (shared.trips?.length) {
+      const next = JSON.stringify(shared.trips);
+      if (localStorage.getItem(TRIPS_KEY) !== next) {
+        localStorage.setItem(TRIPS_KEY, next);
+        changed = true;
+      }
+    }
+    if (shared.texts) {
+      const next = JSON.stringify(shared.texts);
+      if (localStorage.getItem(TEXTS_KEY) !== next) {
+        localStorage.setItem(TEXTS_KEY, next);
+        changed = true;
+      }
+    }
   } catch {
     /* sin almacenamiento */
   }
+  if (changed && typeof window !== "undefined") window.dispatchEvent(new Event(SHARED_EVENT));
   return changed;
 }
 

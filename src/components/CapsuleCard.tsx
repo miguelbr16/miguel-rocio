@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/Card";
 import { capsuleContent, daysUntilCapsule, isCapsuleOpen } from "@/data/capsule";
 import { STORAGE_KEYS } from "@/lib/constants";
 import { isMiguel } from "@/lib/miguel";
+import { Editable } from "@/components/edit/Editable";
 
 export function CapsuleCard() {
   const [now, setNow] = useState(() => new Date());
@@ -40,7 +41,7 @@ export function CapsuleCard() {
 
       {!open ? (
         <>
-          <p className="mt-4 text-sm leading-relaxed text-text-mid">{capsuleContent.teaser}</p>
+          <Editable k="capsula.teaser" as="p" className="mt-4 text-sm leading-relaxed text-text-mid">{capsuleContent.teaser}</Editable>
           <div className="capsule-lock mt-6 text-center">
             <div className="text-4xl">🔐</div>
             <p className="mt-3 text-sm font-medium text-rose-deep">
@@ -67,7 +68,7 @@ export function CapsuleCard() {
       ) : (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-5">
           <h4 className="font-serif text-xl">{capsuleContent.unlockedTitle}</h4>
-          <p className="mt-2 text-sm text-text-mid">{capsuleContent.unlockedBody}</p>
+          <Editable k="capsula.body" as="p" className="mt-2 text-sm text-text-mid">{capsuleContent.unlockedBody}</Editable>
           <div className="mt-5 overflow-hidden rounded-2xl border border-border bg-black">
             <video
               className="aspect-video w-full"
