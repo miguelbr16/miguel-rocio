@@ -1042,3 +1042,169 @@
   background: var(--color-rose-deep);
   color: #fff;
 }
+
+/* ── Prototipo 3D ───────────────────────────────────────────── */
+.proto {
+  background: #160b13;
+}
+.ps {
+  position: relative;
+  background: radial-gradient(120% 80% at 50% 40%, #3a1729 0%, #1d0d18 55%, #12080f 100%);
+}
+.ps-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.ps-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.ps-canvas.is-ready {
+  opacity: 1;
+}
+.ps-copy {
+  position: absolute;
+  left: clamp(20px, 6vw, 96px);
+  bottom: clamp(36px, 10vh, 110px);
+  max-width: 34ch;
+  color: #fff3ec;
+  animation: ps-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  pointer-events: none;
+}
+@keyframes ps-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+.ps-kicker {
+  font-size: 0.875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f4a9c0;
+}
+.ps-title {
+  margin-top: 10px;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(2.6rem, 6.5vw, 5.5rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+.ps-line {
+  margin-top: 14px;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.5;
+  color: rgba(255, 243, 236, 0.78);
+}
+.ps-dots {
+  position: absolute;
+  right: clamp(16px, 4vw, 48px);
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ps-dots li {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 243, 236, 0.3);
+  transition: all 300ms;
+}
+.ps-dots li.is-on {
+  height: 26px;
+  border-radius: 6px;
+  background: #f4a9c0;
+}
+.ps-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  translate: -50% 0;
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 243, 236, 0.6);
+  animation: ps-bob 1.8s ease-in-out infinite;
+}
+@keyframes ps-bob {
+  50% {
+    transform: translateY(6px);
+  }
+}
+@media (max-width: 700px) {
+  .ps-copy {
+    left: 20px;
+    right: 20px;
+    bottom: 64px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .ps-dots {
+    display: none;
+  }
+}
+.mt {
+  position: relative;
+  background: #fbf1ea;
+}
+.mt-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.mt-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mt-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(24px, 7vh, 72px);
+  text-align: center;
+  pointer-events: none;
+}
+.mt-kicker {
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-rose-deep);
+}
+.mt-title {
+  margin-top: 6px;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 500;
+  color: var(--color-text);
+}
+.proto-end {
+  min-height: 40svh;
+  display: grid;
+  place-items: center;
+  background: #fbf1ea;
+  color: var(--color-text-mid);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-copy,
+  .ps-hint {
+    animation: none;
+  }
+}
