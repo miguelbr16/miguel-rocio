@@ -6,6 +6,7 @@ import { AmbientBackground } from "@/components/AmbientBackground";
 import { Header } from "@/components/Header";
 import { LockScreen } from "@/components/LockScreen";
 import { HeroSection } from "@/components/sections/HeroSection";
+import { StoryHome } from "@/components/home/StoryHome";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { BookSection } from "@/components/sections/BookSection";
 import { BingoSection } from "@/components/sections/BingoSection";
@@ -42,7 +43,7 @@ function isSectionId(value: string): value is SectionId {
   return value in SECTIONS;
 }
 
-export function AppShell() {
+export function AppShell({ variant = "classic" }: { variant?: "classic" | "story" } = {}) {
   const [unlocked, setUnlocked] = useState(false);
   const [active, setActive] = useState<SectionId>("inicio");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -92,7 +93,7 @@ export function AppShell() {
 
   if (!ready) return null;
 
-  const ActiveSection = SECTIONS[active];
+  const ActiveSection = variant === "story" && active === "inicio" ? StoryHome : SECTIONS[active];
 
   return (
     <>

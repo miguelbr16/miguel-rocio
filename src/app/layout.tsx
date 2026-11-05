@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Outfit } from "next/font/google";
 import "./globals.css";
 import "./home.css";
+import "./story.css";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
