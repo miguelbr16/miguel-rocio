@@ -16,6 +16,7 @@ import { PromisesSection } from "@/components/sections/PromisesSection";
 import { SoundtrackSection } from "@/components/sections/SoundtrackSection";
 import { FechasSection } from "@/components/sections/FechasSection";
 import { JuegosSection } from "@/components/sections/JuegosSection";
+import { PasaporteSection } from "@/components/sections/PasaporteSection";
 import { CoupleSyncProvider } from "@/context/CoupleSyncContext";
 import { CaseGate } from "@/components/expediente/CaseGate";
 import { caseGateActive } from "@/data/caso002";
@@ -25,6 +26,7 @@ const SECTIONS: Record<SectionId, ComponentType> = {
   inicio: HeroSection,
   historia: TimelineSection,
   destinos: DestinationsSection,
+  pasaporte: PasaporteSection,
   libro: BookSection,
   bingo: BingoSection,
   cartas: CartasSection,

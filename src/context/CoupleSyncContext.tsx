@@ -12,7 +12,7 @@ import {
 } from "react";
 import { createDefaultCoupleSync, mergeCoupleSync, pickNewerSync } from "@/lib/couple-sync-defaults";
 import { STORAGE_KEYS } from "@/lib/constants";
-import type { CoupleSyncData, SyncStatus } from "@/types/couple-sync";
+import type { CoupleSyncData, PassportPlace, SyncStatus } from "@/types/couple-sync";
 import type { Destination } from "@/data/destinations";
 import type { FechaEspecial } from "@/data/fechas";
 
@@ -23,6 +23,7 @@ interface CoupleSyncContextValue {
   saveDestinations: (destinations: Destination[]) => void;
   saveFechas: (fechas: FechaEspecial[]) => void;
   saveBingo: (bingo: Record<number, string>) => void;
+  savePassport: (passport: PassportPlace[], passportPhotos: Record<string, string[]>) => void;
   refresh: () => Promise<void>;
 }
 
@@ -198,6 +199,18 @@ export function CoupleSyncProvider({ children }: { children: ReactNode }) {
     [schedulePush],
   );
 
+  const savePassport = useCallback(
+    (passport: PassportPlace[], passportPhotos: Record<string, string[]>) => {
+      schedulePush({
+        ...dataRef.current,
+        passport,
+        passportPhotos,
+        updatedAt: new Date().toISOString(),
+      });
+    },
+    [schedulePush],
+  );
+
   const value = useMemo(
     () => ({
       data,
@@ -206,9 +219,10 @@ export function CoupleSyncProvider({ children }: { children: ReactNode }) {
       saveDestinations,
       saveFechas,
       saveBingo,
+      savePassport,
       refresh: pullCloud,
     }),
-    [data, status, cloudEnabled, saveDestinations, saveFechas, saveBingo, pullCloud],
+    [data, status, cloudEnabled, saveDestinations, saveFechas, saveBingo, savePassport, pullCloud],
   );
 
   return <CoupleSyncContext.Provider value={value}>{children}</CoupleSyncContext.Provider>;

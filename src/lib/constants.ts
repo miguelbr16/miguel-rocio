@@ -43,6 +43,7 @@ export const NAV_ITEMS = [
   { id: "inicio", label: "Inicio", icon: "🏠" },
   { id: "historia", label: "Historia", icon: "📖" },
   { id: "destinos", label: "Destinos", icon: "🌍" },
+  { id: "pasaporte", label: "Pasaporte", icon: "🛂" },
   { id: "libro", label: "Libro", icon: "📔" },
   { id: "bingo", label: "Bingo", icon: "🎯" },
   { id: "cartas", label: "Cartas", icon: "💌" },
@@ -67,6 +68,7 @@ export const MOBILE_TAB_ITEMS = [
 export const MORE_SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: "historia", label: "Historia", icon: "📖" },
   { id: "destinos", label: "Destinos", icon: "🌍" },
+  { id: "pasaporte", label: "Pasaporte", icon: "🛂" },
   { id: "libro", label: "Libro", icon: "📔" },
   { id: "promesas", label: "Año 2", icon: "🤍" },
   { id: "musica", label: "Música", icon: "🎵" },
