@@ -430,8 +430,8 @@ export function StoryHome() {
     [],
   );
   const kissChapters: Chapter[] = [
-    { kicker: "Capítulo 2 · 18 de noviembre de 2025", title: "Y entonces, el beso", line: "Antes de despedirnos, en la puerta. Desde ahí empieza a contar todo." },
-    { kicker: "Capítulo 2 · Los protagonistas", title: "Miguel & Rocío", line: "Dos cobras después, por fin nosotros." },
+    { kicker: "Capítulo 2 · 18 de noviembre de 2025", title: "Y entonces, el beso", line: "Una cobra sin querer, un «oye, ya vale» y, por fin, el beso. Desde ahí empieza a contar todo." },
+    { kicker: "Capítulo 2 · Los protagonistas", title: "Miguel & Rocío", line: "Dos cobras después (la segunda, sin querer), por fin nosotros." },
     { kicker: "Capítulo 2 · La fecha", title: "18 · 11 · 25", line: "La clave de esta web. Y de casi todo." },
   ];
   const finalShapes: ShapeSpec[] = useMemo(() => [{ kind: "text", label: "Te quiero", width: 4.6 }, { kind: "heart", scale: 1.25 }], []);
