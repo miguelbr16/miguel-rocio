@@ -167,7 +167,7 @@ export const timelineEvents: TimelineEvent[] = [
     tagColor: "rosa",
     dot: "big",
     title: "Shakira en Madrid",
-    text: "El Estadio Shakira lleno y nosotros dos gritando cada canción hasta quedarnos sin voz.",
+    text: "En coche a Madrid con Reig y Mónica. El Estadio Shakira lleno y nosotros gritando cada canción hasta quedarnos sin voz.",
   },
   {
     date: "9–14 octubre 2026",
