@@ -1993,3 +1993,50 @@ html.story .game-tabs {
     min-height: 230px;
   }
 }
+.gift-book {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(255, 236, 244, 0.06);
+  border: 1px solid rgba(244, 169, 192, 0.2);
+}
+.gift-book-cover {
+  width: 120px;
+  aspect-ratio: 3 / 4;
+  border-radius: 3px 8px 8px 3px;
+  background: #f3dfe0;
+  color: #2b1d1f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  font-family: var(--font-fraunces), serif;
+  font-size: 0.95rem;
+  line-height: 1.1;
+  box-shadow: inset 6px 0 0 rgba(43, 29, 31, 0.12), 0 18px 40px rgba(0, 0, 0, 0.4);
+}
+.gift-book-cover small {
+  margin-top: 6px;
+  font-style: italic;
+  font-size: 0.75rem;
+  color: #b4506f;
+}
+.gift-book-text {
+  font-family: var(--font-fraunces), serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #fff3ec;
+}
+@media (max-width: 520px) {
+  .gift-book {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+}

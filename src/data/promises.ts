@@ -6,7 +6,10 @@ export interface PromiseItem {
 }
 
 export const defaultPromises: PromiseItem[] = [
-  { id: "p1", text: "Hacer al menos un viaje nuevo juntos", author: "Ambos" },
+  { id: "p1", text: "Hacer al menos un viaje nuevo juntos (Dolomitas ya está en camino)", author: "Ambos" },
+  { id: "p6", text: "Un brunch en cada viaje (sí, Miguel, el de «jamás haré brunch»)", author: "Ambos" },
+  { id: "p7", text: "Un fotomatón en cada ciudad", author: "Ambos" },
+  { id: "p8", text: "Volver a Londres a ver el museo pendiente", author: "Ambos" },
   { id: "p2", text: "Repetir la foto del mismo sitio cada aniversario", author: "Ambos" },
   { id: "p3", text: "Escribirte una carta sin esperar una fecha especial", author: "Miguel" },
   { id: "p4", text: "Cocinar juntos una cena completa (sin pedir fuera)", author: "Ambos" },

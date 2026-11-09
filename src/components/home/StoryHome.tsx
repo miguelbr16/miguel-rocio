@@ -357,6 +357,21 @@ function GiftButton() {
                 {body}
                 <p className="sign">{sign}</p>
               </motion.div>
+              <motion.div
+                className="gift-book"
+                initial={reduced ? false : { opacity: 0, y: 40, rotate: -4 }}
+                whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="gift-book-cover" aria-hidden>
+                  <span>Rocío & Miguel</span>
+                  <small>Nuestro primer año</small>
+                </div>
+                <Editable k="gift.book" as="p" className="gift-book-text">
+                  Y esto no se queda en una pantalla. Mira a tu lado: tengo algo para ti en la mano. Un libro de 48 páginas que se llama «Rocío & Miguel – Nuestro primer año».
+                </Editable>
+              </motion.div>
               <div className="gift-close">
                 <button type="button" className="btn btn-primary btn-lg" onClick={() => setOpen(false)}>
                   Seguir explorando nuestra web
