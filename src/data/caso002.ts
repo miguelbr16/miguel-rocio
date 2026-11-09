@@ -105,6 +105,15 @@ export const defaultCaseSteps: CaseStep[] = [
     solved: "La bici. Lo hiciste, y lo hiciste genial.",
   },
   {
+    id: "jokers",
+    title: "31 de octubre",
+    brief: "Última prueba antes del cierre. Halloween: la agencia tiene una foto de dos sospechosos con la cara pintada y una sonrisa que da miedo.\n\n¿De **qué** íbamos disfrazados?",
+    kind: "q",
+    keys: ["joker", "jokers", "guason", "el joker", "de joker", "de jokers"],
+    hint: "El villano de Batman.",
+    solved: "Dos Jokers. Why so serious?",
+  },
+  {
     id: "cierre",
     title: "Cierre del caso",
     brief: "Última pregunta, la más fácil y la más importante.\n\n¿Qué **día** empezó todo? (día, mes y año)",

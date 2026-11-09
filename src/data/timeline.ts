@@ -72,11 +72,11 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     date: "18 noviembre 2025",
-    tag: "Cobra 2 → Beso",
+    tag: "«Oye, ya vale»",
     tagColor: "azul",
     dot: "big",
-    title: "La cobra que no pudo ser... y el primer beso",
-    text: "McDonalds. Segundo intento de beso: otra cobra. Pero ese mismo día, antes de despedirse, llegó el primer beso.",
+    title: "La cobra sin querer… y el primer beso",
+    text: "McDonald's. Segundo intento y otra cobra… pero esta vez sin querer. «Oye, ya vale», te dije. Y nos dimos el primer beso.",
   },
   {
     date: "18 noviembre 2025 ♥",
@@ -160,5 +160,13 @@ export const timelineEvents: TimelineEvent[] = [
     dot: "big",
     title: "Londres",
     text: "Anduvimos más que nunca. Ardillas en el parque, fotomatón en Camden Lock y tú en bici, rompiendo tu miedo. Nos quedó un museo pendiente.",
+  },
+  {
+    date: "31 octubre 2026",
+    tag: "Halloween",
+    tagColor: "azul",
+    dot: "funny",
+    title: "Dos Jokers",
+    text: "Halloween disfrazados de Jokers. La última foto del álbum… de momento.",
   },
 ];
