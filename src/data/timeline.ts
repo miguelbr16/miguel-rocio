@@ -154,6 +154,22 @@ export const timelineEvents: TimelineEvent[] = [
     text: "Empecé a conocer a tu familia. Cine en la habitación y palmitas con Ali y Lucía, que me dijeron «te quiero». Gracias por invitarme.",
   },
   {
+    date: "8 agosto 2026",
+    tag: "Amunt",
+    tagColor: "azul",
+    dot: "normal",
+    title: "Trofeu Taronja en Mestalla",
+    text: "La presentación del equipo contra el Newcastle. El último Taronja en el Mestalla de siempre, y nosotros en la grada.",
+  },
+  {
+    date: "Septiembre 2026",
+    tag: "Concierto",
+    tagColor: "rosa",
+    dot: "big",
+    title: "Shakira en Madrid",
+    text: "El Estadio Shakira lleno y nosotros dos gritando cada canción hasta quedarnos sin voz.",
+  },
+  {
     date: "9–14 octubre 2026",
     tag: "Gran viaje",
     tagColor: "rosa",
